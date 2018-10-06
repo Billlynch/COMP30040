@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+QT += concurrent
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = COMP30040
@@ -26,10 +28,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mokelasersim.cpp
+        mokelasersim.cpp \
+    simulator.cpp
 
 HEADERS += \
-        mokelasersim.h
+        mokelasersim.h \
+    simulator.h
 
 FORMS += \
         mokelasersim.ui
