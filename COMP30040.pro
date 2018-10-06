@@ -26,6 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/eigen3/Eigen
+
 SOURCES += \
         main.cpp \
         mokelasersim.cpp \
@@ -33,7 +35,10 @@ SOURCES += \
 
 HEADERS += \
         mokelasersim.h \
-    simulator.h
+    simulator.h \
+    collideableobject.h \
+    sample.h \
+    ray.h
 
 FORMS += \
         mokelasersim.ui

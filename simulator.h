@@ -1,6 +1,7 @@
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
+#include <complex>
 
 class Simulator
 {
@@ -8,7 +9,7 @@ public:
     Simulator();
     ~Simulator();
 
-    void runSimulation(double Q, double refractiveIndex);
+    void runSimulation(float Q, std::complex<float> refractiveIndex);
 };
 
 #endif // SIMULATOR_H
