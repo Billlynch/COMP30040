@@ -5,16 +5,57 @@
 #include <complex>
 
 
+typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
+typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
+
+
 Simulator::Simulator()
 {
-
 }
 
 Simulator::~Simulator() {
 
 }
 
-float castRay(Ray &ray ,std::vector<CollideableObject*> objectsInScene, int &depth) {
+
+void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex) {
+
+    // draw the scene
+    Sample *sample = new Sample(Eigen::Vector3f(1.0f,0.0f,0.0f), Eigen::Vector3f(0.0f,1.0f,0.0f), refractiveIndex, Q); // Gold mostly
+    std::vector<CollideableObject*> objectsInScene = {sample};
+
+    // this is the base 'image' with the init polarisation
+    ListVector2cf out = {Vector2cf(1.0f,1.0f)};
+
+
+    std::complex<float> Ep = 0.0f;
+    std::complex<float> Es = 1.0f;
+    Vector2cf polar;
+    polar << Ep, Es;
+
+    for (int k = 0; k < 1; k++) {
+        //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
+        Eigen::Vector3f rayOrigin = Eigen::Vector3f(0.0f, 1.0f, 0.0f);
+        Eigen::Vector3f rayDir = Eigen::Vector3f(1.0f, 1.0f, 0.0f);
+
+        int depth = 0;
+
+        Ray *ray = new Ray(0.0f, rayOrigin, rayDir, polar);
+        castRay(*ray, objectsInScene, depth);
+        out.push_back(ray->getPolarisation());
+        delete ray;
+    }
+
+    emit Simulator::simComplete(out);
+}
+
+void Simulator::stopSim()
+{
+    std::cout << "stop pressed" << std::endl;
+}
+
+float Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInScene, int &depth)
+{
     if (depth < 5)
     {
         depth++;
@@ -28,54 +69,5 @@ float castRay(Ray &ray ,std::vector<CollideableObject*> objectsInScene, int &dep
         return castRay(ray, objectsInScene, depth);
     }
 
-    return NULL;
-}
-
-void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex) {
-    std::cout << "this is run in the sim class now with values: Q " << Q << " Refractive Index: " << refractiveIndex << std::endl;
-
-    // draw the scene
-    Sample *sample = new Sample(Eigen::Vector3f(1.0f,0.0f,0.0f), Eigen::Vector3f(0.0f,1.0f,0.0f), refractiveIndex, Q); // Gold mostly
-    std::vector<CollideableObject*> objectsInScene = {sample};
-
-    // make a base image
-    std::vector<float> pixels = {0, 0 , 0 };
-
-
-    // for every pixel in the image
-    for (unsigned long y = 0; y < pixels.size(); y++) {
-
-        //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
-        Eigen::Vector3f rayOrigin = Eigen::Vector3f(0.0f, 1.0f, 0.0f);
-        Eigen::Vector3f rayDir = Eigen::Vector3f(1.0f, 1.0f, 0.0f);
-
-        std::complex<float> Ep = 0.0f;
-        std::complex<float> Es = 1.0f;
-        Vector2cf polar;
-        polar << Ep, Es;
-
-        std::cout << "init polar: " << polar << std::endl;
-
-        int depth = 0;
-
-        Ray *ray = new Ray(0.0f, rayOrigin, rayDir, polar);
-        castRay(*ray, objectsInScene, depth);
-
-        pixels[y] = ray->getAmplitude();
-        std::cout << "after polar: " << ray->getPolarisation() << std::endl;
-
-        delete ray;
-    }
-
-
-    //display the 'image'
-    std::cout << "image = { ";
-    for (unsigned int i=0; i < pixels.size(); i++)
-    {
-        std::cout << pixels[i] << " ";
-    }
-    std::cout << "}" << std::endl;
-
-
-    delete sample;
+    return 0.0f;
 }

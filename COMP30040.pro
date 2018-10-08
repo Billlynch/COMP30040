@@ -31,14 +31,16 @@ INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/eigen3/Eigen
 SOURCES += \
         main.cpp \
         mokelasersim.cpp \
-    simulator.cpp
+    simulator.cpp \
+    polarisationwindow.cpp
 
 HEADERS += \
         mokelasersim.h \
     simulator.h \
     collideableobject.h \
     sample.h \
-    ray.h
+    ray.h \
+    polarisationwindow.h
 
 FORMS += \
         mokelasersim.ui
