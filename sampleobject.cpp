@@ -8,12 +8,14 @@ SampleObject::SampleObject(Eigen::Vector3f location,
                            Eigen::Vector3f normal,
                            float radius,
                            std::complex<float> n1,
-                           float q) : CollideableObject (location)
+                           float q,
+                           double k) : CollideableObject (location)
 {
     m_normal = normal;
     m_radius = radius;
     m_n1 = n1;
     m_q = q;
+    m_k = k;
     m_i = sqrt(m_i);
 }
 

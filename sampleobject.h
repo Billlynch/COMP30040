@@ -7,6 +7,7 @@ class SampleObject : public CollideableObject
 {
 private:
     float m_radius, m_q, m_my;
+    double m_k; // k = extinction coefficient
     std::complex<float> m_i = -1.0f;
     const std::complex<float> m_n0 = 1.0f; // air
     Eigen::Vector3f m_normal;
@@ -22,7 +23,8 @@ public:
                  Eigen::Vector3f normal,
                  float radius,
                  std::complex<float> n1,
-                 float q);
+                 float q,
+                 double k);
 
     ~SampleObject();
 

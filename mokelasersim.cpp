@@ -47,7 +47,9 @@ void MOKELaserSim::on_RunSimButton_clicked()
     simThread = QtConcurrent::run(sim, &Simulator::runSimulation,
                                   ui->QValueBox->value(),
                                   ui->RefractiveIndexBox->value(),
-                                  ui->rayCount->value());
+                                  ui->rayCount->value(),
+                                  ui->ExtinctionCoefficient->value(),
+                                  ui->waveLength->value());
     simThread.waitForFinished();
 }
 

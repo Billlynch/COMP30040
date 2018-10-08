@@ -14,7 +14,11 @@ Simulator::~Simulator() {
 }
 
 
-void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex, int rayCount) {
+void Simulator::runSimulation(float Q,
+                              std::complex<float> refractiveIndex,
+                              int rayCount,
+                              double extinctionCoefficient,
+                              int waveLength) {
 
     // draw the scene
     SampleObject *sample = new SampleObject(Eigen::Vector3f(1.0f,-1.0f,0.0f),

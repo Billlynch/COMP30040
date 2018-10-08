@@ -1,11 +1,12 @@
 #include "ray.h"
 
 
-Ray::Ray(float amplitude, Eigen::Vector3f origin, Eigen::Vector3f direction, Vector2cf polarisation):
+Ray::Ray(float amplitude, Eigen::Vector3f origin, Eigen::Vector3f direction, Vector2cf polarisation, double w):
     m_origin(origin),
     m_direction(direction),
     m_polarisation(polarisation),
-    m_amplitude(amplitude){}
+    m_amplitude(amplitude),
+    m_w(static_cast<float>(w)){}
 
 Ray::~Ray()
 {
@@ -32,6 +33,11 @@ float Ray::getAmplitude()
     return Ray::m_amplitude;
 }
 
+float Ray::getWaveLength()
+{
+    return Ray::m_w;
+}
+
 void Ray::setOrigin(Eigen::Vector3f origin)
 {
     Ray::m_origin = origin;
@@ -50,6 +56,11 @@ void Ray::setPolarisation(Vector2cf polarisation)
 void Ray::setAplitude(float amplitude)
 {
     Ray::m_amplitude = amplitude;
+}
+
+void Ray::setWaveLength(float w)
+{
+    Ray::m_w = w;
 }
 
 void Ray::flipPolarization()

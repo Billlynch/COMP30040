@@ -20,7 +20,11 @@ public:
     Simulator();
     ~Simulator();
 
-    void runSimulation(float Q, std::complex<float> refractiveIndex, int rayCount);
+    void runSimulation(float Q,
+                       std::complex<float> refractiveIndex,
+                       int rayCount,
+                       double extinctionCoefficient,
+                       int waveLength);
 
 signals:
     void simComplete(ListVector2cf polarisations);
