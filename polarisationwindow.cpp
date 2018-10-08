@@ -6,6 +6,7 @@
 
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
 typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
+const double degreeMulitplier = 180.0 / M_PI;
 
 
 
@@ -76,13 +77,9 @@ void PolarisationWindow::renderNow()
 
 void PolarisationWindow::simResultsUpdated(ListVector2cf polarisationsIn)
 {
-    std::cout << "hey the slot was called 2nd pol: " << polarisationsIn[1].real() << std::endl;
-
     polarisations = polarisationsIn;
     renderNow();
 }
-
-
 
 void PolarisationWindow::render(QPainter *painter)
 {
@@ -120,31 +117,22 @@ void PolarisationWindow::drawPolarosations(QPainter *painter, std::vector<Vector
     Vector2cf centre = Vector2cf(width() /2, height() /2);
     Vector2cf right = Vector2cf(1.0f, 0.0f);
 
-    double halfC = 180.0 / M_PI;
+    QLineF newLine;
 
 
     for (unsigned int j = 0; j < polarisations.size(); j++) {
-        std::cout << "pos: " << j << std::endl;
         if (j == 0) {
             painter->setPen(redPen);
         }
 
-        std::cout << "point: " << polarisations[j](0).real() << " + " << polarisations[j](0).imag() << std::endl;
-        std::cout << "point: " << polarisations[j](1).real() << " + " << polarisations[j](1).imag() << std::endl;
-
-        polarisations[j](1) = polarisations[j](1); // this is needed because in the GUI space y is 0 -> height going down but we want the representation to be height() - 0
         polarisations[j].normalize();
 
-        QLineF newLine;
-
-        newLine.setP1(QPointF(static_cast<int>(centre(0).real()),static_cast<int>(centre(1).real())));
+        newLine.setP1(QPointF(static_cast<int>(centre(0).real()),
+                              static_cast<int>(centre(1).real())));
 
         auto a = acos(right.dot(polarisations[j]) / right.norm() * polarisations[j].norm());
 
-        std::cout << "Angle in rad " << a.real() << std::endl;
-        std::cout << "Angle in degrees " << static_cast<qreal>(a.real()) * halfC << std::endl;
-
-        newLine.setAngle(static_cast<qreal>(a.real()) * halfC);
+        newLine.setAngle(static_cast<qreal>(a.real()) * degreeMulitplier);
         newLine.setLength(width() / 4);
 
         painter->drawLine(newLine);

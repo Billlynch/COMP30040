@@ -18,7 +18,7 @@ public:
     Simulator();
     ~Simulator();
 
-    void runSimulation(float Q, std::complex<float> refractiveIndex);
+    void runSimulation(float Q, std::complex<float> refractiveIndex, int rayCount);
 
 signals:
     void simComplete(ListVector2cf polarisations);

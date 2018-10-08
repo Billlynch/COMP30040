@@ -18,7 +18,7 @@ Simulator::~Simulator() {
 }
 
 
-void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex) {
+void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex, int rayCount) {
 
     // draw the scene
     Sample *sample = new Sample(Eigen::Vector3f(1.0f,0.0f,0.0f), Eigen::Vector3f(0.0f,1.0f,0.0f), refractiveIndex, Q); // Gold mostly
@@ -33,7 +33,7 @@ void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex) {
     Vector2cf polar;
     polar << Ep, Es;
 
-    for (int k = 0; k < 1; k++) {
+    for (int k = 0; k < rayCount; k++) {
         //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
         Eigen::Vector3f rayOrigin = Eigen::Vector3f(0.0f, 1.0f, 0.0f);
         Eigen::Vector3f rayDir = Eigen::Vector3f(1.0f, 1.0f, 0.0f);
