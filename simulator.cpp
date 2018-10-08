@@ -1,9 +1,5 @@
-#include "sample.h"
+#include "sampleobject.h"
 #include "simulator.h"
-#include <iostream>
-#include <vector>
-#include <complex>
-
 
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
 typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
@@ -21,7 +17,12 @@ Simulator::~Simulator() {
 void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex, int rayCount) {
 
     // draw the scene
-    Sample *sample = new Sample(Eigen::Vector3f(1.0f,0.0f,0.0f), Eigen::Vector3f(0.0f,1.0f,0.0f), refractiveIndex, Q); // Gold mostly
+    SampleObject *sample = new SampleObject(Eigen::Vector3f(1.0f,-1.0f,0.0f),
+                                            Eigen::Vector3f(0.0f,1.0f,0.0f),
+                                            5.0f,
+                                            refractiveIndex,
+                                            Q); // Gold mostly
+
     std::vector<CollideableObject*> objectsInScene = {sample};
 
     // this is the base 'image' with the init polarisation
@@ -51,7 +52,7 @@ void Simulator::runSimulation(float Q, std::complex<float> refractiveIndex, int 
 
 void Simulator::stopSim()
 {
-    std::cout << "stop pressed" << std::endl;
+    return;
 }
 
 float Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInScene, int &depth)
@@ -61,7 +62,7 @@ float Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInSce
         depth++;
         Eigen::Vector3f pointOfInterception;
 
-        for (unsigned int j = 0; j < objectsInScene.size(); j ++) {
+        for (unsigned int j = 0; j < objectsInScene.size(); j++) {
             if (objectsInScene[j]->intersect(ray, pointOfInterception)){
                 objectsInScene[j]->collide(ray, pointOfInterception);
             }

@@ -6,6 +6,8 @@
 #include <QObject>
 #include "ray.h"
 #include "collideableobject.h"
+#include <vector>
+
 
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
 typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
