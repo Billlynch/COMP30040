@@ -1,9 +1,6 @@
 #include "sampleobject.h"
 #include "simulator.h"
 
-typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
-typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
-
 
 Simulator::Simulator()
 {
@@ -23,7 +20,7 @@ void Simulator::runSimulation(float Q,
 
     // draw the scene
     SampleObject *sample = new SampleObject(Eigen::Vector3f(0.0f,1.0f,0.0f),
-                                            Eigen::Vector3f(0.0f,-1.0f,0.0f),
+                                            Eigen::Vector3f(0.0f,1.0f,0.0f),
                                             10.0f,
                                             refractiveIndex,
                                             Q,
@@ -62,7 +59,7 @@ void Simulator::stopSim()
     return;
 }
 
-float Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInScene, int &depth)
+void Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInScene, int &depth)
 {
     if (depth < 5)
     {
@@ -73,11 +70,9 @@ float Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInSce
             if (objectsInScene[j]->intersect(ray, pointOfInterception))
             {
                 objectsInScene[j]->collide(ray, pointOfInterception);
-                return castRay(ray, objectsInScene, depth);
+                castRay(ray, objectsInScene, depth);
             }
         }
 
     }
-
-    return 0.0f; // this needs to be something else
 }

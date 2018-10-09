@@ -2,7 +2,7 @@
 #define COLLIDEABLEOBJECT_H
 #include "ray.h"
 
-#include <Core>
+#include <Dense>
 #include <complex>
 #include <cmath>
 

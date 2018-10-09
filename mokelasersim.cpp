@@ -25,6 +25,7 @@ MOKELaserSim::MOKELaserSim(QWidget *parent) :
 
 
     qRegisterMetaType<ListVector2cf>("ListVector2cf");
+    qRegisterMetaType<ListMatrix4cf>("ListMatrix4cf");
 
 
     connect(sim, &Simulator::simComplete,

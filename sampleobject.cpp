@@ -17,6 +17,7 @@ SampleObject::SampleObject(Eigen::Vector3f location,
     m_q = q;
     m_k = k;
     m_i = sqrt(m_i);
+    m_my = 1.0f;
 }
 
 SampleObject::~SampleObject()
@@ -24,13 +25,8 @@ SampleObject::~SampleObject()
 
 }
 
-void SampleObject::collide(Ray &ray, Eigen::Vector3f &pointOfInterception)
+void SampleObject::calculatePolarisationUsingGriggsFormulae(Ray &ray, std::complex<float> &theta0, std::complex<float> &theta1)
 {
-    std::complex<float> theta0, theta1;
-    calculateAngleOfInterception(ray, theta0);
-    calculateAngleOfRefraction(theta0, theta1);
-
-    // calculate rpp
     std::complex<float> numerator, denom;
     numerator = m_n1 * cos(theta0) - m_n0 * cos(theta1);
     denom = m_n1 * cos(theta0) + m_n0 * cos(theta1);
@@ -49,13 +45,32 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3f &pointOfInterception)
     m_rps = numerator / denom;
 
     Matrix4cf R;
-    R << m_rpp, m_rss,
-         m_rsp, m_rps;
+    R << m_rpp, m_rps,
+         m_rsp, m_rss;
 
-    Vector2cf newPolar = R*ray.getPolarisation();
-    ray.setPolarisation(newPolar);
+   Vector2cf newPolar = R*ray.getPolarisation();
+   ray.setPolarisation(newPolar);
+}
 
-    // assuming perfect refraction
+void SampleObject::collide(Ray &ray, Eigen::Vector3f &pointOfInterception)
+{
+    std::complex<float> theta0, theta1;
+    calculateAngleOfInterception(ray, theta0);
+    calculateAngleOfRefraction(theta0, theta1);
+
+    // calculate rpp
+    calculatePolarisationUsingGriggsFormulae(ray, theta0, theta1);
+
+//    std::complex<float> Rs = (tan(theta0 - theta1)) / (tan(theta0 + theta1));
+//    std::complex<float> Rp = (-sin(theta0 - theta1)) / (sin(theta0 + theta1));
+
+//    Vector2cf R;
+//    R << Rs, Rp;
+
+//   Vector2cf newPolar = R.transpose()*ray.getPolarisation();
+//   ray.setPolarisation(newPolar);
+
+    // assuming perfect refraction - should be theta1
     ray.setDirection(ray.getDirection() - 2 * (ray.getDirection().dot(m_normal)) * m_normal );
     ray.setOrigin(pointOfInterception + ray.getDirection()*0.01f); // move it along the normal so it won't hit the same object again
 }

@@ -6,6 +6,8 @@
 #include "simulator.h"
 
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
+typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2>> ListMatrix4cf;
+
 
 
 class PolarisationWindow : public QWindow

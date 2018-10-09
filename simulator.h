@@ -11,6 +11,8 @@
 
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
 typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
+typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2>> ListMatrix4cf;
+typedef Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2> Matrix4cf;
 
 
 class Simulator : public QObject
@@ -35,7 +37,7 @@ public slots:
 private:
     bool m_stop;
 
-    float castRay(Ray &ray ,std::vector<CollideableObject*> objectsInScene, int &depth);
+    void castRay(Ray &ray ,std::vector<CollideableObject*> objectsInScene, int &depth);
 };
 
 #endif // SIMULATOR_H

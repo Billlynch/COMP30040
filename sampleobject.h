@@ -31,6 +31,8 @@ public:
     void collide(Ray &ray, Eigen::Vector3f &pointOfInterception);
     bool intersect(Ray &ray, Eigen::Vector3f &pointOfInterception);
 
+    void calculatePolarisationUsingGriggsFormulae(Ray &ray, std::complex<float> &theta0, std::complex<float> &theta1);
+
 protected:
     void calculateAngleOfRefraction(std::complex<float> theta0, std::complex<float> &theta1) {
         std::complex<float> numerator1 = m_n0 * sin(theta0);
@@ -38,8 +40,11 @@ protected:
     }
 
     void calculateAngleOfInterception(Ray &ray, std::complex<float> &theta0) {
-        std::complex<float> numerator0 = ray.getDirection().dot(m_normal);
-        std::complex<float> denominator0 = ray.getDirection().norm() * m_normal.norm();
+        m_normal.normalize();
+        Eigen::Vector3f rayDirection = ray.getDirection();
+        rayDirection.normalize();
+        std::complex<float> numerator0 = rayDirection.dot(m_normal);
+        std::complex<float> denominator0 = rayDirection.norm() * m_normal.norm();
         theta0 = acos(numerator0 / denominator0); // the angle of incidence
     }
 };
