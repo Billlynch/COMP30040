@@ -34,12 +34,14 @@ public:
     void calculatePolarisationUsingGriggsFormulae(Ray &ray, std::complex<float> &theta0, std::complex<float> &theta1);
 
 protected:
-    void calculateAngleOfRefraction(std::complex<float> theta0, std::complex<float> &theta1) {
+    void calculateAngleOfRefraction(std::complex<float> theta0, std::complex<float> &theta1)
+    {
         std::complex<float> numerator1 = m_n0 * sin(theta0);
         theta1 = asin(numerator1 / m_n1); // the angle of refraction
     }
 
-    void calculateAngleOfInterception(Ray &ray, std::complex<float> &theta0) {
+    void calculateAngleOfInterception(Ray &ray, std::complex<float> &theta0)
+    {
         m_normal.normalize();
         Eigen::Vector3f rayDirection = ray.getDirection();
         rayDirection.normalize();

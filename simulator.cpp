@@ -11,7 +11,6 @@ Simulator::~Simulator()
 
 }
 
-
 void Simulator::runSimulation(float Q,
                               std::complex<float> refractiveIndex,
                               int rayCount,

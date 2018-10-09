@@ -11,9 +11,6 @@
 #include <iostream>
 
 
-
-
-
 MOKELaserSim::MOKELaserSim(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MOKELaserSim)

@@ -1,7 +1,5 @@
 #include "sampleobject.h"
-
 #include <iostream>
-
 
 
 SampleObject::SampleObject(Eigen::Vector3f location,
@@ -60,15 +58,6 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3f &pointOfInterception)
 
     // calculate rpp
     calculatePolarisationUsingGriggsFormulae(ray, theta0, theta1);
-
-//    std::complex<float> Rs = (tan(theta0 - theta1)) / (tan(theta0 + theta1));
-//    std::complex<float> Rp = (-sin(theta0 - theta1)) / (sin(theta0 + theta1));
-
-//    Vector2cf R;
-//    R << Rs, Rp;
-
-//   Vector2cf newPolar = R.transpose()*ray.getPolarisation();
-//   ray.setPolarisation(newPolar);
 
     // assuming perfect refraction - should be theta1
     ray.setDirection(ray.getDirection() - 2 * (ray.getDirection().dot(m_normal)) * m_normal );
