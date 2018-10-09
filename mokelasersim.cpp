@@ -11,10 +11,6 @@
 #include <iostream>
 
 
-
-typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
-
-
 MOKELaserSim::MOKELaserSim(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MOKELaserSim)
@@ -25,6 +21,7 @@ MOKELaserSim::MOKELaserSim(QWidget *parent) :
 
 
     qRegisterMetaType<ListVector2cf>("ListVector2cf");
+    qRegisterMetaType<ListMatrix4cf>("ListMatrix4cf");
 
 
     connect(sim, &Simulator::simComplete,
@@ -47,7 +44,9 @@ void MOKELaserSim::on_RunSimButton_clicked()
     simThread = QtConcurrent::run(sim, &Simulator::runSimulation,
                                   ui->QValueBox->value(),
                                   ui->RefractiveIndexBox->value(),
-                                  ui->rayCount->value());
+                                  ui->rayCount->value(),
+                                  ui->ExtinctionCoefficient->value(),
+                                  ui->waveLength->value());
     simThread.waitForFinished();
 }
 

@@ -3,61 +3,38 @@
 #ifndef RAY_H
 #define RAY_H
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
+typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2>> ListMatrix4cf;
+typedef Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2> Matrix4cf;
 
 
 class Ray{
-    Eigen::Vector3f origin;
-    Eigen::Vector3f direction;
-    Vector2cf polarisation;
-    float amplitude;
+    Eigen::Vector3f m_origin;
+    Eigen::Vector3f m_direction;
+    Matrix4cf m_polarisation;
+    float m_amplitude, m_w; //w is waveLength
 
 public:
     Ray(float amplitude,
         Eigen::Vector3f origin,
         Eigen::Vector3f direction,
-        Vector2cf polarisation):
-            amplitude(amplitude),
-            origin(origin),
-            direction(direction),
-            polarisation(polarisation){}
+        Matrix4cf polarisation,
+        double w);
 
-    ~Ray() {}
+    ~Ray();
 
 
-    Eigen::Vector3f getOrigin(){
-        return origin;
-    }
+    Eigen::Vector3f getOrigin();
+    Eigen::Vector3f getDirection();
+    Matrix4cf getPolarisation();
+    float getAmplitude();
+    float getWaveLength();
 
-    Eigen::Vector3f getDirection(){
-        return direction;
-    }
+    void setOrigin(Eigen::Vector3f origin);
+    void setDirection(Eigen::Vector3f direction);
+    void setPolarisation(Matrix4cf polarisation);
+    void setAplitude(float amplitude);
+    void setWaveLength(float w);
 
-    void setOrigin(Eigen::Vector3f origin){
-        this->origin = origin;
-    }
-
-    void setDirection(Eigen::Vector3f direction){
-        this->direction = direction;
-    }
-
-    Vector2cf getPolarisation() {
-        return this->polarisation;
-    }
-
-    void setPolarisation(Vector2cf polarisation) {
-        this->polarisation = polarisation;
-    }
-
-    void flipPolarization() {
-        this->polarisation.reverse();
-    }
-
-    float getAmplitude() {
-        return this->amplitude;
-    }
-
-    void setAplitude(float amplitude_input) {
-        this->amplitude = amplitude_input;
-    }
+    void flipPolarization();
 };
 #endif // RAY_H

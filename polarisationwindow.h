@@ -6,6 +6,10 @@
 #include "simulator.h"
 
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
+typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2>> ListMatrix4cf;
+typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
+typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
+const double degreeMulitplier = 180.0 / M_PI;
 
 
 class PolarisationWindow : public QWindow
@@ -20,7 +24,7 @@ public:
 public slots:
     void renderLater();
     void renderNow();
-    void simResultsUpdated(std::vector<Vector2cf> polarisations);
+    void simResultsUpdated(ListMatrix4cf polarisations);
 
 protected:
     bool event(QEvent *event);
@@ -30,11 +34,11 @@ protected:
 
 private:
     QBackingStore *m_backingStore;
-    std::vector<Vector2cf> polarisations;
+    ListMatrix4cf polarisations;
 
-    void render(QPainter *painter, std::vector<Vector2cf> polarisations);
+    void render(QPainter *painter, ListMatrix4cf polarisations);
     void drawAxis(QPainter *painter);
-    void drawPolarosations(QPainter *painter, std::vector<Vector2cf> polarisations);
+    void drawPolarosations(QPainter *painter, ListMatrix4cf polarisations);
 };
 
 #endif // POLARISATIONWINDOW_H

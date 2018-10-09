@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++11 sdk_no_version_check
 
 INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/eigen3/Eigen
 
@@ -32,15 +32,18 @@ SOURCES += \
         main.cpp \
         mokelasersim.cpp \
     simulator.cpp \
-    polarisationwindow.cpp
+    polarisationwindow.cpp \
+    sampleobject.cpp \
+    collideableobject.cpp \
+    ray.cpp
 
 HEADERS += \
         mokelasersim.h \
     simulator.h \
     collideableobject.h \
-    sample.h \
     ray.h \
-    polarisationwindow.h
+    polarisationwindow.h \
+    sampleobject.h
 
 FORMS += \
         mokelasersim.ui

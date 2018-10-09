@@ -4,18 +4,13 @@
 #include <QLineF>
 #include <QPointF>
 
-typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
-typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
-const double degreeMulitplier = 180.0 / M_PI;
-
-
 
 PolarisationWindow::PolarisationWindow(QWindow *parent)
     : QWindow(parent)
     , m_backingStore(new QBackingStore(this))
 {
     setGeometry(100, 100, 400, 400);
-    polarisations = std::vector<Vector2cf>();
+    polarisations = ListMatrix4cf();
 }
 
 PolarisationWindow::~PolarisationWindow(){}
@@ -47,7 +42,7 @@ void PolarisationWindow::exposeEvent(QExposeEvent *)
         renderNow();
 }
 
-void PolarisationWindow::render(QPainter *painter, std::vector<Vector2cf> polarisations)
+void PolarisationWindow::render(QPainter *painter, ListMatrix4cf polarisations)
 {
     QPen blackPen(QColor("#000000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
     painter->setPen(blackPen);
@@ -75,7 +70,7 @@ void PolarisationWindow::renderNow()
     m_backingStore->flush(rect);
 }
 
-void PolarisationWindow::simResultsUpdated(ListVector2cf polarisationsIn)
+void PolarisationWindow::simResultsUpdated(ListMatrix4cf polarisationsIn)
 {
     polarisations = polarisationsIn;
     renderNow();
@@ -109,7 +104,7 @@ void PolarisationWindow::drawAxis(QPainter *painter)
     painter->drawLine(top, bottom);
 }
 
-void PolarisationWindow::drawPolarosations(QPainter *painter, std::vector<Vector2cf> polarisations)
+void PolarisationWindow::drawPolarosations(QPainter *painter, ListMatrix4cf polarisations)
 {
     QPen redPen(QColor("#ff0000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
     QPen blackDottedPen(QColor("#000000"), 2, Qt::DotLine, Qt::FlatCap, Qt::RoundJoin);
@@ -121,7 +116,8 @@ void PolarisationWindow::drawPolarosations(QPainter *painter, std::vector<Vector
 
 
     for (unsigned int j = 0; j < polarisations.size(); j++) {
-        if (j == 0) {
+        if (j == 0)
+        {
             painter->setPen(redPen);
         }
 
@@ -130,14 +126,16 @@ void PolarisationWindow::drawPolarosations(QPainter *painter, std::vector<Vector
         newLine.setP1(QPointF(static_cast<int>(centre(0).real()),
                               static_cast<int>(centre(1).real())));
 
-        auto a = acos(right.dot(polarisations[j]) / right.norm() * polarisations[j].norm());
+        Vector2cf displayPol = Vector2cf(polarisations[j](0,0), polarisations[j](1,1));
+        auto a = acos(right.dot(displayPol) / right.norm() * displayPol.norm());
 
         newLine.setAngle(static_cast<qreal>(a.real()) * degreeMulitplier);
         newLine.setLength(width() / 4);
 
         painter->drawLine(newLine);
 
-        if (j == 0) {
+        if (j == 0)
+        {
             painter->setPen(blackDottedPen);
         }
     }
