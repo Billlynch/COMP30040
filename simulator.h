@@ -29,7 +29,7 @@ public:
                        int waveLength);
 
 signals:
-    void simComplete(ListVector2cf polarisations);
+    void simComplete(ListMatrix4cf polarisations);
 
 public slots:
     void stopSim();

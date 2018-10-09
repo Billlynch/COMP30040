@@ -1,7 +1,7 @@
 #include "ray.h"
 
 
-Ray::Ray(float amplitude, Eigen::Vector3f origin, Eigen::Vector3f direction, Vector2cf polarisation, double w):
+Ray::Ray(float amplitude, Eigen::Vector3f origin, Eigen::Vector3f direction, Matrix4cf polarisation, double w):
     m_origin(origin),
     m_direction(direction),
     m_polarisation(polarisation),
@@ -23,7 +23,7 @@ Eigen::Vector3f Ray::getDirection()
     return Ray::m_direction;
 }
 
-Vector2cf Ray::getPolarisation()
+Matrix4cf Ray::getPolarisation()
 {
     return Ray::m_polarisation;
 }
@@ -48,7 +48,7 @@ void Ray::setDirection(Eigen::Vector3f direction)
     Ray::m_direction = direction;
 }
 
-void Ray::setPolarisation(Vector2cf polarisation)
+void Ray::setPolarisation(Matrix4cf polarisation)
 {
     Ray::m_polarisation = polarisation;
 }

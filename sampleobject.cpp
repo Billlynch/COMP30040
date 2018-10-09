@@ -48,7 +48,7 @@ void SampleObject::calculatePolarisationUsingGriggsFormulae(Ray &ray, std::compl
     R << m_rpp, m_rps,
          m_rsp, m_rss;
 
-   Vector2cf newPolar = R*ray.getPolarisation();
+   Matrix4cf newPolar = R*ray.getPolarisation();
    ray.setPolarisation(newPolar);
 }
 

@@ -22,7 +22,7 @@ public:
 public slots:
     void renderLater();
     void renderNow();
-    void simResultsUpdated(std::vector<Vector2cf> polarisations);
+    void simResultsUpdated(ListMatrix4cf polarisations);
 
 protected:
     bool event(QEvent *event);
@@ -32,11 +32,11 @@ protected:
 
 private:
     QBackingStore *m_backingStore;
-    std::vector<Vector2cf> polarisations;
+    ListMatrix4cf polarisations;
 
-    void render(QPainter *painter, std::vector<Vector2cf> polarisations);
+    void render(QPainter *painter, ListMatrix4cf polarisations);
     void drawAxis(QPainter *painter);
-    void drawPolarosations(QPainter *painter, std::vector<Vector2cf> polarisations);
+    void drawPolarosations(QPainter *painter, ListMatrix4cf polarisations);
 };
 
 #endif // POLARISATIONWINDOW_H

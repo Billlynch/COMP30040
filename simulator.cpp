@@ -29,13 +29,17 @@ void Simulator::runSimulation(float Q,
     std::vector<CollideableObject*> objectsInScene = {sample};
 
     // this is the base 'image' with the init polarisation
-    ListVector2cf out = {Vector2cf(1.0f,1.0f)};
+    Matrix4cf n;
+    n << 1.0f, 0.0f, 0.0f, 1.0f;
+    ListMatrix4cf out = {n};
 
 
-    std::complex<float> Ep = 0.0f;
-    std::complex<float> Es = 1.0f;
-    Vector2cf polar;
-    polar << Ep, Es;
+    std::complex<float> Epp = 1.0f;
+    std::complex<float> Esp = 0.0f;
+    std::complex<float> Eps = 0.0f;
+    std::complex<float> Ess = 1.0f;
+    Matrix4cf polar;
+    polar << Epp, Eps, Esp, Ess;
 
     for (int k = 0; k < rayCount; k++)
     {

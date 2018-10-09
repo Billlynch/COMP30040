@@ -12,7 +12,6 @@
 
 
 
-typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
 
 
 MOKELaserSim::MOKELaserSim(QWidget *parent) :
