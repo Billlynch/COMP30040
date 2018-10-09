@@ -51,7 +51,7 @@ void PolarisationWindow::render(QPainter *painter, std::vector<Vector2cf> polari
 {
     QPen blackPen(QColor("#000000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
     painter->setPen(blackPen);
-    drawAxis(painter);
+    // drawAxis(painter);
 
     drawPolarosations(painter, polarisations);
 }
@@ -85,7 +85,7 @@ void PolarisationWindow::render(QPainter *painter)
 {
     QPen blackPen(QColor("#000000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
     painter->setPen(blackPen);
-    drawAxis(painter);
+    // drawAxis(painter);
 
     drawPolarosations(painter, polarisations);
 }
@@ -121,7 +121,8 @@ void PolarisationWindow::drawPolarosations(QPainter *painter, std::vector<Vector
 
 
     for (unsigned int j = 0; j < polarisations.size(); j++) {
-        if (j == 0) {
+        if (j == 0)
+        {
             painter->setPen(redPen);
         }
 
@@ -137,7 +138,8 @@ void PolarisationWindow::drawPolarosations(QPainter *painter, std::vector<Vector
 
         painter->drawLine(newLine);
 
-        if (j == 0) {
+        if (j == 0)
+        {
             painter->setPen(blackDottedPen);
         }
     }

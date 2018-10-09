@@ -4,6 +4,7 @@
 
 #include <Core>
 #include <complex>
+#include <cmath>
 
 typedef Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2> Matrix4cf;
 typedef Eigen::Matrix<std::complex<float>, 2, 1, 0, 2, 1 > Vector2cf;

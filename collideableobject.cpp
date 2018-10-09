@@ -1,9 +1,12 @@
 #include "collideableobject.h"
 
 bool CollideableObject::interceptPlane(Ray &ray, Eigen::Vector3f &normal, float &t) {
-    float denom = ray.getDirection().dot(normal);
+    Eigen::Vector3f rayDirection = ray.getDirection();
+    normal.normalize();
 
-    if (denom < static_cast<float>(1e-6))
+    float denom = normal.dot(rayDirection);
+
+    if (fabs(denom) > 0.0001f)
     {
         Eigen::Vector3f numerator = this->getLocation() - ray.getOrigin();
         t = numerator.dot(normal) / denom;

@@ -55,9 +55,9 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3f &pointOfInterception)
     Vector2cf newPolar = R*ray.getPolarisation();
     ray.setPolarisation(newPolar);
 
-    ray.setOrigin(pointOfInterception);
     // assuming perfect refraction
     ray.setDirection(ray.getDirection() - 2 * (ray.getDirection().dot(m_normal)) * m_normal );
+    ray.setOrigin(pointOfInterception + ray.getDirection()*0.01f); // move it along the normal so it won't hit the same object again
 }
 
 bool SampleObject::intersect(Ray &ray, Eigen::Vector3f &pointOfInterception)
@@ -66,13 +66,15 @@ bool SampleObject::intersect(Ray &ray, Eigen::Vector3f &pointOfInterception)
 
     if (this->interceptPlane(ray, m_normal, t))
     {
+        std::cout << "It collided with the plane" << std::endl;
+
         pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
         Eigen::Vector3f v = pointOfInterception - this->getLocation();
         float d2 = v.dot(v);
 
-        std::cout << "did it collide?: " << (sqrt(d2) <= m_radius) << std::endl;
+        std::cout << "did it collide in the radius?: " << (sqrt(d2) <= m_radius) << std::endl;
         return (sqrt(d2) <= m_radius);
     }
 
-    return true;
+    return false;
 }

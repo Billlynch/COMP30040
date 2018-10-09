@@ -33,8 +33,6 @@ public:
     void setAplitude(float amplitude);
     void setWaveLength(float w);
 
-
-
     void flipPolarization();
 };
 #endif // RAY_H

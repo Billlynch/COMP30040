@@ -63,12 +63,18 @@
        <property name="decimals">
         <number>5</number>
        </property>
+       <property name="value">
+        <double>0.050000000000000</double>
+       </property>
       </widget>
      </item>
      <item row="0" column="0">
       <widget class="QDoubleSpinBox" name="RefractiveIndexBox">
        <property name="decimals">
         <number>5</number>
+       </property>
+       <property name="value">
+        <double>1.280000000000000</double>
        </property>
       </widget>
      </item>

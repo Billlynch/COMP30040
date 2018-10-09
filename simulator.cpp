@@ -9,7 +9,8 @@ Simulator::Simulator()
 {
 }
 
-Simulator::~Simulator() {
+Simulator::~Simulator()
+{
 
 }
 
@@ -21,11 +22,12 @@ void Simulator::runSimulation(float Q,
                               int waveLength) {
 
     // draw the scene
-    SampleObject *sample = new SampleObject(Eigen::Vector3f(1.0f,-1.0f,0.0f),
-                                            Eigen::Vector3f(0.0f,1.0f,0.0f),
-                                            5.0f,
+    SampleObject *sample = new SampleObject(Eigen::Vector3f(0.0f,1.0f,0.0f),
+                                            Eigen::Vector3f(0.0f,-1.0f,0.0f),
+                                            10.0f,
                                             refractiveIndex,
-                                            Q); // Gold mostly
+                                            Q,
+                                            extinctionCoefficient); // Gold mostly
 
     std::vector<CollideableObject*> objectsInScene = {sample};
 
@@ -38,14 +40,15 @@ void Simulator::runSimulation(float Q,
     Vector2cf polar;
     polar << Ep, Es;
 
-    for (int k = 0; k < rayCount; k++) {
+    for (int k = 0; k < rayCount; k++)
+    {
         //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
-        Eigen::Vector3f rayOrigin = Eigen::Vector3f(0.0f, 1.0f, 0.0f);
-        Eigen::Vector3f rayDir = Eigen::Vector3f(1.0f, 1.0f, 0.0f);
+        Eigen::Vector3f rayOrigin = Eigen::Vector3f(1.0f, 0.0f, 0.0f);
+        Eigen::Vector3f rayDir = Eigen::Vector3f(-1.0f, 1.0f, 0.0f);
 
         int depth = 0;
 
-        Ray *ray = new Ray(0.0f, rayOrigin, rayDir, polar);
+        Ray *ray = new Ray(0.0f, rayOrigin, rayDir, polar, static_cast<double>(waveLength));
         castRay(*ray, objectsInScene, depth);
         out.push_back(ray->getPolarisation());
         delete ray;
@@ -64,15 +67,17 @@ float Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInSce
     if (depth < 5)
     {
         depth++;
-        Eigen::Vector3f pointOfInterception;
+        Eigen::Vector3f pointOfInterception = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
 
         for (unsigned int j = 0; j < objectsInScene.size(); j++) {
-            if (objectsInScene[j]->intersect(ray, pointOfInterception)){
+            if (objectsInScene[j]->intersect(ray, pointOfInterception))
+            {
                 objectsInScene[j]->collide(ray, pointOfInterception);
+                return castRay(ray, objectsInScene, depth);
             }
         }
-        return castRay(ray, objectsInScene, depth);
+
     }
 
-    return 0.0f;
+    return 0.0f; // this needs to be something else
 }
