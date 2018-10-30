@@ -1,4 +1,3 @@
-#include "sampleobject.h"
 #include "simulator.h"
 
 
@@ -18,20 +17,30 @@ void Simulator::runSimulation(float Q,
                               int waveLength) {
 
     // draw the scene
-    SampleObject *sample = new SampleObject(Eigen::Vector3f(0.0f,1.0f,0.0f),
+    // hard code the properties for now
+    std::complex<float> q = {0.0177f,-0.0063f};
+    std::complex<float> n_1 = {1.58f,3.58f};
+
+
+    SampleObject *sample = new SampleObject(Eigen::Vector3f(0.0f,2.0f,0.0f),
                                             Eigen::Vector3f(0.0f,1.0f,0.0f),
                                             10.0f,
-                                            refractiveIndex,
-                                            Q,
+                                            n_1,
+                                            q,
                                             extinctionCoefficient); // Gold mostly
 
-    std::vector<CollideableObject*> objectsInScene = {sample};
+    PolarisingFilter *polarisingFilter = new PolarisingFilter(Eigen::Vector3f(1.0f,1.0f,0.0f),
+                                                              Eigen::Vector3f(0.0f,1.0f,0.0f),
+                                                              1.0f,
+                                                              1.0f, // no refractive index for now
+                                                              Eigen::Vector2cf(1.0f, 1.0f));
+
+    std::vector<CollideableObject*> objectsInScene = {sample, polarisingFilter};
 
     // this is the base 'image' with the init polarisation
     Matrix4cf n;
     n << 1.0f, 0.0f, 0.0f, 1.0f;
     ListMatrix4cf out = {n};
-
 
     std::complex<float> Epp = 1.0f;
     std::complex<float> Esp = 0.0f;
@@ -43,18 +52,21 @@ void Simulator::runSimulation(float Q,
     for (int k = 0; k < rayCount; k++)
     {
         //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
-        Eigen::Vector3f rayOrigin = Eigen::Vector3f(1.0f, 0.0f, 0.0f);
-        Eigen::Vector3f rayDir = Eigen::Vector3f(-1.0f, 1.0f, 0.0f);
+        Eigen::Vector3f rayOrigin = Eigen::Vector3f(-2.0f, -1.0f, 0.0f);
+        Eigen::Vector3f rayDir = Eigen::Vector3f(1.0f, 1.0f, 0.0f);
 
         int depth = 0;
 
-        Ray *ray = new Ray(0.0f, rayOrigin, rayDir, polar, static_cast<double>(waveLength));
+        Ray *ray = new Ray(0.0f, rayOrigin, rayDir, polar, Eigen::Vector2cf(1.0f, 1.0f),static_cast<double>(waveLength));
         castRay(*ray, objectsInScene, depth);
+        ray->setPolarisation( ray->getCalculationMatrix() * polar );
         out.push_back(ray->getPolarisation());
         delete ray;
     }
 
     emit Simulator::simComplete(out);
+    delete sample;
+    delete polarisingFilter;
 }
 
 void Simulator::stopSim()

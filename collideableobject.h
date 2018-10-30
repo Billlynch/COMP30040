@@ -17,6 +17,8 @@ protected:
     bool interceptPlane(Ray &ray, Eigen::Vector3f &normal, float &t);
 
 public:
+    float m_n0 = 1.0f;
+
     CollideableObject(const Eigen::Vector3f &location);
 
     virtual ~CollideableObject();

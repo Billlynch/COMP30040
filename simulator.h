@@ -6,6 +6,8 @@
 #include <QObject>
 #include "ray.h"
 #include "collideableobject.h"
+#include "polarisingfilter.h"
+#include "sampleobject.h"
 #include <vector>
 
 

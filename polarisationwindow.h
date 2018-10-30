@@ -9,7 +9,6 @@ typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
 typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2>> ListMatrix4cf;
 typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
 typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
-const double degreeMulitplier = 180.0 / M_PI;
 
 
 class PolarisationWindow : public QWindow
