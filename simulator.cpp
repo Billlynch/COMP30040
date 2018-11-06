@@ -17,7 +17,6 @@ void Simulator::runSimulation(double Q_r, double Q_i, double n0_r, double n0_i, 
 
     // setup the sample
     SampleObject *sample = setupSample(n_1, q);
-
     // setup the Polariser
     PolarisingFilter *polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0));
 
@@ -71,6 +70,15 @@ PolarisingFilter* Simulator::setupPolariser(Eigen::Vector2d targetPolarisation)
                                     1.0, // no refractive index for now
                                     targetPolarisation);
 
+}
+
+PEM *Simulator::setupPEM(std::complex<double> amplitude, std::complex<double> phase)
+{
+    return new PEM(Eigen::Vector3d(1.0,1.0,0.0),
+                   Eigen::Vector3d(0.0,1.0,0.0),
+                   1.0,
+                   1.0,
+                   1.0);
 }
 
 Matrix4cd Simulator::generateInitalPolarisation()

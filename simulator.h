@@ -8,6 +8,7 @@
 #include "collideableobject.h"
 #include "polarisingfilter.h"
 #include "sampleobject.h"
+#include "pem.h"
 #include <vector>
 
 
@@ -28,7 +29,7 @@ public:
                        double Q_i,
                        double n0_r,
                        double n0_i,
-                       int rayCount);                       ;
+                       int rayCount);
 
 signals:
     void simComplete(ListMatrix4cd polarisations);
@@ -42,6 +43,7 @@ private:
 
     SampleObject* setupSample(std::complex<double> n1, std::complex<double> q);
     PolarisingFilter* setupPolariser(Eigen::Vector2d targetPolarisation);
+    PEM *setupPEM(std::complex<double> amplitude, std::complex<double> phase);
 
     Matrix4cd generateInitalPolarisation();
 
