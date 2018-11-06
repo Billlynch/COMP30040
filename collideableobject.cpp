@@ -1,14 +1,14 @@
 #include "collideableobject.h"
 
-bool CollideableObject::interceptPlane(Ray &ray, Eigen::Vector3f &normal, float &t) {
-    Eigen::Vector3f rayDirection = ray.getDirection();
+bool CollideableObject::interceptPlane(Ray &ray, Eigen::Vector3d &normal, double &t) {
+    Eigen::Vector3d rayDirection = ray.getDirection();
     normal.normalize();
 
-    float denom = normal.dot(rayDirection);
+    double denom = normal.dot(rayDirection);
 
-    if (fabs(denom) > 0.0001f)
+    if (fabs(denom) > 0.0001)
     {
-        Eigen::Vector3f numerator = this->getLocation() - ray.getOrigin();
+        Eigen::Vector3d numerator = this->getLocation() - ray.getOrigin();
         t = numerator.dot(normal) / denom;
         return t >= 0;
     }
@@ -16,16 +16,16 @@ bool CollideableObject::interceptPlane(Ray &ray, Eigen::Vector3f &normal, float 
     return false;
 }
 
-CollideableObject::CollideableObject(const Eigen::Vector3f &location) :
+CollideableObject::CollideableObject(const Eigen::Vector3d &location) :
     m_location(location){
 }
 
 CollideableObject::~CollideableObject() {}
 
-const Eigen::Vector3f &CollideableObject::getLocation() const {
+const Eigen::Vector3d &CollideableObject::getLocation() const {
     return CollideableObject::m_location;
 }
 
-void CollideableObject::setLocation(const Eigen::Vector3f &location) {
+void CollideableObject::setLocation(const Eigen::Vector3d &location) {
     CollideableObject::m_location = location;
 }

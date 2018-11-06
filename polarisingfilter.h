@@ -1,40 +1,35 @@
-#ifndef SAMPLEOBJECT_H
-#define SAMPLEOBJECT_H
+#ifndef POLARISINGFILTER_H
+#define POLARISINGFILTER_H
 
 #include "collideableobject.h"
 
-class SampleObject : public CollideableObject
-{
-private:
-    double m_radius, m_my;
-    std::complex<double> m_q;
-    std::complex<double> m_i;
-    std::complex<double> m_n0 = 1.0f; // air
-    Eigen::Vector3d m_normal;
-    std::complex<double> m_x;
-    std::complex<double> m_n1;
-    std::complex<double> m_rpp;
-    std::complex<double> m_rss;
-    std::complex<double> m_rsp;
-    std::complex<double> m_rps;
-    Matrix4d m_R;
+typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22d;
 
+// const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
+
+class PolarisingFilter : public CollideableObject
+{
+    Eigen::Vector3d m_normal;
+    Matrix22d m_polarizationMatrix;
+    Eigen::Vector2d m_targetPolarisation;
+    double m_radius;
+    std::complex<double> m_n1;
 
 public:
-    SampleObject(Eigen::Vector3d location,
-                 Eigen::Vector3d normal,
-                 double radius,
-                 std::complex<double> n1,
-                 std::complex<double> q);
+    PolarisingFilter(Eigen::Vector3d location,
+                     Eigen::Vector3d normal,
+                     double radius,
+                     std::complex<double> n1,
+                     Eigen::Vector2d targetPolarisation);
 
-    ~SampleObject();
+    ~PolarisingFilter(){}
 
     void collide(Ray &ray, Eigen::Vector3d &pointOfInterception);
     bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
 
-    void calculatePolarisationUsingGriggsFormulae(Ray &ray, std::complex<double> &theta0, std::complex<double> &theta1);
-
 protected:
+    void calculatePolarisationMatrix();
+
     void calculateAngleOfRefraction(std::complex<double> theta0, std::complex<double> &theta1)
     {
         std::complex<double> numerator1 = m_n0 * sin(theta0);
@@ -52,4 +47,4 @@ protected:
     }
 };
 
-#endif // SAMPLEOBJECT_H
+#endif // POLARISINGFILTER_H

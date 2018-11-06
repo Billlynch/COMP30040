@@ -2,38 +2,41 @@
 
 #ifndef RAY_H
 #define RAY_H
-typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
-typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2>> ListMatrix4cf;
-typedef Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2> Matrix4cf;
+typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
+typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatrix4cd;
+typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
+
+
+const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
 
 
 class Ray{
-    Eigen::Vector3f m_origin;
-    Eigen::Vector3f m_direction;
-    Matrix4cf m_polarisation;
-    float m_amplitude, m_w; //w is waveLength
+    Eigen::Vector3d m_origin;
+    Eigen::Vector3d m_direction;
+    Matrix4cd m_polarisation;
+    Matrix4cd m_calculationMatrix;
+    Eigen::Vector2d m_targetPolarisation;
 
 public:
-    Ray(float amplitude,
-        Eigen::Vector3f origin,
-        Eigen::Vector3f direction,
-        Matrix4cf polarisation,
-        double w);
+    Ray(Eigen::Vector3d origin,
+        Eigen::Vector3d direction,
+        Matrix4cd polarisation,
+        Eigen::Vector2d targetPolarisation);
 
     ~Ray();
 
 
-    Eigen::Vector3f getOrigin();
-    Eigen::Vector3f getDirection();
-    Matrix4cf getPolarisation();
-    float getAmplitude();
-    float getWaveLength();
+    Eigen::Vector3d getOrigin();
+    Eigen::Vector3d getDirection();
+    Matrix4cd getPolarisation();
+    Matrix4cd getCalculationMatrix();
+    double getWaveLength();
 
-    void setOrigin(Eigen::Vector3f origin);
-    void setDirection(Eigen::Vector3f direction);
-    void setPolarisation(Matrix4cf polarisation);
-    void setAplitude(float amplitude);
-    void setWaveLength(float w);
+    void setOrigin(Eigen::Vector3d origin);
+    void setDirection(Eigen::Vector3d direction);
+    void setPolarisation(Matrix4cd polarisation);
+
+    void calculationMatrixMultiplication(Matrix4cd &x);
 
     void flipPolarization();
 };

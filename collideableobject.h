@@ -6,27 +6,28 @@
 #include <complex>
 #include <cmath>
 
-typedef Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2> Matrix4cf;
-typedef Eigen::Matrix<std::complex<float>, 2, 1, 0, 2, 1 > Vector2cf;
+typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4d;
 
 class CollideableObject
 {
-    Eigen::Vector3f m_location;
+    Eigen::Vector3d m_location;
 
 protected:
-    bool interceptPlane(Ray &ray, Eigen::Vector3f &normal, float &t);
+    bool interceptPlane(Ray &ray, Eigen::Vector3d &normal, double &t);
 
 public:
-    CollideableObject(const Eigen::Vector3f &location);
+    double m_n0 = 1.0;
+
+    CollideableObject(const Eigen::Vector3d &location);
 
     virtual ~CollideableObject();
 
-    const Eigen::Vector3f &getLocation() const;
+    const Eigen::Vector3d &getLocation() const;
 
-    void setLocation(const Eigen::Vector3f &location);
+    void setLocation(const Eigen::Vector3d &location);
 
-    virtual void collide(Ray &ray, Eigen::Vector3f &pointOfInterception) =0;
-    virtual bool intersect(Ray &ray, Eigen::Vector3f &pointOfInterception) =0;
+    virtual void collide(Ray &ray, Eigen::Vector3d &pointOfInterception) =0;
+    virtual bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception) =0;
 };
 
 #endif // COLLIDEABLEOBJECT_H

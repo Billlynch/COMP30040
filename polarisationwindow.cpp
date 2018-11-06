@@ -10,7 +10,7 @@ PolarisationWindow::PolarisationWindow(QWindow *parent)
     , m_backingStore(new QBackingStore(this))
 {
     setGeometry(100, 100, 400, 400);
-    polarisations = ListMatrix4cf();
+    polarisations = ListMatrix4cd();
 }
 
 PolarisationWindow::~PolarisationWindow(){}
@@ -42,7 +42,7 @@ void PolarisationWindow::exposeEvent(QExposeEvent *)
         renderNow();
 }
 
-void PolarisationWindow::render(QPainter *painter, ListMatrix4cf polarisations)
+void PolarisationWindow::render(QPainter *painter, ListMatrix4cd polarisations)
 {
     QPen blackPen(QColor("#000000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
     painter->setPen(blackPen);
@@ -70,7 +70,7 @@ void PolarisationWindow::renderNow()
     m_backingStore->flush(rect);
 }
 
-void PolarisationWindow::simResultsUpdated(ListMatrix4cf polarisationsIn)
+void PolarisationWindow::simResultsUpdated(ListMatrix4cd polarisationsIn)
 {
     polarisations = polarisationsIn;
     renderNow();
@@ -104,13 +104,13 @@ void PolarisationWindow::drawAxis(QPainter *painter)
     painter->drawLine(top, bottom);
 }
 
-void PolarisationWindow::drawPolarosations(QPainter *painter, ListMatrix4cf polarisations)
+void PolarisationWindow::drawPolarosations(QPainter *painter, ListMatrix4cd polarisations)
 {
     QPen redPen(QColor("#ff0000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
     QPen blackDottedPen(QColor("#000000"), 2, Qt::DotLine, Qt::FlatCap, Qt::RoundJoin);
 
-    Vector2cf centre = Vector2cf(width() /2, height() /2);
-    Vector2cf right = Vector2cf(1.0f, 0.0f);
+    Vector2cd centre = Vector2cd(width() /2, height() /2);
+    Vector2cd right = Vector2cd(1.0, 0.0);
 
     QLineF newLine;
 
@@ -126,10 +126,10 @@ void PolarisationWindow::drawPolarosations(QPainter *painter, ListMatrix4cf pola
         newLine.setP1(QPointF(static_cast<int>(centre(0).real()),
                               static_cast<int>(centre(1).real())));
 
-        Vector2cf displayPol = Vector2cf(polarisations[j](0,0), polarisations[j](1,1));
+        Vector2cd displayPol = Vector2cd(polarisations[j](0,0), polarisations[j](1,1));
         auto a = acos(right.dot(displayPol) / right.norm() * displayPol.norm());
 
-        newLine.setAngle(static_cast<qreal>(a.real()) * degreeMulitplier);
+        newLine.setAngle(a.real() * degreeMulitplier);
         newLine.setLength(width() / 4);
 
         painter->drawLine(newLine);
