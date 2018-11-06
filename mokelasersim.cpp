@@ -20,8 +20,8 @@ MOKELaserSim::MOKELaserSim(QWidget *parent) :
     sim = new Simulator();
 
 
-    qRegisterMetaType<ListVector2cf>("ListVector2cf");
-    qRegisterMetaType<ListMatrix4cf>("ListMatrix4cf");
+    qRegisterMetaType<ListVector2cd>("ListVector2cd");
+    qRegisterMetaType<ListMatrix4cd>("ListMatrix4cd");
 
 
     connect(sim, &Simulator::simComplete,
@@ -42,11 +42,11 @@ MOKELaserSim::~MOKELaserSim()
 void MOKELaserSim::on_RunSimButton_clicked()
 {
     simThread = QtConcurrent::run(sim, &Simulator::runSimulation,
-                                  ui->QValueBox->value(),
-                                  ui->RefractiveIndexBox->value(),
-                                  ui->rayCount->value(),
-                                  ui->ExtinctionCoefficient->value(),
-                                  ui->waveLength->value());
+                                  ui->Q_r_input->value(),
+                                  ui->Q_i_input->value(),
+                                  ui->n0_r_input->value(),
+                                  ui->n0_i_input->value(),
+                                  ui->rayCount->value());
     simThread.waitForFinished();
 }
 

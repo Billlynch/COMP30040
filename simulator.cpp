@@ -10,54 +10,33 @@ Simulator::~Simulator()
 
 }
 
-void Simulator::runSimulation(float Q,
-                              std::complex<float> refractiveIndex,
-                              int rayCount,
-                              double extinctionCoefficient,
-                              int waveLength) {
+void Simulator::runSimulation(double Q_r, double Q_i, double n0_r, double n0_i, int rayCount)
+{
+    std::complex<double> q = {Q_r, Q_i};
+    std::complex<double> n_1 = {n0_r, n0_i};
 
-    // draw the scene
-    // hard code the properties for now
-    std::complex<float> q = {0.0177f,-0.0063f};
-    std::complex<float> n_1 = {1.58f,3.58f};
+    // setup the sample
+    SampleObject *sample = setupSample(n_1, q);
 
+    // setup the Polariser
+    PolarisingFilter *polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0));
 
-    SampleObject *sample = new SampleObject(Eigen::Vector3f(0.0f,2.0f,0.0f),
-                                            Eigen::Vector3f(0.0f,1.0f,0.0f),
-                                            10.0f,
-                                            n_1,
-                                            q,
-                                            extinctionCoefficient); // Gold mostly
+    objectsInScene = {sample, polarisingFilter};
 
-    PolarisingFilter *polarisingFilter = new PolarisingFilter(Eigen::Vector3f(1.0f,1.0f,0.0f),
-                                                              Eigen::Vector3f(0.0f,1.0f,0.0f),
-                                                              1.0f,
-                                                              1.0f, // no refractive index for now
-                                                              Eigen::Vector2cf(1.0f, 1.0f));
-
-    std::vector<CollideableObject*> objectsInScene = {sample, polarisingFilter};
-
-    // this is the base 'image' with the init polarisation
-    Matrix4cf n;
-    n << 1.0f, 0.0f, 0.0f, 1.0f;
-    ListMatrix4cf out = {n};
-
-    std::complex<float> Epp = 1.0f;
-    std::complex<float> Esp = 0.0f;
-    std::complex<float> Eps = 0.0f;
-    std::complex<float> Ess = 1.0f;
-    Matrix4cf polar;
-    polar << Epp, Eps, Esp, Ess;
+    Matrix4d n;
+    n << 1.0, 0.0, 0.0, 1.0;
+    ListMatrix4cd out = {n};
+    Matrix4cd polar = generateInitalPolarisation();
 
     for (int k = 0; k < rayCount; k++)
     {
         //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
-        Eigen::Vector3f rayOrigin = Eigen::Vector3f(-2.0f, -1.0f, 0.0f);
-        Eigen::Vector3f rayDir = Eigen::Vector3f(1.0f, 1.0f, 0.0f);
+        Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -1.0, 0.0);
+        Eigen::Vector3d rayDir = Eigen::Vector3d(1.0, 1.0, 0.0);
 
         int depth = 0;
 
-        Ray *ray = new Ray(0.0f, rayOrigin, rayDir, polar, Eigen::Vector2cf(1.0f, 1.0f),static_cast<double>(waveLength));
+        Ray *ray = new Ray(rayOrigin, rayDir, polar, Eigen::Vector2d(1.0, 1.0));
         castRay(*ray, objectsInScene, depth);
         ray->setPolarisation( ray->getCalculationMatrix() * polar );
         out.push_back(ray->getPolarisation());
@@ -65,6 +44,7 @@ void Simulator::runSimulation(float Q,
     }
 
     emit Simulator::simComplete(out);
+
     delete sample;
     delete polarisingFilter;
 }
@@ -74,12 +54,43 @@ void Simulator::stopSim()
     return;
 }
 
+SampleObject* Simulator::setupSample(std::complex<double> n1, std::complex<double> q)
+{
+   return new SampleObject( Eigen::Vector3d(0.0,2.0,0.0), // location
+                            Eigen::Vector3d(0.0,1.0,0.0), // normal
+                            10.0, // radius
+                            n1, // refractive index
+                            q); // Q value
+}
+
+PolarisingFilter* Simulator::setupPolariser(Eigen::Vector2d targetPolarisation)
+{
+    return new PolarisingFilter(Eigen::Vector3d(1.0,1.0,0.0),
+                                    Eigen::Vector3d(0.0,1.0,0.0),
+                                    1.0,
+                                    1.0, // no refractive index for now
+                                    targetPolarisation);
+
+}
+
+Matrix4cd Simulator::generateInitalPolarisation()
+{
+    std::complex<double> Epp = 1.0;
+    std::complex<double> Esp = 0.0;
+    std::complex<double> Eps = 0.0;
+    std::complex<double> Ess = 1.0;
+    Matrix4cd polar;
+    polar << Epp, Eps, Esp, Ess;
+
+    return polar;
+}
+
 void Simulator::castRay(Ray &ray, std::vector<CollideableObject *> objectsInScene, int &depth)
 {
     if (depth < 5)
     {
         depth++;
-        Eigen::Vector3f pointOfInterception = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
+        Eigen::Vector3d pointOfInterception = Eigen::Vector3d(0.0, 0.0, 0.0);
 
         for (unsigned int j = 0; j < objectsInScene.size(); j++) {
             if (objectsInScene[j]->intersect(ray, pointOfInterception))

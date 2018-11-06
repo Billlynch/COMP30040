@@ -9,10 +9,10 @@
 #include "simulator.h"
 
 
-typedef Eigen::Matrix<std::complex<float>, 2, 1> Vector2cf;
-typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 1>> ListVector2cf;
-typedef std::vector<Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2>> ListMatrix4cf;
-typedef Eigen::Matrix<std::complex<float>, 2, 2, 0, 2, 2> Matrix4cf;
+typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
+typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 1>> ListVector2cd;
+typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatrix4cd;
+typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
 
 namespace Ui {

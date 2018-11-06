@@ -2,11 +2,11 @@
 #include <iostream>
 
 
-PolarisingFilter::PolarisingFilter(Eigen::Vector3f location,
-                                   Eigen::Vector3f normal,
-                                   float radius,
-                                   std::complex<float> n1,
-                                   Eigen::Vector2cf targetPolarisation) : CollideableObject (location)
+PolarisingFilter::PolarisingFilter(Eigen::Vector3d location,
+                                   Eigen::Vector3d normal,
+                                   double radius,
+                                   std::complex<double> n1,
+                                   Eigen::Vector2d targetPolarisation) : CollideableObject (location)
 {
     m_normal = normal;
     m_radius = radius;
@@ -15,7 +15,7 @@ PolarisingFilter::PolarisingFilter(Eigen::Vector3f location,
     calculatePolarisationMatrix();
 }
 
-void PolarisingFilter::collide(Ray &ray, Eigen::Vector3f &pointOfInterception)
+void PolarisingFilter::collide(Ray &ray, Eigen::Vector3d &pointOfInterception)
 {
     ray.setPolarisation(m_polarizationMatrix*ray.getPolarisation());
     ray.calculationMatrixMultiplication(m_polarizationMatrix);
@@ -24,14 +24,15 @@ void PolarisingFilter::collide(Ray &ray, Eigen::Vector3f &pointOfInterception)
     ray.setOrigin(pointOfInterception + ray.getDirection()*0.01f); // move it along the normal so it won't hit the same object again
 }
 
-bool PolarisingFilter::intersect(Ray &ray, Eigen::Vector3f &pointOfInterception)
+bool PolarisingFilter::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
 {
-    float t;
+    double t;
+
     if (this->interceptPlane(ray, m_normal, t))
     {
         pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
-        Eigen::Vector3f v = pointOfInterception - this->getLocation();
-        float d2 = v.dot(v);
+        Eigen::Vector3d v = pointOfInterception - this->getLocation();
+        double d2 = v.dot(v);
         if (sqrt(d2) <= m_radius) {
          std::cout << "collide with polariser" << std::endl;
         }
@@ -43,17 +44,17 @@ bool PolarisingFilter::intersect(Ray &ray, Eigen::Vector3f &pointOfInterception)
 
 void PolarisingFilter::calculatePolarisationMatrix()
 {
-    Vector2cf right = Vector2cf(1.0f, 0.0f);
+    Eigen::Vector2d right = Eigen::Vector2d(1.0, 0.0);
     m_targetPolarisation.norm();
     right.norm();
     auto temp1 = right.dot(m_targetPolarisation);
     auto temp2 = right.norm() * m_targetPolarisation.norm();
-    auto a = acos(temp1 / temp2);
+    std::complex<double> a = acos(temp1 / temp2);
 
-    float angle = static_cast<float>(a.real());
+    double angle = a.real();
 
-    m_polarizationMatrix(0,0) = powf(cosf(angle), 2.0f);
-    m_polarizationMatrix(0,1) = sinf(angle) * cosf(angle);
-    m_polarizationMatrix(1,0) = sinf(angle) * cosf(angle);
-    m_polarizationMatrix(1,1) = powf(sinf(angle), 2.0f);
+    m_polarizationMatrix(0,0) = pow(cos(angle), 2.0);
+    m_polarizationMatrix(0,1) = sin(angle) * cos(angle);
+    m_polarizationMatrix(1,0) = sin(angle) * cos(angle);
+    m_polarizationMatrix(1,1) = pow(sin(angle), 2.0);
 }
