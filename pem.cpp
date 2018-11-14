@@ -43,6 +43,12 @@ bool PEM::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
     return false;
 }
 
+void PEM::incrementTime()
+{
+    this->time++;
+}
+
+
 void PEM::collide(Ray &ray, Eigen::Vector3d &pointOfInterception)
 {
     calculatePolarisationMatrix();

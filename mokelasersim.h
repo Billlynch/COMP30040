@@ -5,8 +5,9 @@
 #include <QMainWindow>
 #include <vector>
 #include <Core>
+#include <QTimer>
 #include "polarisationwindow.h"
-#include "simulator.h"
+#include "simulationthread.h"
 
 
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
@@ -27,18 +28,19 @@ public:
     explicit MOKELaserSim(QWidget *parent = nullptr);
     ~MOKELaserSim();
 
+    void stopSim();
+
 private slots:
     void on_RunSimButton_clicked();
     void on_StopSimButton_clicked();
 
-signals:
-    void stopSim();
 
 private:
     Ui::MOKELaserSim *ui;
     PolarisationWindow *resultsWindow;
-    Simulator *sim;
-    QFuture<void> simThread;
+    SimulationThread thread;
+    QTimer *eventLoopTimer;
+    QTimer *pemTimer;
 
     QDoubleSpinBox *refractiveIndexSpinner;
     QDoubleSpinBox *QSpinner;

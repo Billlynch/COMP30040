@@ -7,7 +7,7 @@ typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatr
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
 
-const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
+//const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
 
 
 class Ray{

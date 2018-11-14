@@ -11,6 +11,9 @@ typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 1>> ListVector2cd;
 
 
+const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
+
+
 class PolarisationWindow : public QWindow
 {
     Q_OBJECT

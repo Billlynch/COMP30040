@@ -17,42 +17,43 @@ MOKELaserSim::MOKELaserSim(QWidget *parent) :
 {
     ui->setupUi(this);
     resultsWindow = new PolarisationWindow();
-    sim = new Simulator();
-
+    resultsWindow->show();
 
     qRegisterMetaType<ListVector2cd>("ListVector2cd");
     qRegisterMetaType<ListMatrix4cd>("ListMatrix4cd");
 
 
-    connect(sim, &Simulator::simComplete,
+    connect(&thread, &SimulationThread::simComplete,
             resultsWindow, &PolarisationWindow::simResultsUpdated);
 
-    connect(this, &MOKELaserSim::stopSim,
-            sim, &Simulator::stopSim);
+    eventLoopTimer = new QTimer(this);
+    connect(eventLoopTimer, &QTimer::timeout, &thread, &SimulationThread::fireNextRay);
+    eventLoopTimer->setInterval(2);
 
-     resultsWindow->show();
+    pemTimer = new QTimer(this);
+    connect(pemTimer, &QTimer::timeout, &thread, &SimulationThread::incrementPEMTimeProgression);
+    pemTimer->setInterval(1);
 }
 
 MOKELaserSim::~MOKELaserSim()
 {
     delete ui;
-    delete sim;
 }
 
 void MOKELaserSim::on_RunSimButton_clicked()
 {
-    simThread = QtConcurrent::run(sim, &Simulator::runSimulation,
-                                  ui->Q_r_input->value(),
-                                  ui->Q_i_input->value(),
-                                  ui->n0_r_input->value(),
-                                  ui->n0_i_input->value(),
-                                  ui->rayCount->value());
-    simThread.waitForFinished();
+   thread.simulate(ui->Q_r_input->value(),
+                   ui->Q_i_input->value(),
+                   ui->n0_r_input->value(),
+                   ui->n0_i_input->value(),
+                   ui->rayCount->value());
+   pemTimer->start();
+   eventLoopTimer->start();
 }
 
 void MOKELaserSim::on_StopSimButton_clicked()
 {
-    emit stopSim();
-    simThread.cancel();
-    resultsWindow->close();
+    pemTimer->stop();
+    eventLoopTimer->stop();
+    thread.customAbort();
 }

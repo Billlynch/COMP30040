@@ -37,7 +37,8 @@ SOURCES += \
     collideableobject.cpp \
     ray.cpp \
     polarisingfilter.cpp \
-    pem.cpp
+    pem.cpp \
+    simulationthread.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -47,7 +48,8 @@ HEADERS += \
     polarisationwindow.h \
     sampleobject.h \
     polarisingfilter.h \
-    pem.h
+    pem.h \
+    simulationthread.h
 
 FORMS += \
         mokelasersim.ui

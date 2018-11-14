@@ -2,7 +2,7 @@
 #define PEM_H
 
 #include "collideableobject.h"
-
+#include <QTimer>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22cd;
 
@@ -29,6 +29,7 @@ public:
 
       void collide(Ray &ray, Eigen::Vector3d &pointOfInterception);
       bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
+      void incrementTime();
 };
 
 #endif // PEM_H
