@@ -22,8 +22,7 @@ PEM::PEM(Eigen::Vector3d location,
             m_angularFrequency(angularFrequency),
             m_normal(normal),
             m_radius(radius)
-{
-}
+{}
 
 bool PEM::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
 {
@@ -35,7 +34,7 @@ bool PEM::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
         Eigen::Vector3d v = pointOfInterception - this->getLocation();
         double d2 = v.dot(v);
         if (sqrt(d2) <= m_radius) {
-         std::cout << "collide with PEM" << std::endl;
+         //std::cout << "collide with PEM" << std::endl;
         }
         return (sqrt(d2) <= m_radius);
     }
@@ -58,6 +57,8 @@ void PEM::collide(Ray &ray, Eigen::Vector3d &pointOfInterception)
 
     // assuming no change in direction
     ray.setOrigin(pointOfInterception + ray.getDirection()*0.01f); // move it along the normal so it won't hit the same object again
+
+    emit outputPolarisationUpdated(ray.getPolarisation());
 }
 
 

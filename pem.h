@@ -8,6 +8,7 @@ typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22cd;
 
 class PEM :  public CollideableObject
 {
+    Q_OBJECT
 private:
       Matrix22cd m_polarizationMatrix;
       std::complex<double> m_phaseAmplitude;
@@ -30,6 +31,9 @@ public:
       void collide(Ray &ray, Eigen::Vector3d &pointOfInterception);
       bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
       void incrementTime();
+
+signals:
+    void outputPolarisationUpdated(Matrix4cd polarisation);
 };
 
 #endif // PEM_H

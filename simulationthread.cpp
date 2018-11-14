@@ -40,7 +40,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
     // setup the Polariser
     polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0));
     //setup the PEM
-    pem = setupPEM(1.0,1.0);
+    pem = setupPEM(50200, 2.405);
 
     m_objectsInScene = {pem, sample, polarisingFilter};
 
@@ -55,30 +55,39 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
 
 SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q)
 {
-   return new SampleObject( Eigen::Vector3d(0.0,2.0,0.0), // location
+   SampleObject *tempSample = new SampleObject( Eigen::Vector3d(0.0,2.0,0.0), // location
                             Eigen::Vector3d(0.0,1.0,0.0), // normal
                             10.0, // radius
                             n1, // refractive index
                             q); // Q value
+
+   connect(tempSample, &SampleObject::outputPolarisationUpdated, this, &SimulationThread::receiveUpdatedPolarisationFromSample);
+   return tempSample;
 }
 
 PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation)
 {
-    return new PolarisingFilter(Eigen::Vector3d(1.0,1.0,0.0),
+    PolarisingFilter *tempPolarisingFilter = new PolarisingFilter(Eigen::Vector3d(1.0,1.0,0.0),
                                     Eigen::Vector3d(0.0,1.0,0.0),
                                     1.0,
                                     1.0, // no refractive index for now
                                     targetPolarisation);
 
+    connect(tempPolarisingFilter, &PolarisingFilter::outputPolarisationUpdated, this, &SimulationThread::receiveUpdatedPolarisationFromPolariser);
+    return tempPolarisingFilter;
 }
 
 PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<double> phase)
 {
-    return new PEM(Eigen::Vector3d(-1.0,1.0,0.0),
+    PEM *tempPEM = new PEM(Eigen::Vector3d(-1.0,1.0,0.0),
                    Eigen::Vector3d(0.0,1.0,0.0),
                    1.0,
                    phase,
                    amplitude);
+
+   connect(tempPEM, &PEM::outputPolarisationUpdated, this, &SimulationThread::receiveUpdatedPolarisationFromPEM);
+
+   return tempPEM;
 }
 
 Matrix4cd SimulationThread::generateInitalPolarisation()
@@ -138,7 +147,6 @@ void SimulationThread::incrementPEMTimeProgression()
 {
     mutex.lock();
     this->pem->incrementTime();
-    std::cout << "Time was incremented" << std::endl;
     mutex.unlock();
 }
 
@@ -163,57 +171,31 @@ void SimulationThread::fireNextRay()
     outputFromTrace.push_back(ray->getPolarisation());
     delete ray;
 
-    std::cout << "Some output" << std::endl;
     emit simComplete(outputFromTrace);
     mutex.unlock();
+}
+
+void SimulationThread::receiveUpdatedPolarisationFromPEM(Matrix4cd polarisation)
+{
+    std::cout << "got new polarisations from PEM" << std::endl << polarisation << std::endl;
+}
+
+void SimulationThread::receiveUpdatedPolarisationFromSample(Matrix4cd polarisation)
+{
+    std::cout << "got new polarisations from Sample" << std::endl << polarisation << std::endl;
+}
+
+void SimulationThread::receiveUpdatedPolarisationFromPolariser(Matrix4cd polarisation)
+{
+    std::cout << "got new polarisations from Polarisation filter" << std::endl << polarisation << std::endl;
 }
 
 void SimulationThread::run()
 {
     forever {
-        mutex.lock();
-            restart = false;
-            int numberOfRays = this->m_numberOfRays;
-            std::vector<CollideableObject *> objectsInScene = this->m_objectsInScene; // shallow copy ok for this as the values will not change atm.
-        mutex.unlock();
-
-        ListMatrix4cd outputFromTrace;
-        Matrix4d n;
-        n << 1.0, 0.0, 0.0, 1.0;
-        outputFromTrace = {n};
-        Matrix4cd polar = generateInitalPolarisation();
-
-        // actual 'calc'
-        for (int rayCount = 0; rayCount < numberOfRays; rayCount++) {
-            if (restart)
-            {
-                break;
-            }
             if (abort)
             {
                 return;
             }
-
-            //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
-            Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -1.0, 0.0);
-            Eigen::Vector3d rayDir = Eigen::Vector3d(1.0, 1.0, 0.0);
-
-            int depth = 0;
-
-            Ray *ray = new Ray(rayOrigin, rayDir, polar, Eigen::Vector2d(1.0, 1.0));
-            castRay(*ray, objectsInScene, depth);
-            ray->setPolarisation( ray->getCalculationMatrix() * polar );
-            outputFromTrace.push_back(ray->getPolarisation());
-            delete ray;
-            //trace(outputFromTrace, objectsInScene, numberOfRays);
-        }
-
-
-
-        if (!restart)
-        {
-            emit simComplete(outputFromTrace);
-            return;
-        }
     }
 }

@@ -38,7 +38,8 @@ SOURCES += \
     ray.cpp \
     polarisingfilter.cpp \
     pem.cpp \
-    simulationthread.cpp
+    simulationthread.cpp \
+    openglwindow.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -49,7 +50,8 @@ HEADERS += \
     sampleobject.h \
     polarisingfilter.h \
     pem.h \
-    simulationthread.h
+    simulationthread.h \
+    openglwindow.h
 
 FORMS += \
         mokelasersim.ui

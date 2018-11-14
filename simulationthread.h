@@ -34,6 +34,9 @@ signals:
 public slots:
     void incrementPEMTimeProgression();
     void fireNextRay();
+    void receiveUpdatedPolarisationFromPEM(Matrix4cd polarisation);
+    void receiveUpdatedPolarisationFromSample(Matrix4cd polarisation);
+    void receiveUpdatedPolarisationFromPolariser(Matrix4cd polarisation);
 
 private:
     QMutex mutex;

@@ -22,6 +22,7 @@ void PolarisingFilter::collide(Ray &ray, Eigen::Vector3d &pointOfInterception)
 
     // assuming no change in direction
     ray.setOrigin(pointOfInterception + ray.getDirection()*0.01f); // move it along the normal so it won't hit the same object again
+    emit outputPolarisationUpdated(ray.getPolarisation());
 }
 
 bool PolarisingFilter::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
@@ -34,7 +35,7 @@ bool PolarisingFilter::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
         Eigen::Vector3d v = pointOfInterception - this->getLocation();
         double d2 = v.dot(v);
         if (sqrt(d2) <= m_radius) {
-         std::cout << "collide with polariser" << std::endl;
+         //std::cout << "collide with polariser" << std::endl;
         }
         return (sqrt(d2) <= m_radius);
     }
