@@ -7,7 +7,7 @@
 #include <glu.h>
 #include <gl.h>
 #include <GLUT/glut.h>
-#include <vector>
+#include <deque>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
@@ -22,8 +22,10 @@ public:
     ~OGLWidget();
 
 private:
-    std::vector<Matrix4cd> polarisations;
-    void drawRay(Matrix4cd &polarisaton);
+    std::deque<Matrix4cd> polarisations;
+    void drawRay(Matrix4cd &polarisaton,  unsigned position, int dir);
+
+    void drawPEM();
 
 protected:
     void initializeGL();

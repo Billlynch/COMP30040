@@ -12,11 +12,12 @@ OGLWidget::~OGLWidget()
 
 }
 
-void OGLWidget::drawRay(Matrix4cd &polarisaton)
+void OGLWidget::drawRay(Matrix4cd &polarisaton, unsigned position, int dir)
 {
     GLUquadric *quadratic = gluNewQuadric();
-    std::cout << "draw!" << std::endl;
+    //std::cout << "draw! - " << this->polarisations.size() << std::endl;
     glPushMatrix();
+        glTranslated(0.0, 0.0, dir * static_cast<double>(position) * 0.2);
         glColor3f(1.0f, 0.0f, 0.0f);
         glRotatef(90.0f, 1, 0, 0); // set the Cylinder pointing the right way
         glRotatef(static_cast<float>(polarisaton(0,0).real()) * degreeMulitplier2 , 0, 1, 0);
@@ -27,8 +28,21 @@ void OGLWidget::drawRay(Matrix4cd &polarisaton)
             gluCylinder(quadratic, 0.01, 0.2, 0.5, 12, 12);
         glPopMatrix();
     glPopMatrix();
+}
 
-    glFlush();
+void OGLWidget::drawPEM()
+{
+    glPushMatrix();
+        glColor3d(0.0, 1.0, 0.0);
+        glTranslated(-2.0, 0.0, 0.0);
+        glRotated(315.0, 0, 1, 0);
+        glutSolidCube(0.4);
+
+        // draw rays coming from the PEM
+        for (unsigned i = 0; i < this->polarisations.size() - 1; i++) {
+            drawRay(this->polarisations.at(i), i, -1);
+        }
+    glPopMatrix();
 }
 
 void OGLWidget::initializeGL()
@@ -49,12 +63,20 @@ void OGLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    drawRay(this->polarisations[this->polarisations.size() - 1]);
+    drawPEM();
+
+
+    glFlush();
 }
 
 void OGLWidget::newOutputFromPEM(Matrix4cd polarisation)
 {
     this->polarisations.push_back(polarisation);
+
+    if (this->polarisations.size() > 11)
+    {
+        this->polarisations.pop_front();
+    }
     repaint();
 }
 
