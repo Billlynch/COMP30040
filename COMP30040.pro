@@ -4,11 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT += core gui opengl
 
 QT += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+LIBS += -framework Cocoa -framework CoreVideo -framework IOKit -framework GLUT
 
 TARGET = COMP30040
 TEMPLATE = app
@@ -60,3 +62,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+unix: LIBS += -L$$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/ -lGLEW
+
+INCLUDEPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
+DEPENDPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
+
+unix: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/libGLEW.a

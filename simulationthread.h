@@ -11,6 +11,8 @@
 #include <ray.h>
 #include <pem.h>
 #include <collideableobject.h>
+#include <oglwidget.h>
+
 
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatrix4cd;
 
@@ -22,7 +24,7 @@ public:
     SimulationThread(QObject *parent = nullptr);
     ~SimulationThread() override;
 
-    void simulate(double Q_r, double Q_i, double n0_r, double n0_i, int rayCount);
+    void simulate(double Q_r, double Q_i, double n0_r, double n0_i, int rayCount, OGLWidget &representation);
     void customAbort();
 
 protected:
@@ -53,7 +55,7 @@ private:
 
     SampleObject* setupSample(std::complex<double> n1, std::complex<double> q);
     PolarisingFilter* setupPolariser(Eigen::Vector2d targetPolarisation);
-    PEM *setupPEM(std::complex<double> amplitude, std::complex<double> phase);
+    PEM *setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget &representation);
     Matrix4cd generateInitalPolarisation();
 
     void trace(ListMatrix4cd &outputList, std::vector<CollideableObject*> &objectsInScene, int &rayCount);

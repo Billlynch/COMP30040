@@ -27,7 +27,7 @@ void SimulationThread::customAbort()
    this->abort = false;
 }
 
-void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, int rayCount)
+void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, int rayCount, OGLWidget &representation)
 {
     QMutexLocker locker(&mutex);
 
@@ -40,7 +40,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
     // setup the Polariser
     polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0));
     //setup the PEM
-    pem = setupPEM(50200, 2.405);
+    pem = setupPEM(50200, 2.405, representation);
 
     m_objectsInScene = {pem, sample, polarisingFilter};
 
@@ -77,7 +77,7 @@ PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolaris
     return tempPolarisingFilter;
 }
 
-PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<double> phase)
+PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget &representation)
 {
     PEM *tempPEM = new PEM(Eigen::Vector3d(-1.0,1.0,0.0),
                    Eigen::Vector3d(0.0,1.0,0.0),
@@ -86,6 +86,7 @@ PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<dou
                    amplitude);
 
    connect(tempPEM, &PEM::outputPolarisationUpdated, this, &SimulationThread::receiveUpdatedPolarisationFromPEM);
+   connect(tempPEM, &PEM::outputPolarisationUpdated, &representation, &OGLWidget::newOutputFromPEM);
 
    return tempPEM;
 }
@@ -177,17 +178,17 @@ void SimulationThread::fireNextRay()
 
 void SimulationThread::receiveUpdatedPolarisationFromPEM(Matrix4cd polarisation)
 {
-    std::cout << "got new polarisations from PEM" << std::endl << polarisation << std::endl;
+    //std::cout << "got new polarisations from PEM" << std::endl << polarisation << std::endl;
 }
 
 void SimulationThread::receiveUpdatedPolarisationFromSample(Matrix4cd polarisation)
 {
-    std::cout << "got new polarisations from Sample" << std::endl << polarisation << std::endl;
+    //std::cout << "got new polarisations from Sample" << std::endl << polarisation << std::endl;
 }
 
 void SimulationThread::receiveUpdatedPolarisationFromPolariser(Matrix4cd polarisation)
 {
-    std::cout << "got new polarisations from Polarisation filter" << std::endl << polarisation << std::endl;
+ //   std::cout << "got new polarisations from Polarisation filter" << std::endl << polarisation << std::endl;
 }
 
 void SimulationThread::run()

@@ -37,6 +37,9 @@ MOKELaserSim::MOKELaserSim(QWidget *parent) :
 
 MOKELaserSim::~MOKELaserSim()
 {
+    ui->openGLWidget->close();
+    resultsWindow->close();
+    delete resultsWindow;
     delete ui;
 }
 
@@ -46,7 +49,8 @@ void MOKELaserSim::on_RunSimButton_clicked()
                    ui->Q_i_input->value(),
                    ui->n0_r_input->value(),
                    ui->n0_i_input->value(),
-                   ui->rayCount->value());
+                   ui->rayCount->value(),
+                   *ui->openGLWidget);
    pemTimer->start();
    eventLoopTimer->start();
 }
