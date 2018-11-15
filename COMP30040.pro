@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 QT += concurrent
 
@@ -39,7 +39,7 @@ SOURCES += \
     polarisingfilter.cpp \
     pem.cpp \
     simulationthread.cpp \
-    openglwindow.cpp
+    oglwidget.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -51,7 +51,7 @@ HEADERS += \
     polarisingfilter.h \
     pem.h \
     simulationthread.h \
-    openglwindow.h
+    oglwidget.h
 
 FORMS += \
         mokelasersim.ui
