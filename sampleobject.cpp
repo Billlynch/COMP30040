@@ -15,6 +15,7 @@ SampleObject::SampleObject(Eigen::Vector3d location,
     m_i = {0,1};
     m_my = 1.0;
     m_x = 0;
+    m_n0 = {1.0,0};
 }
 
 SampleObject::~SampleObject()
@@ -66,6 +67,7 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3d &pointOfInterception)
     // assuming perfect refraction - should be theta1
     ray.setDirection(ray.getDirection() - 2 * (ray.getDirection().dot(m_normal)) * m_normal );
     ray.setOrigin(pointOfInterception + ray.getDirection()*0.01f); // move it along the normal so it won't hit the same object again
+    emit outputPolarisationUpdated(ray.getPolarisation());
 }
 
 bool SampleObject::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
@@ -79,7 +81,7 @@ bool SampleObject::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception)
         double d2 = v.dot(v);
         if (sqrt(d2) <= m_radius)
         {
-            std::cout << "collide with sample" << std::endl;
+            //std::cout << "collide with sample" << std::endl;
         }
         return (sqrt(d2) <= m_radius);
     }

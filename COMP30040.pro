@@ -4,11 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui opengl
 
 QT += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+LIBS += -framework Cocoa -framework CoreVideo -framework IOKit -framework GLUT
 
 TARGET = COMP30040
 TEMPLATE = app
@@ -17,7 +19,7 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS GL_SILENCE_DEPRECATION
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -36,7 +38,10 @@ SOURCES += \
     sampleobject.cpp \
     collideableobject.cpp \
     ray.cpp \
-    polarisingfilter.cpp
+    polarisingfilter.cpp \
+    pem.cpp \
+    simulationthread.cpp \
+    oglwidget.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -45,7 +50,10 @@ HEADERS += \
     ray.h \
     polarisationwindow.h \
     sampleobject.h \
-    polarisingfilter.h
+    polarisingfilter.h \
+    pem.h \
+    simulationthread.h \
+    oglwidget.h
 
 FORMS += \
         mokelasersim.ui
@@ -54,3 +62,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+unix: LIBS += -L$$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/ -lGLEW
+
+INCLUDEPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
+DEPENDPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
+
+unix: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/libGLEW.a

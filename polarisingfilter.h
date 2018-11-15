@@ -9,6 +9,7 @@ typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22d;
 
 class PolarisingFilter : public CollideableObject
 {
+    Q_OBJECT
     Eigen::Vector3d m_normal;
     Matrix22d m_polarizationMatrix;
     Eigen::Vector2d m_targetPolarisation;
@@ -45,6 +46,9 @@ protected:
         std::complex<double> denominator0 = rayDirection.norm() * m_normal.norm();
         theta0 = acos(numerator0 / denominator0); // the angle of incidence
     }
+
+signals:
+    void outputPolarisationUpdated(Matrix4cd polarisation);
 };
 
 #endif // POLARISINGFILTER_H

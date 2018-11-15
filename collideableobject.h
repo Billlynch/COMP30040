@@ -2,14 +2,16 @@
 #define COLLIDEABLEOBJECT_H
 #include "ray.h"
 
+#include <QObject>
 #include <Dense>
 #include <complex>
 #include <cmath>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4d;
 
-class CollideableObject
+class CollideableObject:  public QObject
 {
+    Q_OBJECT
     Eigen::Vector3d m_location;
 
 protected:

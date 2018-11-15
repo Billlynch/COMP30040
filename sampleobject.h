@@ -5,11 +5,12 @@
 
 class SampleObject : public CollideableObject
 {
+    Q_OBJECT
 private:
     double m_radius, m_my;
     std::complex<double> m_q;
     std::complex<double> m_i;
-    std::complex<double> m_n0 = 1.0f; // air
+    std::complex<double> m_n0; // air
     Eigen::Vector3d m_normal;
     std::complex<double> m_x;
     std::complex<double> m_n1;
@@ -50,6 +51,9 @@ protected:
         std::complex<double> denominator0 = rayDirection.norm() * m_normal.norm();
         theta0 = acos(numerator0 / denominator0); // the angle of incidence
     }
+
+signals:
+    void outputPolarisationUpdated(Matrix4cd polarisation);
 };
 
 #endif // SAMPLEOBJECT_H
