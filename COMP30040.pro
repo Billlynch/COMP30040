@@ -33,7 +33,6 @@ INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/eigen3/Eigen
 SOURCES += \
         main.cpp \
         mokelasersim.cpp \
-    simulator.cpp \
     polarisationwindow.cpp \
     sampleobject.cpp \
     collideableobject.cpp \
@@ -45,7 +44,6 @@ SOURCES += \
 
 HEADERS += \
         mokelasersim.h \
-    simulator.h \
     collideableobject.h \
     ray.h \
     polarisationwindow.h \

@@ -14,26 +14,38 @@ typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 const float degreeMulitplier2 = static_cast<float>(180.0 / M_PI);
 
 
-class OGLWidget : public QOpenGLWidget
-{
-    Q_OBJECT
-public:
-    OGLWidget(QWidget *parent = nullptr);
-    ~OGLWidget();
+class OGLWidget : public QOpenGLWidget {
+  Q_OBJECT
+ public:
+  OGLWidget(QWidget* parent = nullptr);
+  ~OGLWidget() = default;
 
-private:
-    std::deque<Matrix4cd> polarisations;
-    void drawRay(Matrix4cd &polarisaton,  unsigned position, int dir);
+ private:
+  std::deque<Matrix4cd> PEMpolarisations;
+  std::deque<Matrix4cd> samplePolarisations;
+  std::deque<Matrix4cd> polariserPolarisations;
+  std::deque<Matrix4cd> analyserPolarisations;
 
-    void drawPEM();
+  void drawRay(Matrix4cd& polarisaton,  unsigned position, int dir);
 
-protected:
-    void initializeGL();
-    void resizeGL(int w, int h);
-    void paintGL();
+  void drawPEM();
+  void drawPolariser();
+  void drawSample();
+  void drawAnalyser();
 
-public slots:
-    void newOutputFromPEM(Matrix4cd polarisation);
+
+ protected:
+  void initializeGL();
+  void resizeGL(int w, int h);
+  void paintGL();
+
+ public slots:
+  void newOutputFromPEM(Matrix4cd polarisation);
+  void newOutputFromPolariser(Matrix4cd polarisation);
+  void newOutputFromSample(Matrix4cd polarisation);
+  void newOutputFromAnalyser(Matrix4cd polarisation);
+
+
 };
 
 #endif // OGLWIDGET_H
