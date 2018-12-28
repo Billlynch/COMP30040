@@ -30,9 +30,6 @@ class SimulationThread : public QThread {
  protected:
   void run() override;
 
- signals:
-  void simComplete(ListMatrix4cd polarisations);
-
  public slots:
   void incrementPEMTimeProgression();
   void fireNextRay();
@@ -42,7 +39,8 @@ class SimulationThread : public QThread {
   QMutex mutex;
   QWaitCondition condition;
   bool restart, abort;
-  Eigen::Vector3d emissionPosition, emissionDirection;
+  Eigen::Vector3d emissionPosition = Eigen::Vector3d(-0.0, -5.0, 0.0);
+  Eigen::Vector3d emissionDirection;
 
   std::complex<double> m_q, m_n_1;
   SampleObject* sample;
@@ -61,6 +59,9 @@ class SimulationThread : public QThread {
 
  signals:
   void emittedNewRay(Matrix4cd polarisation);
+  void newAnalyiserPosition(Eigen::Vector3d analyiserPosition);
+  void simComplete(ListMatrix4cd polarisations);
+
 };
 
 #endif // SIMULATIONTHREAD_H

@@ -29,6 +29,8 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
   QMutexLocker locker(&mutex);
 
   connect(this, &SimulationThread::emittedNewRay, &representation, &OGLWidget::newOutputFromAnalyser);
+  connect(this, &SimulationThread::newAnalyiserPosition, &representation, &OGLWidget::newAnalyserPosition);
+
   //connect(&angleOfIncidenceSlider, &QSlider::sliderMoved, this, &SimulationThread::angleOfIncidenceChanged);
 
   m_q = {Q_r, Q_i};
@@ -52,7 +54,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
 }
 
 SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation) {
-  SampleObject* tempSample = new SampleObject( Eigen::Vector3d(0.0, 2.0, 0.0), // location
+  SampleObject* tempSample = new SampleObject( Eigen::Vector3d(0.0, 10.0, 0.0), // location
                                                Eigen::Vector3d(0.0, 1.0, 0.0), // normal
                                                10.0, // radius
                                                n1, // refractive index
@@ -148,15 +150,15 @@ void SimulationThread::fireNextRay() {
   n << 1.0, 0.0, 0.0, 1.0;
   outputFromTrace = {n};
   Matrix4cd polar = generateInitalPolarisation();
-  Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -1.0, 0.0);
+  //Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -10.0, 0.0);
+  //emit newAnalyiserPosition(this->emissionPosition);
   Eigen::Vector3d rayDir = Eigen::Vector3d(1.0, 1.0, 0.0);
 
-  //    Eigen::Vector3d rayOrigin = this->emissionPosition;
   //    Eigen::Vector3d rayDir = this->emissionDirection;
 
   int depth = 0;
 
-  Ray* ray = new Ray(rayOrigin, rayDir, polar, Eigen::Vector2d(1.0, 1.0));
+  Ray* ray = new Ray(this->emissionPosition, rayDir, polar, Eigen::Vector2d(1.0, 1.0));
   emit emittedNewRay(ray->getPolarisation());
   castRay(*ray, m_objectsInScene, depth);
   ray->setPolarisation( ray->getCalculationMatrix() * polar );
@@ -170,12 +172,21 @@ void SimulationThread::fireNextRay() {
 void SimulationThread::angleOfIncidenceChanged(double angle) {
   mutex.lock();
 
-  Eigen::Vector3d positionOfSample = Eigen::Vector3d(0.0, 2.0, 0.0);
+  // analysiser
+  Eigen::Vector3d positionOfSample = Eigen::Vector3d(0.0, 10.0, 0.0);
+  double adjLength = positionOfSample(1) - this->emissionPosition(1);
+  double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
+  this->emissionPosition(0) = -oppLength;
+  std::cout << "emitting: " << std::endl << this->emissionPosition << std::endl;
+  emit newAnalyiserPosition(this->emissionPosition);
 
-  foreach (CollideableObject *obj, this->m_objectsInScene) {
-    obj->newPosition(positionOfSample, angle);
-  }
 
+//  foreach (CollideableObject *obj, this->m_objectsInScene) {
+//    obj->newPosition(positionOfSample, angle);
+//  }
+
+  //Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -10.0, 0.0);
+  //emit newAnalyiserPosition(analysiser->newPosition(positionOfSample, angle));
   mutex.unlock();
 }
 

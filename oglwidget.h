@@ -25,6 +25,8 @@ class OGLWidget : public QOpenGLWidget {
   std::deque<Matrix4cd> samplePolarisations;
   std::deque<Matrix4cd> polariserPolarisations;
   std::deque<Matrix4cd> analyserPolarisations;
+  Eigen::Vector3d analysierPosition;
+  bool readyToRender = false;
 
   void drawRay(Matrix4cd& polarisaton,  unsigned position, int dir);
 
@@ -44,6 +46,7 @@ class OGLWidget : public QOpenGLWidget {
   void newOutputFromPolariser(Matrix4cd polarisation);
   void newOutputFromSample(Matrix4cd polarisation);
   void newOutputFromAnalyser(Matrix4cd polarisation);
+  void newAnalyserPosition(Eigen::Vector3d position);
 
 
 };

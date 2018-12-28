@@ -3,7 +3,6 @@
 
 OGLWidget::OGLWidget(QWidget* parent)
   : QOpenGLWidget(parent) {
-
 }
 
 void OGLWidget::drawRay(Matrix4cd& polarisaton, unsigned position, int dir) {
@@ -51,7 +50,7 @@ void OGLWidget::drawPolariser() {
 void OGLWidget::drawSample() {
   glPushMatrix();
   glColor3d(0.0, 1.0, 0.0);
-  glTranslated(0.0, 0.0, -2.0);
+  glTranslated(0.0, 10.0, 0.0);
   glutSolidCube(0.4);
 
   glPushMatrix();
@@ -66,7 +65,9 @@ void OGLWidget::drawSample() {
 void OGLWidget::drawAnalyser() {
   glPushMatrix();
   glColor3d(0.0, 1.0, 0.0);
-  glTranslated(-4.0, 0.0, 2.0);
+  glTranslated(this->analysierPosition.x(),
+               this->analysierPosition.y(),
+               this->analysierPosition.z());
   glRotated(315.0, 0, 1, 0);
   glutSolidCube(0.4);
 
@@ -96,14 +97,39 @@ void OGLWidget::initializeGL() {
 }
 
 void OGLWidget::paintGL() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (readyToRender) {
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  drawPEM();
-  drawSample();
-  drawPolariser();
-  drawAnalyser();
+//      // X axis (left and right)
+//      glPushMatrix();
+//          glLineWidth(3.0);
 
-  glFlush();
+//          glBegin(GL_LINES);
+//          //x
+//          glColor3f(255, 0, 0);
+//          glVertex3f(0, 0, 0);
+//          glVertex3f(30, 0, 0);
+
+//          //y
+//          glColor3f(0, 255, 0);
+//          glVertex3f(0, 0, 0);
+//          glVertex3f(0, 30, 0);
+
+//          //z
+//          glColor3f(255, 255, 255);
+//          glVertex3f(0, 0, 0);
+//          glVertex3f(0, 0, 30);
+//          glEnd();
+//          glLineWidth(1.0);
+//       glPopMatrix();
+
+      //drawPEM();
+      drawSample();
+      //drawPolariser();
+      drawAnalyser();
+
+      glFlush();
+    }
 }
 
 void OGLWidget::newOutputFromPEM(Matrix4cd polarisation) {
@@ -142,14 +168,21 @@ void OGLWidget::newOutputFromAnalyser(Matrix4cd polarisation) {
   repaint();
 }
 
+void OGLWidget::newAnalyserPosition(Eigen::Vector3d position)
+{
+    readyToRender = true;
+    std::cout << "new analysise position: "<< std::endl << this->analysierPosition << std::endl;
+    this->analysierPosition = position;
+}
+
 void OGLWidget::resizeGL(int w, int h) {
   glViewport(0, 0, w, h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(45, static_cast<double>(w / h), 0.01, 100.0);
+  gluPerspective(45, static_cast<double>(w / h), 0.01, 10000.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(0, 5, 10,
+  gluLookAt(0, -20, 25,
             0, 0, 0,
-            0, 1, 0);
+            0, 0, 1);
 }
