@@ -222,7 +222,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSlider" name="horizontalSlider_2">
+        <widget class="QSlider" name="angle_of_incidence">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

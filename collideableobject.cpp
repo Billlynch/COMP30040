@@ -26,5 +26,12 @@ const Eigen::Vector3d& CollideableObject::getLocation() const {
 }
 
 void CollideableObject::setLocation(const Eigen::Vector3d& location) {
-  CollideableObject::m_location = location;
+    CollideableObject::m_location = location;
+}
+
+void CollideableObject::newPosition(Eigen::Vector3d samplePositition, double angle)
+{
+    double adjLength = samplePositition(1) - this->m_location(2);
+    double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
+    this->m_location(0) = oppLength;
 }

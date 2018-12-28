@@ -36,9 +36,12 @@ class MOKELaserSim : public QMainWindow {
 
   void on_horizontalSlider_valueChanged(int value);
 
-  void on_horizontalSlider_2_sliderMoved(int position);
 
- private:
+  void on_angle_of_incidence_sliderReleased();
+
+  void on_angle_of_incidence_valueChanged(int value);
+
+private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;
   SimulationThread thread;

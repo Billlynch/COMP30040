@@ -62,6 +62,7 @@ void MOKELaserSim::on_horizontalSlider_valueChanged(int value) {
   eventLoopTimer->setInterval(2 * value);
 }
 
-void MOKELaserSim::on_horizontalSlider_2_sliderMoved(int position) {
-  thread.angleOfIncidenceChanged(static_cast<double>(position));
+void MOKELaserSim::on_angle_of_incidence_valueChanged(int angle)
+{
+    thread.angleOfIncidenceChanged(static_cast<double>(angle));
 }

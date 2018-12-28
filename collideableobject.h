@@ -27,6 +27,8 @@ class CollideableObject:  public QObject {
 
   void setLocation(const Eigen::Vector3d& location);
 
+  void newPosition(Eigen::Vector3d samplePositition, double angle);
+
   virtual void collide(Ray& ray, Eigen::Vector3d& pointOfInterception) = 0;
   virtual bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) = 0;
 };

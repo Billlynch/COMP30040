@@ -171,18 +171,10 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
   mutex.lock();
 
   Eigen::Vector3d positionOfSample = Eigen::Vector3d(0.0, 2.0, 0.0);
-  Eigen::Vector3d yPlaneForLightEmission = Eigen::Vector3d(0.0, -2.0, 0.0);
 
-  // calculate distance
-  double adjDist = std::sqrt( (std::pow(positionOfSample(0) - yPlaneForLightEmission(0), 2)) + (std::pow(positionOfSample(1) - yPlaneForLightEmission(1), 2)) + (std::pow(positionOfSample(2) - yPlaneForLightEmission(2), 2)) );
-
-  // distance of the opp
-  double oppDist = std::tan(angle * (M_PI / 180.0)) * adjDist;
-
-  // add this distance to the yPlane
-  this->emissionPosition = Eigen::Vector3d(yPlaneForLightEmission(0) + oppDist, yPlaneForLightEmission(1), yPlaneForLightEmission(2));
-
-  this->emissionDirection = positionOfSample - emissionPosition;
+  foreach (CollideableObject *obj, this->m_objectsInScene) {
+    obj->newPosition(positionOfSample, angle);
+  }
 
   mutex.unlock();
 }
