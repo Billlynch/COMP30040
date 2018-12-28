@@ -8,7 +8,6 @@ OGLWidget::OGLWidget(QWidget* parent)
 
 void OGLWidget::drawRay(Matrix4cd& polarisaton, unsigned position, int dir) {
   GLUquadric* quadratic = gluNewQuadric();
-  //std::cout << "draw! - " << this->polarisations.size() << std::endl;
   glPushMatrix();
   glTranslated(0.0, 0.0, dir * static_cast<double>(position) * 0.2);
   glColor3f(1.0f, 0.0f, 0.0f);
@@ -30,7 +29,6 @@ void OGLWidget::drawPEM() {
   glRotated(315.0, 0, 1, 0);
   glutSolidCube(0.4);
 
-  // draw rays coming from the PEM
   for (unsigned i = 0; i < this->PEMpolarisations.size() - 1; i++) {
     drawRay(this->PEMpolarisations.at(i), i, -1);
   }
@@ -44,7 +42,6 @@ void OGLWidget::drawPolariser() {
   glRotated(-315.0, 0, 1, 0);
   glutSolidCube(0.4);
 
-  // draw rays coming from the Polariser
   for (unsigned i = 0; i < this->polariserPolarisations.size() - 1; i++) {
     drawRay(this->polariserPolarisations.at(i), i, 1);
   }
@@ -59,7 +56,6 @@ void OGLWidget::drawSample() {
 
   glPushMatrix();
   glRotated(45.0, 0, 1, 0);
-  // draw rays coming from the Sample
   for (unsigned i = 0; i < this->samplePolarisations.size() - 1; i++) {
     drawRay(this->samplePolarisations.at(i), i, 1);
   }
@@ -75,7 +71,6 @@ void OGLWidget::drawAnalyser() {
   glutSolidCube(0.4);
 
   glPushMatrix();
-  // draw rays coming from the Sample
   for (unsigned i = 0; i < this->analyserPolarisations.size() - 1; i++) {
     drawRay(this->analyserPolarisations.at(i), i, -1);
   }
