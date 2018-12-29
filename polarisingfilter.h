@@ -9,7 +9,6 @@ typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22d;
 
 class PolarisingFilter : public CollideableObject {
   Q_OBJECT
-  Eigen::Vector3d m_normal;
   Matrix22d m_polarizationMatrix;
   Eigen::Vector2d m_targetPolarisation;
   double m_radius;
@@ -38,11 +37,12 @@ class PolarisingFilter : public CollideableObject {
   }
 
   void calculateAngleOfInterception(Ray& ray, std::complex<double>& theta0) {
-    m_normal.normalize();
+    auto normal = this->getNormal();
+    normal.normalize();
     Eigen::Vector3d rayDirection = ray.getDirection();
     rayDirection.normalize();
-    std::complex<double> numerator0 = rayDirection.dot(m_normal);
-    std::complex<double> denominator0 = rayDirection.norm() * m_normal.norm();
+    std::complex<double> numerator0 = rayDirection.dot(normal);
+    std::complex<double> denominator0 = rayDirection.norm() * normal.norm();
     theta0 = acos(numerator0 / denominator0); // the angle of incidence
   }
 

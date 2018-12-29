@@ -13,7 +13,7 @@
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
-const float degreeMulitplier2 = static_cast<float>(180.0 / M_PI);
+const double degreeMulitplier2 = 180.0 / M_PI;
 
 
 class OGLWidget : public QOpenGLWidget {
@@ -30,6 +30,10 @@ class OGLWidget : public QOpenGLWidget {
   Eigen::Vector3d analysierPosition;
   Eigen::Vector3d pemPosition;
   Eigen::Vector3d polarisationPosition;
+  Eigen::Vector3d rayDirectionInit;
+  std::vector<CollideableObject*> objectsInScene;
+
+
 
   bool readyToRender = false;
 
@@ -39,6 +43,7 @@ class OGLWidget : public QOpenGLWidget {
   void drawPolariser();
   void drawSample();
   void drawAnalyser();
+  void drawObject(CollideableObject& obj);
 
 
  protected:
@@ -51,7 +56,9 @@ class OGLWidget : public QOpenGLWidget {
   void newOutputFromPolariser(Matrix4cd polarisation);
   void newOutputFromSample(Matrix4cd polarisation);
   void newOutputFromAnalyser(Matrix4cd polarisation);
-  void newPositions(Eigen::Vector3d position, std::vector<CollideableObject*> objectsInScene);
+  void newPositions(Eigen::Vector3d position,
+                    Eigen::Vector3d rayDirection,
+                    std::vector<CollideableObject*> objectsInScene);
 
 
 };

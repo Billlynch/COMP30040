@@ -12,7 +12,6 @@ class PEM :  public CollideableObject {
   Matrix22cd m_polarizationMatrix;
   std::complex<double> m_phaseAmplitude;
   std::complex<double> m_angularFrequency;
-  Eigen::Vector3d m_normal;
   double time, m_radius;
   std::complex<double> m_i = {0, 1};
 

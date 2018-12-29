@@ -39,8 +39,8 @@ class SimulationThread : public QThread {
   QMutex mutex;
   QWaitCondition condition;
   bool restart, abort;
-  Eigen::Vector3d emissionPosition = Eigen::Vector3d(-0.0, -5.0, 0.0);
-  Eigen::Vector3d emissionDirection;
+  Eigen::Vector3d emissionPosition = Eigen::Vector3d(0.0, -5.0, 0.0);
+  Eigen::Vector3d emissionDirection = Eigen::Vector3d(1.0, 1.0, 0.0);
 
   std::complex<double> m_q, m_n_1;
   SampleObject* sample;
@@ -59,7 +59,7 @@ class SimulationThread : public QThread {
 
  signals:
   void emittedNewRay(Matrix4cd polarisation);
-  void newPositions(Eigen::Vector3d analyiserPosition, std::vector<CollideableObject*> objectsInScene);
+  void newPositions(Eigen::Vector3d analyiserPosition, Eigen::Vector3d rayDirection, std::vector<CollideableObject*> objectsInScene);
   void simComplete(ListMatrix4cd polarisations);
 
 };

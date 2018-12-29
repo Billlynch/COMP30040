@@ -17,10 +17,9 @@ PEM::PEM(Eigen::Vector3d location,
          Eigen::Vector3d normal,
          double radius,
          std::complex<double> phaseAmplitude,
-         std::complex<double> angularFrequency) : CollideableObject (location, side),
+         std::complex<double> angularFrequency) : CollideableObject (location, side, normal),
   m_phaseAmplitude(phaseAmplitude),
   m_angularFrequency(angularFrequency),
-  m_normal(normal),
   m_radius(radius)
 {}
 
@@ -32,7 +31,7 @@ int PEM::getType()
 bool PEM::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
   double t;
 
-  if (this->interceptPlane(ray, m_normal, t)) {
+  if (this->interceptPlane(ray, t)) {
     pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);

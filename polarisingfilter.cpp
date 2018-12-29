@@ -7,8 +7,7 @@ PolarisingFilter::PolarisingFilter(Eigen::Vector3d location,
                                    Eigen::Vector3d normal,
                                    double radius,
                                    std::complex<double> n1,
-                                   Eigen::Vector2d targetPolarisation) : CollideableObject (location, side) {
-  m_normal = normal;
+                                   Eigen::Vector2d targetPolarisation) : CollideableObject (location, side, normal) {
   m_radius = radius;
   m_n1 = n1;
   m_targetPolarisation = targetPolarisation;
@@ -27,7 +26,7 @@ void PolarisingFilter::collide(Ray& ray, Eigen::Vector3d& pointOfInterception) {
 bool PolarisingFilter::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
   double t;
 
-  if (this->interceptPlane(ray, m_normal, t)) {
+  if (this->interceptPlane(ray, t)) {
     pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);

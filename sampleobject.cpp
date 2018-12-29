@@ -7,8 +7,7 @@ SampleObject::SampleObject(Eigen::Vector3d location,
                            Eigen::Vector3d normal,
                            double radius,
                            std::complex<double> n1,
-                           std::complex<double> q) : CollideableObject (location, side) {
-  m_normal = normal;
+                           std::complex<double> q) : CollideableObject (location, side, normal) {
   m_radius = radius;
   m_n1 = n1;
   m_q = q;
@@ -62,7 +61,7 @@ void SampleObject::collide(Ray& ray, Eigen::Vector3d& pointOfInterception) {
   ray.calculationMatrixMultiplication(m_R);
 
   // assuming perfect refraction - should be theta1
-  ray.setDirection(ray.getDirection() - 2 * (ray.getDirection().dot(m_normal)) * m_normal );
+  ray.setDirection(ray.getDirection() - 2 * (ray.getDirection().dot(this->getNormal())) * this->getNormal());
   ray.setOrigin(pointOfInterception + ray.getDirection() * 0.01f); // move it along the normal so it won't hit the same object again
   emit outputPolarisationUpdated(ray.getPolarisation());
 }
@@ -70,7 +69,7 @@ void SampleObject::collide(Ray& ray, Eigen::Vector3d& pointOfInterception) {
 bool SampleObject::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
   double t;
 
-  if (this->interceptPlane(ray, m_normal, t)) {
+  if (this->interceptPlane(ray, t)) {
     pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);

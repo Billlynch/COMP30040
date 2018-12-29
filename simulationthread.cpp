@@ -175,13 +175,15 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
   double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
   this->emissionPosition(0) = -oppLength;
 
-  // other objects
-  foreach (CollideableObject *obj, this->m_objectsInScene) {
-    obj->newPosition(positionOfSample, angle);
-  }
-
   // set the new angle direction for the ray
   this->emissionDirection = this->sample->getLocation() - this->emissionPosition;
+
+  // other objects
+  foreach (CollideableObject *obj, this->m_objectsInScene) {
+    obj->newPosition(positionOfSample, angle, this->emissionDirection);
+  }
+
+
 
   // notifity the visualisation
   emit newPositions(this->emissionPosition, this->emissionDirection, this->m_objectsInScene);

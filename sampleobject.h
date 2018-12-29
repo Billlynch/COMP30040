@@ -10,7 +10,6 @@ class SampleObject : public CollideableObject {
   std::complex<double> m_q;
   std::complex<double> m_i;
   std::complex<double> m_n0; // air
-  Eigen::Vector3d m_normal;
   std::complex<double> m_x;
   std::complex<double> m_n1;
   std::complex<double> m_rpp;
@@ -42,11 +41,12 @@ class SampleObject : public CollideableObject {
   }
 
   void calculateAngleOfInterception(Ray& ray, std::complex<double>& theta0) {
-    m_normal.normalize();
+    auto normal = this->getNormal();
+    normal.normalize();
     Eigen::Vector3d rayDirection = ray.getDirection();
     rayDirection.normalize();
-    std::complex<double> numerator0 = rayDirection.dot(m_normal);
-    std::complex<double> denominator0 = rayDirection.norm() * m_normal.norm();
+    std::complex<double> numerator0 = rayDirection.dot(normal);
+    std::complex<double> denominator0 = rayDirection.norm() * normal.norm();
     theta0 = acos(numerator0 / denominator0); // the angle of incidence
   }
 
