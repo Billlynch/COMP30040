@@ -74,7 +74,9 @@ void OGLWidget::drawAnalyser() {
   glTranslated(this->analysierPosition.x(),
                this->analysierPosition.y(),
                this->analysierPosition.z());
-  glRotated(315.0, 0, 1, 0);
+
+  glRotated(std::atan(this->rayDirectionInit.x() / this->rayDirectionInit.y()), 0, 1, 0);
+
   glutSolidCube(0.4);
 
   glPushMatrix();
@@ -174,8 +176,12 @@ void OGLWidget::newOutputFromAnalyser(Matrix4cd polarisation) {
   repaint();
 }
 
-void OGLWidget::newPositions(Eigen::Vector3d position, std::vector<CollideableObject*> objectsInScene)
+void OGLWidget::newPositions(Eigen::Vector3d position,
+                              Eigen::Vector3d rayDirection,
+                             std::vector<CollideableObject*> objectsInScene)
 {
+    this->rayDirectionInit = rayDirection;
+
     foreach (CollideableObject *obj, objectsInScene) {
         if (obj->getType() == 1) { // PEM
             this->pemPosition = obj->getLocation();

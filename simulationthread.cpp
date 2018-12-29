@@ -153,15 +153,9 @@ void SimulationThread::fireNextRay() {
   n << 1.0, 0.0, 0.0, 1.0;
   outputFromTrace = {n};
   Matrix4cd polar = generateInitalPolarisation();
-  //Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -10.0, 0.0);
-  //emit newAnalyiserPosition(this->emissionPosition);
-  Eigen::Vector3d rayDir = Eigen::Vector3d(1.0, 1.0, 0.0);
-
-  //    Eigen::Vector3d rayDir = this->emissionDirection;
-
   int depth = 0;
 
-  Ray* ray = new Ray(this->emissionPosition, rayDir, polar, Eigen::Vector2d(1.0, 1.0));
+  Ray* ray = new Ray(this->emissionPosition, this->emissionDirection, polar, Eigen::Vector2d(1.0, 1.0));
   emit emittedNewRay(ray->getPolarisation());
   castRay(*ray, m_objectsInScene, depth);
   ray->setPolarisation( ray->getCalculationMatrix() * polar );
@@ -186,8 +180,11 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
     obj->newPosition(positionOfSample, angle);
   }
 
+  // set the new angle direction for the ray
+  this->emissionDirection = this->sample->getLocation() - this->emissionPosition;
+
   // notifity the visualisation
-  emit newPositions(this->emissionPosition, this->m_objectsInScene);
+  emit newPositions(this->emissionPosition, this->emissionDirection, this->m_objectsInScene);
 
   mutex.unlock();
 }
