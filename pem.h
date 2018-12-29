@@ -20,12 +20,14 @@ class PEM :  public CollideableObject {
 
  public:
   PEM(Eigen::Vector3d location,
+      int side,
       Eigen::Vector3d normal,
       double radius,
       std::complex<double> phaseAmplitude,
       std::complex<double> angularFrequency);
 
   ~PEM() {}
+  int getType();
 
   void collide(Ray& ray, Eigen::Vector3d& pointOfInterception);
   bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception);

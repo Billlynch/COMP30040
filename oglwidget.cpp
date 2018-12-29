@@ -24,7 +24,10 @@ void OGLWidget::drawRay(Matrix4cd& polarisaton, unsigned position, int dir) {
 void OGLWidget::drawPEM() {
   glPushMatrix();
   glColor3d(0.0, 1.0, 0.0);
-  glTranslated(-2.0, 0.0, 0.0);
+  //glTranslated(-2.0, 0.0, 0.0);
+  glTranslated(this->pemPosition.x(),
+               this->pemPosition.y(),
+               this->pemPosition.z());
   glRotated(315.0, 0, 1, 0);
   glutSolidCube(0.4);
 
@@ -37,7 +40,10 @@ void OGLWidget::drawPEM() {
 void OGLWidget::drawPolariser() {
   glPushMatrix();
   glColor3d(0.0, 1.0, 0.0);
-  glTranslated(2.0, 0.0, 0.0);
+  //glTranslated(2.0, 0.0, 0.0);
+  glTranslated(this->polarisationPosition.x(),
+               this->polarisationPosition.y(),
+               this->polarisationPosition.z());
   glRotated(-315.0, 0, 1, 0);
   glutSolidCube(0.4);
 
@@ -123,9 +129,9 @@ void OGLWidget::paintGL() {
 //          glLineWidth(1.0);
 //       glPopMatrix();
 
-      //drawPEM();
+      drawPEM();
       drawSample();
-      //drawPolariser();
+      drawPolariser();
       drawAnalyser();
 
       glFlush();
@@ -168,11 +174,17 @@ void OGLWidget::newOutputFromAnalyser(Matrix4cd polarisation) {
   repaint();
 }
 
-void OGLWidget::newAnalyserPosition(Eigen::Vector3d position)
+void OGLWidget::newPositions(Eigen::Vector3d position, std::vector<CollideableObject*> objectsInScene)
 {
-    readyToRender = true;
-    std::cout << "new analysise position: "<< std::endl << this->analysierPosition << std::endl;
+    foreach (CollideableObject *obj, objectsInScene) {
+        if (obj->getType() == 1) { // PEM
+            this->pemPosition = obj->getLocation();
+        } else if (obj->getType() == 2) { // polarising filter
+            this->polarisationPosition = obj->getLocation();
+        }
+    }
     this->analysierPosition = position;
+    readyToRender = true;
 }
 
 void OGLWidget::resizeGL(int w, int h) {

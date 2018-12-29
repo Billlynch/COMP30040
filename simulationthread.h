@@ -59,7 +59,7 @@ class SimulationThread : public QThread {
 
  signals:
   void emittedNewRay(Matrix4cd polarisation);
-  void newAnalyiserPosition(Eigen::Vector3d analyiserPosition);
+  void newPositions(Eigen::Vector3d analyiserPosition, std::vector<CollideableObject*> objectsInScene);
   void simComplete(ListMatrix4cd polarisations);
 
 };

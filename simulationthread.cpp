@@ -29,7 +29,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
   QMutexLocker locker(&mutex);
 
   connect(this, &SimulationThread::emittedNewRay, &representation, &OGLWidget::newOutputFromAnalyser);
-  connect(this, &SimulationThread::newAnalyiserPosition, &representation, &OGLWidget::newAnalyserPosition);
+  connect(this, &SimulationThread::newPositions, &representation, &OGLWidget::newPositions);
 
   //connect(&angleOfIncidenceSlider, &QSlider::sliderMoved, this, &SimulationThread::angleOfIncidenceChanged);
 
@@ -55,6 +55,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
 
 SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation) {
   SampleObject* tempSample = new SampleObject( Eigen::Vector3d(0.0, 10.0, 0.0), // location
+                                               0, // side
                                                Eigen::Vector3d(0.0, 1.0, 0.0), // normal
                                                10.0, // radius
                                                n1, // refractive index
@@ -67,6 +68,7 @@ SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::comple
 
 PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation, OGLWidget& representation) {
   PolarisingFilter* tempPolarisingFilter = new PolarisingFilter(Eigen::Vector3d(1.0, 1.0, 0.0),
+                                                                1, // side
                                                                 Eigen::Vector3d(0.0, 1.0, 0.0),
                                                                 1.0,
                                                                 1.0, // no refractive index for now
@@ -79,6 +81,7 @@ PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolaris
 
 PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget& representation) {
   PEM* tempPEM = new PEM(Eigen::Vector3d(-1.0, 1.0, 0.0),
+                         -1, // side
                          Eigen::Vector3d(0.0, 1.0, 0.0),
                          1.0,
                          phase,
@@ -177,16 +180,15 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
   double adjLength = positionOfSample(1) - this->emissionPosition(1);
   double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
   this->emissionPosition(0) = -oppLength;
-  std::cout << "emitting: " << std::endl << this->emissionPosition << std::endl;
-  emit newAnalyiserPosition(this->emissionPosition);
 
+  // other objects
+  foreach (CollideableObject *obj, this->m_objectsInScene) {
+    obj->newPosition(positionOfSample, angle);
+  }
 
-//  foreach (CollideableObject *obj, this->m_objectsInScene) {
-//    obj->newPosition(positionOfSample, angle);
-//  }
+  // notifity the visualisation
+  emit newPositions(this->emissionPosition, this->m_objectsInScene);
 
-  //Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -10.0, 0.0);
-  //emit newAnalyiserPosition(analysiser->newPosition(positionOfSample, angle));
   mutex.unlock();
 }
 

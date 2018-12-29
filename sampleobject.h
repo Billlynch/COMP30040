@@ -22,6 +22,7 @@ class SampleObject : public CollideableObject {
 
  public:
   SampleObject(Eigen::Vector3d location,
+               int side,
                Eigen::Vector3d normal,
                double radius,
                std::complex<double> n1,
@@ -31,7 +32,7 @@ class SampleObject : public CollideableObject {
 
   void collide(Ray& ray, Eigen::Vector3d& pointOfInterception);
   bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception);
-
+  int getType();
   void calculatePolarisationUsingGriggsFormulae(Ray& ray, std::complex<double>& theta0, std::complex<double>& theta1);
 
  protected:

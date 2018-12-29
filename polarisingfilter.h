@@ -17,6 +17,7 @@ class PolarisingFilter : public CollideableObject {
 
  public:
   PolarisingFilter(Eigen::Vector3d location,
+                   int side,
                    Eigen::Vector3d normal,
                    double radius,
                    std::complex<double> n1,
@@ -26,6 +27,7 @@ class PolarisingFilter : public CollideableObject {
 
   void collide(Ray& ray, Eigen::Vector3d& pointOfInterception);
   bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception);
+  int getType();
 
  protected:
   void calculatePolarisationMatrix();

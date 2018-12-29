@@ -3,10 +3,11 @@
 
 
 SampleObject::SampleObject(Eigen::Vector3d location,
+                           int side,
                            Eigen::Vector3d normal,
                            double radius,
                            std::complex<double> n1,
-                           std::complex<double> q) : CollideableObject (location) {
+                           std::complex<double> q) : CollideableObject (location, side) {
   m_normal = normal;
   m_radius = radius;
   m_n1 = n1;
@@ -80,4 +81,9 @@ bool SampleObject::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
   }
 
   return false;
+}
+
+int SampleObject::getType()
+{
+    return 3;
 }

@@ -1,6 +1,8 @@
 #ifndef OGLWIDGET_H
 #define OGLWIDGET_H
 
+#include "collideableobject.h"
+
 #include <QWidget>
 #include <QOpenGLWidget>
 #include <Dense>
@@ -26,6 +28,9 @@ class OGLWidget : public QOpenGLWidget {
   std::deque<Matrix4cd> polariserPolarisations;
   std::deque<Matrix4cd> analyserPolarisations;
   Eigen::Vector3d analysierPosition;
+  Eigen::Vector3d pemPosition;
+  Eigen::Vector3d polarisationPosition;
+
   bool readyToRender = false;
 
   void drawRay(Matrix4cd& polarisaton,  unsigned position, int dir);
@@ -46,7 +51,7 @@ class OGLWidget : public QOpenGLWidget {
   void newOutputFromPolariser(Matrix4cd polarisation);
   void newOutputFromSample(Matrix4cd polarisation);
   void newOutputFromAnalyser(Matrix4cd polarisation);
-  void newAnalyserPosition(Eigen::Vector3d position);
+  void newPositions(Eigen::Vector3d position, std::vector<CollideableObject*> objectsInScene);
 
 
 };

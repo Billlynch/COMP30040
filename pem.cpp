@@ -13,15 +13,21 @@ void PEM::calculatePolarisationMatrix() {
 }
 
 PEM::PEM(Eigen::Vector3d location,
+         int side,
          Eigen::Vector3d normal,
          double radius,
          std::complex<double> phaseAmplitude,
-         std::complex<double> angularFrequency) : CollideableObject (location),
+         std::complex<double> angularFrequency) : CollideableObject (location, side),
   m_phaseAmplitude(phaseAmplitude),
   m_angularFrequency(angularFrequency),
   m_normal(normal),
   m_radius(radius)
 {}
+
+int PEM::getType()
+{
+    return 1;
+}
 
 bool PEM::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
   double t;

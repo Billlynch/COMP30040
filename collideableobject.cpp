@@ -15,8 +15,8 @@ bool CollideableObject::interceptPlane(Ray& ray, Eigen::Vector3d& normal, double
   return false;
 }
 
-CollideableObject::CollideableObject(const Eigen::Vector3d& location) :
-  m_location(location) {
+CollideableObject::CollideableObject(const Eigen::Vector3d& location, int side) :
+  m_location(location), side(side){
 }
 
 CollideableObject::~CollideableObject() = default;
@@ -33,6 +33,6 @@ Eigen::Vector3d CollideableObject::newPosition(Eigen::Vector3d samplePositition,
 {
     double adjLength = samplePositition(1) - this->m_location(2);
     double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
-    this->m_location(0) = oppLength;
+    this->m_location(0) = oppLength * side;
     return this->m_location;
 }

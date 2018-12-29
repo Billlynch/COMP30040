@@ -3,10 +3,11 @@
 
 
 PolarisingFilter::PolarisingFilter(Eigen::Vector3d location,
+                                   int side,
                                    Eigen::Vector3d normal,
                                    double radius,
                                    std::complex<double> n1,
-                                   Eigen::Vector2d targetPolarisation) : CollideableObject (location) {
+                                   Eigen::Vector2d targetPolarisation) : CollideableObject (location, side) {
   m_normal = normal;
   m_radius = radius;
   m_n1 = n1;
@@ -37,6 +38,11 @@ bool PolarisingFilter::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception)
   }
 
   return false;
+}
+
+int PolarisingFilter::getType()
+{
+  return 2;
 }
 
 void PolarisingFilter::calculatePolarisationMatrix() {
