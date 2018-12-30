@@ -66,7 +66,6 @@ class SampleObject : public CollideableObject {
   }
 
 
-
  signals:
   void outputPolarisationUpdated(Matrix4cd polarisation);
   void outputDirectionUpdated(Eigen::Vector3d direction);
