@@ -62,6 +62,7 @@ SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::comple
                                                q); // Q value
 
   connect(tempSample, &SampleObject::outputPolarisationUpdated, &representation, &OGLWidget::newOutputFromSample);
+  connect(tempSample, &SampleObject::outputDirectionUpdated, &representation, &OGLWidget::newAngleOfReflection);
 
   return tempSample;
 }
@@ -83,7 +84,7 @@ PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<dou
   PEM* tempPEM = new PEM(Eigen::Vector3d(-1.0, 1.0, 0.0),
                          -1, // side
                          Eigen::Vector3d(0.0, 1.0, 0.0),
-                         1.0,
+                         5.0,
                          phase,
                          amplitude);
 
@@ -101,27 +102,6 @@ Matrix4cd SimulationThread::generateInitalPolarisation() {
   polar << Epp, Eps, Esp, Ess;
 
   return polar;
-}
-
-void SimulationThread::trace(ListMatrix4cd& outputList, std::vector<CollideableObject*>& objectsInScene, int& rayCount) {
-  Matrix4d n;
-  n << 1.0, 0.0, 0.0, 1.0;
-  outputList = {n};
-  Matrix4cd polar = generateInitalPolarisation();
-
-  for (int k = 0; k < rayCount; k++) {
-    //cast ray from the correct position (origin) - for now all rays are going staight ahead in x
-    Eigen::Vector3d rayOrigin = Eigen::Vector3d(-2.0, -1.0, 0.0);
-    Eigen::Vector3d rayDir = Eigen::Vector3d(1.0, 1.0, 0.0);
-
-    int depth = 0;
-
-    Ray* ray = new Ray(rayOrigin, rayDir, polar, Eigen::Vector2d(1.0, 1.0));
-    castRay(*ray, objectsInScene, depth);
-    ray->setPolarisation( ray->getCalculationMatrix() * polar );
-    outputList.push_back(ray->getPolarisation());
-    delete ray;
-  }
 }
 
 void SimulationThread::castRay(Ray& ray, std::vector<CollideableObject*>& objectsInScene, int& depth) {
@@ -177,13 +157,10 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
 
   // set the new angle direction for the ray
   this->emissionDirection = this->sample->getLocation() - this->emissionPosition;
-
   // other objects
   foreach (CollideableObject *obj, this->m_objectsInScene) {
     obj->newPosition(positionOfSample, angle, this->emissionDirection);
   }
-
-
 
   // notifity the visualisation
   emit newPositions(this->emissionPosition, this->emissionDirection, this->m_objectsInScene);

@@ -33,7 +33,7 @@ class CollideableObject:  public QObject {
 
   virtual int getType() = 0; // 0 = light source, 1 = PEM, 2 = polarising filter, 3 = sample
 
-  Eigen::Vector3d newPosition(Eigen::Vector3d samplePositition, double angle, Eigen::Vector3d rayDirection);
+  Eigen::Vector3d* newPosition(Eigen::Vector3d samplePositition, double angle, Eigen::Vector3d emissionDirection);
 
   virtual void collide(Ray& ray, Eigen::Vector3d& pointOfInterception) = 0;
   virtual bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) = 0;

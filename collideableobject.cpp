@@ -1,4 +1,5 @@
 #include "collideableobject.h"
+#include <iostream>
 
 bool CollideableObject::interceptPlane(Ray& ray, double& t) {
   Eigen::Vector3d rayDirection = ray.getDirection();
@@ -33,15 +34,18 @@ void CollideableObject::setLocation(const Eigen::Vector3d& location) {
     CollideableObject::m_location = location;
 }
 
-Eigen::Vector3d CollideableObject::newPosition(Eigen::Vector3d samplePositition, double angle, Eigen::Vector3d rayDirection)
+Eigen::Vector3d* CollideableObject::newPosition(Eigen::Vector3d samplePositition, double angle, Eigen::Vector3d emissionDirection)
 {
-    double adjLength = samplePositition(1) - this->m_location(2);
+    double adjLength = samplePositition(1) - this->m_location(1);
     double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
     this->m_location(0) = oppLength * side;
 
+    if  (side == 1) {
+     std::cout << "PEM being calced" << std::endl;
+    }
     if  (side != 0) {
-        this->m_normal = rayDirection;
+        this->m_normal = emissionDirection;
         this->m_normal(0) = this->m_normal(0) * side;
     }
-    return this->m_location;
+    return nullptr;
 }

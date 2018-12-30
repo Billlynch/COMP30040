@@ -65,4 +65,5 @@ void MOKELaserSim::on_horizontalSlider_valueChanged(int value) {
 void MOKELaserSim::on_angle_of_incidence_valueChanged(int angle)
 {
     thread.angleOfIncidenceChanged(static_cast<double>(angle));
+    this->ui->currentAngle->display(angle);
 }

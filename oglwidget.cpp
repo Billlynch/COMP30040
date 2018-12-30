@@ -8,11 +8,11 @@ OGLWidget::OGLWidget(QWidget* parent)
 void OGLWidget::drawRay(Matrix4cd& polarisaton, unsigned position, int dir) {
   GLUquadric* quadratic = gluNewQuadric();
   glPushMatrix();
-  glTranslated(0.0, 0.0, dir * static_cast<double>(position) * 0.2);
+  glTranslated(0.0, dir * static_cast<double>(position) * 0.2, 0.0);
   glColor3f(1.0f, 0.0f, 0.0f);
   glRotatef(90.0f, 1, 0, 0); // set the Cylinder pointing the right way
-  glRotated(polarisaton(0, 0).real() * degreeMulitplier2, 0, 1, 0);
-  glRotated(polarisaton(1, 1).real() * degreeMulitplier2, 0, 0, 1);
+  glRotated(polarisaton(0, 0).real() * degreeMulitplier2, 1, 0, 0);
+  glRotated(polarisaton(1, 1).real() * degreeMulitplier2, 0, 1, 0);
   glPushMatrix();
   gluCylinder(quadratic, 0.1, 0.1, 1, 12, 12);
   glTranslatef(0.0f, 0.0f, -0.5f);
@@ -37,38 +37,7 @@ void OGLWidget::drawPEM() {
   glPopMatrix();
 }
 
-void OGLWidget::drawPolariser() {
-  glPushMatrix();
-  glColor3d(0.0, 1.0, 0.0);
-  //glTranslated(2.0, 0.0, 0.0);
-  glTranslated(this->polarisationPosition.x(),
-               this->polarisationPosition.y(),
-               this->polarisationPosition.z());
-  //glRotated(-315.0, 0, 1, 0);
-  glRotated(std::atan(this->rayDirectionInit.x() / this->rayDirectionInit.y()), 0, 0, 1);
 
-  glutSolidCube(0.4);
-
-  for (unsigned i = 0; i < this->polariserPolarisations.size() - 1; i++) {
-    drawRay(this->polariserPolarisations.at(i), i, 1);
-  }
-  glPopMatrix();
-}
-
-void OGLWidget::drawSample() {
-  glPushMatrix();
-  glColor3d(0.0, 1.0, 0.0);
-  glTranslated(0.0, 10.0, 0.0);
-  glutSolidCube(0.4);
-
-  glPushMatrix();
-  glRotated(45.0, 0, 1, 0);
-  for (unsigned i = 0; i < this->samplePolarisations.size() - 1; i++) {
-    drawRay(this->samplePolarisations.at(i), i, 1);
-  }
-  glPopMatrix();
-  glPopMatrix();
-}
 
 void OGLWidget::drawAnalyser() {
   glPushMatrix();
@@ -83,7 +52,7 @@ void OGLWidget::drawAnalyser() {
 
   glPushMatrix();
   for (unsigned i = 0; i < this->analyserPolarisations.size() - 1; i++) {
-    drawRay(this->analyserPolarisations.at(i), i, -1);
+    drawRay(this->analyserPolarisations.at(i), i, 1);
   }
   glPopMatrix();
   glPopMatrix();
@@ -102,22 +71,20 @@ void OGLWidget::drawObject(CollideableObject& obj)
     glutSolidCube(0.4);
 
     glPushMatrix();
-
-
-//    if (obj.getType() == 1) { // PEM
-//        for (unsigned i = 0; i < this->PEMpolarisations.size() - 1; i++) {
-//          drawRay(this->samplePolarisations.at(i), i, 1);
-//        }
-//    } else if (obj.getType() == 2) { // polarising filter
-//        for (unsigned i = 0; i < this->polariserPolarisations.size() - 1; i++) {
-//          drawRay(this->samplePolarisations.at(i), i, 1);
-//        }
-//    } else if (obj.getType() == 3) { // sample
-//      //glRotated(45.0, 0, 1, 0);
-//      for (unsigned i = 0; i < this->samplePolarisations.size() - 1; i++) {
-//        drawRay(this->samplePolarisations.at(i), i, 1);
-//      }
-//    }
+    if (obj.getType() == 1 && this->PEMpolarisations.size() != 0) { // PEM
+            for (unsigned i = 0; i < this->PEMpolarisations.size() - 1; i++) {
+              drawRay(this->samplePolarisations.at(i), i, 1);
+            }
+        } else if (obj.getType() == 2 && this->polariserPolarisations.size() != 0) { // polarising filter
+            for (unsigned i = 0; i < this->polariserPolarisations.size() - 1; i++) {
+              drawRay(this->samplePolarisations.at(i), i, -1);
+            }
+        } else if (obj.getType() == 3 && this->samplePolarisations.size() != 0) { // sample
+          //glRotated(45.0, 0, 1, 0);
+          for (unsigned i = 0; i < this->samplePolarisations.size() - 1; i++) {
+            drawRay(this->samplePolarisations.at(i), i, -1);
+          }
+        }
     glPopMatrix();
     glPopMatrix();
 }
@@ -197,6 +164,12 @@ void OGLWidget::newPositions(Eigen::Vector3d position,
     this->analysierPosition = position;
     this->objectsInScene = objectsInScene;
     readyToRender = true;
+}
+
+void OGLWidget::newAngleOfReflection(Eigen::Vector3d angleOfReflection)
+{
+    this->rayDirectionPost = angleOfReflection;
+    std::cout << "new angle" << std::endl;
 }
 
 void OGLWidget::resizeGL(int w, int h) {

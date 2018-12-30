@@ -31,9 +31,8 @@ class OGLWidget : public QOpenGLWidget {
   Eigen::Vector3d pemPosition;
   Eigen::Vector3d polarisationPosition;
   Eigen::Vector3d rayDirectionInit;
+  Eigen::Vector3d rayDirectionPost;
   std::vector<CollideableObject*> objectsInScene;
-
-
 
   bool readyToRender = false;
 
@@ -59,6 +58,7 @@ class OGLWidget : public QOpenGLWidget {
   void newPositions(Eigen::Vector3d position,
                     Eigen::Vector3d rayDirection,
                     std::vector<CollideableObject*> objectsInScene);
+  void newAngleOfReflection(Eigen::Vector3d angleOfReflection);
 
 
 };

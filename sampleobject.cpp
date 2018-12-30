@@ -64,6 +64,7 @@ void SampleObject::collide(Ray& ray, Eigen::Vector3d& pointOfInterception) {
   ray.setDirection(ray.getDirection() - 2 * (ray.getDirection().dot(this->getNormal())) * this->getNormal());
   ray.setOrigin(pointOfInterception + ray.getDirection() * 0.01f); // move it along the normal so it won't hit the same object again
   emit outputPolarisationUpdated(ray.getPolarisation());
+  emit outputDirectionUpdated(ray.getDirection());
 }
 
 bool SampleObject::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
@@ -74,7 +75,7 @@ bool SampleObject::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);
     if (sqrt(d2) <= m_radius) {
-      //std::cout << "collide with sample" << std::endl;
+      std::cout << "collide with sample" << std::endl;
     }
     return (sqrt(d2) <= m_radius);
   }
