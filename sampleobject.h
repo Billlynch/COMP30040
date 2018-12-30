@@ -2,9 +2,10 @@
 #define SAMPLEOBJECT_H
 
 #include "collideableobject.h"
+#include <map>
 
 typedef std::pair<std::complex<double>, std::complex<double>> GraphItem; // p then s
-typedef std::map<std::complex<double>, GraphItem> GraphMap;
+typedef std::map<double, GraphItem> GraphMap;
 
 class SampleObject : public CollideableObject {
   Q_OBJECT
@@ -42,7 +43,7 @@ class SampleObject : public CollideableObject {
   void insertIntoGraphMap(std::complex<double> angle) {
       auto originalSize = m_graphMap.size();
       GraphItem newItem = GraphItem(m_rsp / m_rpp, m_rps / m_rss);
-      m_graphMap.insert(std::pair<std::complex<double>, GraphItem>(angle, newItem));
+      m_graphMap.insert(std::pair<double, GraphItem>(angle.real(), newItem));
       if (originalSize != m_graphMap.size()) {
           emit newAngleOutout(m_graphMap);
       }
