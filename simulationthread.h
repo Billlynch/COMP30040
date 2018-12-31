@@ -8,6 +8,7 @@
 
 #include <sampleobject.h>
 #include <polarisingfilter.h>
+#include <kerrrotationgraph.h>
 #include <ray.h>
 #include <pem.h>
 #include <collideableobject.h>
@@ -24,7 +25,7 @@ class SimulationThread : public QThread {
   SimulationThread(QObject* parent = nullptr);
   ~SimulationThread() override;
 
-  void simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation);
+  void simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph);
   void customAbort();
 
  protected:
@@ -49,7 +50,7 @@ class SimulationThread : public QThread {
 
   std::vector<CollideableObject*> m_objectsInScene;
 
-  SampleObject* setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation);
+  SampleObject* setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation, kerrRotationGraph& graph);
   PolarisingFilter* setupPolariser(Eigen::Vector2d targetPolarisation, OGLWidget& representation);
   PEM* setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget& representation);
   Matrix4cd generateInitalPolarisation();
