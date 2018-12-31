@@ -248,7 +248,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="kerrRotationGraph" name="graphicsView">
+   <widget class="kerrRotationGraph" name="kerrGraph">
     <property name="geometry">
      <rect>
       <x>690</x>
