@@ -25,7 +25,7 @@ void SimulationThread::customAbort() {
   this->abort = false;
 }
 
-void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation) {
+void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph) {
   QMutexLocker locker(&mutex);
 
   connect(this, &SimulationThread::emittedNewRay, &representation, &OGLWidget::newOutputFromAnalyser);
@@ -37,7 +37,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
   m_n_1 = {n0_r, n0_i};
 
   // setup the sample
-  sample = setupSample(m_n_1, m_q, representation);
+  sample = setupSample(m_n_1, m_q, representation, graph);
   // setup the Polariser
   polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0), representation);
   //setup the PEM
@@ -53,7 +53,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
   }
 }
 
-SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation) {
+SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation, kerrRotationGraph& graph) {
   SampleObject* tempSample = new SampleObject( Eigen::Vector3d(0.0, 10.0, 0.0), // location
                                                0, // side
                                                Eigen::Vector3d(0.0, 1.0, 0.0), // normal
@@ -63,6 +63,7 @@ SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::comple
 
   connect(tempSample, &SampleObject::outputPolarisationUpdated, &representation, &OGLWidget::newOutputFromSample);
   connect(tempSample, &SampleObject::outputDirectionUpdated, &representation, &OGLWidget::newAngleOfReflection);
+  connect(tempSample, &SampleObject::newAngleOutout, &graph, &kerrRotationGraph::updateSeries);
 
   return tempSample;
 }

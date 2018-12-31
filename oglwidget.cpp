@@ -169,7 +169,7 @@ void OGLWidget::newPositions(Eigen::Vector3d position,
 void OGLWidget::newAngleOfReflection(Eigen::Vector3d angleOfReflection)
 {
     this->rayDirectionPost = angleOfReflection;
-    std::cout << "new angle" << std::endl;
+    //std::cout << "new angle" << std::endl;
 }
 
 void OGLWidget::resizeGL(int w, int h) {

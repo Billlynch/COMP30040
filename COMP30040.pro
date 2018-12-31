@@ -6,6 +6,8 @@
 
 QT += core gui opengl
 
+QT += charts
+
 QT += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -40,7 +42,8 @@ SOURCES += \
     polarisingfilter.cpp \
     pem.cpp \
     simulationthread.cpp \
-    oglwidget.cpp
+    oglwidget.cpp \
+    kerrrotationgraph.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -51,7 +54,8 @@ HEADERS += \
     polarisingfilter.h \
     pem.h \
     simulationthread.h \
-    oglwidget.h
+    oglwidget.h \
+    kerrrotationgraph.h
 
 FORMS += \
         mokelasersim.ui

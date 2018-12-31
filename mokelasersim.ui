@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1226</width>
-    <height>575</height>
+    <height>919</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -248,6 +248,16 @@
      </item>
     </layout>
    </widget>
+   <widget class="kerrRotationGraph" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>510</y>
+      <width>511</width>
+      <height>361</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -281,6 +291,11 @@
    <class>OGLWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>oglwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>kerrRotationGraph</class>
+   <extends>QGraphicsView</extends>
+   <header>kerrrotationgraph.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
