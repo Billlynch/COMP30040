@@ -74,9 +74,7 @@ bool SampleObject::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
     pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);
-    if (sqrt(d2) <= m_radius) {
-      std::cout << "collide with sample" << std::endl;
-    }
+
     return (sqrt(d2) <= m_radius);
   }
 
