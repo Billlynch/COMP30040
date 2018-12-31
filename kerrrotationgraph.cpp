@@ -14,6 +14,10 @@ void kerrRotationGraph::addMapToSeries()
   m_series_p = new QSplineSeries();
   m_series_s = new QSplineSeries();
 
+  m_series_p->setName("Kerr Rotation P");
+  m_series_s->setName("Kerr Rotation S");
+
+
 
   for (auto const& val : m_graphMap)
   {
