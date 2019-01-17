@@ -43,6 +43,8 @@ class MOKELaserSim : public QMainWindow {
 
   void on_sample_deviation_valueChanged(int value);
 
+  void on_loadImage_btn_clicked();
+
 private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;
@@ -50,9 +52,12 @@ private:
   QTimer* eventLoopTimer;
   QTimer* pemTimer;
   RandomNoiseCalculator* randomGenerator;
+  QImage normalMapImg;
 
   QDoubleSpinBox* refractiveIndexSpinner;
   QDoubleSpinBox* QSpinner;
+
+  bool loadFile(const QString &fileName);
 };
 
 #endif // MOKELASERSIM_H
