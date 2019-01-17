@@ -1,6 +1,6 @@
 #include "polarisationwindow.h"
 #include <iostream>
-#include <Core>
+#include <eigen3/Eigen/Core>
 #include <QLineF>
 #include <QPointF>
 

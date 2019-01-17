@@ -1,4 +1,5 @@
-#include <Core>
+#include <eigen3/Eigen/Core>
+#include <vector>
 
 #ifndef RAY_H
 #define RAY_H

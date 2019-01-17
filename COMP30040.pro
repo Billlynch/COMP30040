@@ -4,15 +4,9 @@
 #
 #-------------------------------------------------
 
-QT += core gui opengl
-
-QT += charts
-
-QT += concurrent
+QT += core gui opengl charts concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-LIBS += -framework Cocoa -framework CoreVideo -framework IOKit -framework GLUT
 
 TARGET = COMP30040
 TEMPLATE = app
@@ -30,7 +24,22 @@ DEFINES += QT_DEPRECATED_WARNINGS GL_SILENCE_DEPRECATION
 
 CONFIG += c++11 sdk_no_version_check
 
-INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/eigen3/Eigen
+unix:!macx {
+    LIBS += -lGLEW -lglfw -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lGL -lGLU -lglut
+}
+
+macx: {
+    INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/eigen3/Eigen
+    unix: LIBS += -L$$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/ -lGLEW
+
+    INCLUDEPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
+    DEPENDPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
+
+    unix: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/libGLEW.a
+    LIBS += -framework Cocoa -framework CoreVideo -framework IOKit -framework GLUT
+}
+
+
 
 SOURCES += \
         main.cpp \
@@ -65,9 +74,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix: LIBS += -L$$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/ -lGLEW
 
-INCLUDEPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
-DEPENDPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
-
-unix: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/libGLEW.a

@@ -2,6 +2,8 @@
 #define SIMULATIONTHREAD_H
 
 #include <QThread>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QWaitCondition>
 #include <complex>
 #include <vector>

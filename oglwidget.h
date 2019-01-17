@@ -5,10 +5,10 @@
 
 #include <QWidget>
 #include <QOpenGLWidget>
-#include <Dense>
-#include <glu.h>
-#include <gl.h>
-#include <GLUT/glut.h>
+#include <eigen3/Eigen/Dense>
+#include <GL/glu.h>
+#include <GL/gl.h>
+#include <GL/glut.h>
 #include <deque>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
