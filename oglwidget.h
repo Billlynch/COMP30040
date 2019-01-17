@@ -6,9 +6,17 @@
 #include <QWidget>
 #include <QOpenGLWidget>
 #include <eigen3/Eigen/Dense>
+
+#ifdef __APPLE__
+#include <glut/glut.h>
+#include <glu.h>
+#include <gl.h>
+#else
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
+#endif
+
 #include <deque>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;

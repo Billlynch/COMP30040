@@ -29,7 +29,7 @@ unix:!macx {
 }
 
 macx: {
-    INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/eigen3/Eigen
+    INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/
     unix: LIBS += -L$$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/ -lGLEW
 
     INCLUDEPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
