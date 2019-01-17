@@ -3,7 +3,7 @@
 #include "ray.h"
 
 #include <QObject>
-#include <Dense>
+#include <eigen3/Eigen/Dense>
 #include <complex>
 #include <cmath>
 

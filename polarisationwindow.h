@@ -2,7 +2,7 @@
 #define POLARISATIONWINDOW_H
 
 #include <QtGui>
-#include <Core>
+#include <eigen3/Eigen/Core>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatrix4cd;

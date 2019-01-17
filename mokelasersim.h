@@ -4,7 +4,7 @@
 #include <QDoubleSpinBox>
 #include <QMainWindow>
 #include <vector>
-#include <Core>
+#include <eigen3/Eigen/Core>
 #include <QTimer>
 #include "polarisationwindow.h"
 #include "simulationthread.h"
