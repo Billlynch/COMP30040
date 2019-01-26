@@ -8,6 +8,7 @@
 #include <QTimer>
 #include "polarisationwindow.h"
 #include "simulationthread.h"
+#include <QPainter>
 #include "randomnoisecalculator.h"
 #include "randomnoisechartview.h"
 
@@ -45,6 +46,10 @@ class MOKELaserSim : public QMainWindow {
 
   void on_loadImage_btn_clicked();
 
+  void on_collisionPointY_valueChanged(int value);
+
+  void on_collisionPointX_valueChanged(int value);
+
 private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;
@@ -52,8 +57,12 @@ private:
   QTimer* eventLoopTimer;
   QTimer* pemTimer;
   QImage* normalMapImg;
-  QGraphicsScene *scene;
+  QImage* visualisationNormalMapImg;
+  QImage pointImage = QImage(20,20, QImage::Format_RGBA64);
+  QGraphicsScene* scene;
   QPixmap visableNormalMap;
+  QPoint* collisionPoint = new QPoint(0,0);
+  Eigen::Vector3f *normalVector = nullptr;
   RandomNoiseCalculator* randomGenerator;
   QImage normalMapImg;
 
@@ -61,6 +70,7 @@ private:
   QDoubleSpinBox* QSpinner;
 
   bool loadFile(const QString &fileName);
+  void updateCollisionVisualisation();
 };
 
 #endif // MOKELASERSIM_H

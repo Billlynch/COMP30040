@@ -75,27 +75,6 @@ void MOKELaserSim::on_angle_of_incidence_valueChanged(int angle)
     this->ui->currentAngle->display(angle);
 }
 
-static void initializeImageFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode)
-{
-    static bool firstDialog = true;
-
-    if (firstDialog) {
-        firstDialog = false;
-        const QStringList picturesLocations = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-        dialog.setDirectory(picturesLocations.isEmpty() ? QDir::currentPath() : picturesLocations.last());
-    }
-
-    QStringList mimeTypeFilters;
-    const QByteArrayList supportedMimeTypes = acceptMode == QFileDialog::AcceptOpen
-        ? QImageReader::supportedMimeTypes() : QImageWriter::supportedMimeTypes();
-    foreach (const QByteArray &mimeTypeName, supportedMimeTypes)
-        mimeTypeFilters.append(mimeTypeName);
-    mimeTypeFilters.sort();
-    dialog.setMimeTypeFilters(mimeTypeFilters);
-    dialog.selectMimeTypeFilter("image/jpeg");
-    if (acceptMode == QFileDialog::AcceptSave)
-        dialog.setDefaultSuffix("jpg");
-}
 
 
 void MOKELaserSim::on_loadImage_btn_clicked()
@@ -106,8 +85,10 @@ void MOKELaserSim::on_loadImage_btn_clicked()
 
     normalMapImg = new QImage(file_path, nullptr);
 
+    visualisationNormalMapImg = normalMapImg;
+
     scene = new QGraphicsScene(this);
-    scene->addPixmap(QPixmap::fromImage(*normalMapImg));
+    scene->addPixmap(QPixmap::fromImage(*visualisationNormalMapImg));
     scene->setSceneRect(normalMapImg->rect());
 
     ui->normalMapView->setScene(scene);
@@ -122,4 +103,56 @@ void MOKELaserSim::on_sample_mean_valueChanged(int value)
 void MOKELaserSim::on_sample_deviation_valueChanged(int value)
 {
     this->randomGenerator->setDeviation(value/100.0);
+}
+
+void MOKELaserSim::on_collisionPointY_valueChanged(int value)
+{
+    this->collisionPoint->setY(value);
+    this->updateCollisionVisualisation();
+}
+
+void MOKELaserSim::on_collisionPointX_valueChanged(int value)
+{
+    this->collisionPoint->setX(value);
+    this->updateCollisionVisualisation();
+}
+
+void MOKELaserSim::updateCollisionVisualisation()
+{
+    QPointF centre = QPointF(10,10);
+    pointImage.fill(Qt::transparent);
+
+    auto *pointImagePainter = new QPainter(&pointImage);
+    pointImagePainter->setPen(Qt::red);
+    pointImagePainter->setBackgroundMode(Qt::TransparentMode);
+    pointImagePainter->drawEllipse(centre, 5,5);
+    QLine hor(10, 5, 10, 15);
+    QLine ver(5, 10, 15, 10);
+    pointImagePainter->drawLine(hor);
+    pointImagePainter->drawLine(ver);
+    pointImagePainter->end();
+
+
+    visualisationNormalMapImg = new QImage(*normalMapImg);
+
+
+
+    auto *painter = new QPainter(visualisationNormalMapImg);
+    painter->drawImage(*collisionPoint, pointImage);
+    painter->end();
+
+
+    scene = new QGraphicsScene(this);
+    scene->addPixmap(QPixmap::fromImage(*visualisationNormalMapImg));
+    scene->setSceneRect(normalMapImg->rect());
+
+    ui->normalMapView->setScene(scene);
+
+    QRgb normalPixel = normalMapImg->pixel(*collisionPoint);
+
+    normalVector = new Eigen::Vector3f(qRed(normalPixel), qGreen(normalPixel), qBlue(normalPixel));
+    normalVector->normalize();
+
+    std::cout << normalVector->x() << "," << normalVector->y() << "," << normalVector->z() << std::endl;
+
 }
