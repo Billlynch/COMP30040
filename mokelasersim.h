@@ -57,7 +57,7 @@ private:
   QTimer* eventLoopTimer;
   QTimer* pemTimer;
   QImage* normalMapImg;
-  QImage* visualisationNormalMapImg;
+  QImage* visualisationNormalMapImg = new QImage(256,256, QImage::Format_RGBA64);
   QImage pointImage = QImage(20,20, QImage::Format_RGBA64);
   QGraphicsScene* scene;
   QPixmap visableNormalMap;
@@ -71,6 +71,10 @@ private:
 
   bool loadFile(const QString &fileName);
   void updateCollisionVisualisation();
+  void renderNormalImage(QImage &visualisation);
+  void setupNormalTargetImage();
+  void setNormalFromImage();
+
 };
 
 #endif // MOKELASERSIM_H
