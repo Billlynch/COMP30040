@@ -51,6 +51,9 @@ private:
   SimulationThread thread;
   QTimer* eventLoopTimer;
   QTimer* pemTimer;
+  QImage* normalMapImg;
+  QGraphicsScene *scene;
+  QPixmap visableNormalMap;
   RandomNoiseCalculator* randomGenerator;
   QImage normalMapImg;
 

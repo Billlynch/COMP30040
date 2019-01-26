@@ -97,33 +97,20 @@ static void initializeImageFileDialog(QFileDialog &dialog, QFileDialog::AcceptMo
         dialog.setDefaultSuffix("jpg");
 }
 
-bool MOKELaserSim::loadFile(const QString &fileName)
-{
-    QImageReader reader(fileName);
-    reader.setAutoTransform(true);
-    normalMapImg = reader.read();
-    if (normalMapImg.isNull()) {
-        QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-                                 tr("Cannot load %1: %2")
-                                 .arg(QDir::toNativeSeparators(fileName), reader.errorString()));
-        return false;
-    }
-}
-
 
 void MOKELaserSim::on_loadImage_btn_clicked()
 {
-//    QStringList file_path = QFileDialog::getOpenFileNames(this, tr("Open Normal Map"),"~/",tr("png files (*.png)"));
-    QFileDialog dialog(this, tr("Open File"));
-    initializeImageFileDialog(dialog, QFileDialog::AcceptOpen);
+    QString file_path = QFileDialog::getOpenFileNames(this, tr("Open Normal Map"), QStandardPaths::standardLocations(QStandardPaths::DownloadLocation).at(0)).at(0);
 
-    while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
+    std::cout << file_path.toStdString() << std::endl;
 
+    normalMapImg = new QImage(file_path, nullptr);
 
-    QPixmap *pm = new QPixmap();
-    pm->convertFromImage(normalMapImg);
-    ui->label_3->setPixmap(*pm);
-    ui->label_3->setScaledContents(true);
+    scene = new QGraphicsScene(this);
+    scene->addPixmap(QPixmap::fromImage(*normalMapImg));
+    scene->setSceneRect(normalMapImg->rect());
+
+    ui->normalMapView->setScene(scene);
 }
 
 
