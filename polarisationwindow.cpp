@@ -3,102 +3,60 @@
 #include <eigen3/Eigen/Core>
 #include <QLineF>
 #include <QPointF>
+#include <QImage>
 
-
-PolarisationWindow::PolarisationWindow(QWindow* parent)
-  : QWindow(parent)
-  , m_backingStore(new QBackingStore(this)) {
-  setGeometry(100, 100, 400, 400);
+PolarisationWindow::PolarisationWindow(QGraphicsView *view) {
+  this->m_view = view;
+  outputImage = new QImage(width, height, QImage::Format_RGB16);
+  outputImage->fill(Qt::white);
+  render(*outputImage);
   polarisations = ListMatrix4cd();
 }
 
-PolarisationWindow::~PolarisationWindow() {}
 
-bool PolarisationWindow::event(QEvent* event) {
-  if (event->type() == QEvent::UpdateRequest) {
-    renderNow();
-    return true;
-  }
-  return QWindow::event(event);
+void PolarisationWindow::render(QImage &visualisation) {
+  scene = new QGraphicsScene(this);
+  scene->addPixmap(QPixmap::fromImage(visualisation));
+  scene->setSceneRect(visualisation.rect());
+  m_view->setScene(scene);
 }
 
-void PolarisationWindow::renderLater() {
-  requestUpdate();
+void PolarisationWindow::renderNow()
+{
+    outputImage = new QImage(width, height, QImage::Format_RGB16);
+    outputImage->fill(Qt::white);
+    auto *painter = new QPainter(outputImage);
+    drawAxis(painter);
+    drawPolarosations(painter);
+    painter->end();
+    render(*outputImage);
 }
 
-void PolarisationWindow::resizeEvent(QResizeEvent* resizeEvent) {
-  m_backingStore->resize(resizeEvent->size());
-  if (isExposed())
-    renderNow();
-}
-
-void PolarisationWindow::exposeEvent(QExposeEvent*) {
-  if (isExposed())
-    renderNow();
-}
-
-void PolarisationWindow::render(QPainter* painter, ListMatrix4cd polarisations) {
-  QPen blackPen(QColor("#000000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
-  painter->setPen(blackPen);
-  drawAxis(painter);
-
-  drawPolarosations(painter, polarisations);
-}
-
-void PolarisationWindow::renderNow() {
-  if (!isExposed())
-    return;
-
-  QRect rect(0, 0, width(), height());
-  m_backingStore->beginPaint(rect);
-
-  QPaintDevice* device = m_backingStore->paintDevice();
-  QPainter painter(device);
-
-  painter.fillRect(0, 0, width(), height(), Qt::white);
-  render(&painter);
-  painter.end();
-
-  m_backingStore->endPaint();
-  m_backingStore->flush(rect);
-}
-
-void PolarisationWindow::simResultsUpdated(ListMatrix4cd polarisationsIn) {
+void PolarisationWindow::simResultsUpdated(ListMatrix4cd &polarisationsIn) {
   polarisations = polarisationsIn;
   renderNow();
 }
 
-void PolarisationWindow::render(QPainter* painter) {
-  QPen blackPen(QColor("#000000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
-  painter->setPen(blackPen);
-  drawAxis(painter);
-
-  drawPolarosations(painter, polarisations);
-}
-
 void PolarisationWindow::drawAxis(QPainter* painter) {
-  painter->drawText(20, 20, "Red line indicates intial polarisation");
-  painter->drawText(20, 40, "Black dotted line indicates resulting polarisation");
-
-  QPointF centreOfWindow(width() / 2, height() / 2);
-  int radiusx = width() / 4;
-  int radiusy = height() / 4;
+  QPointF centreOfWindow(width / 2, height / 2);
+  int radiusx = width / 4;
+  int radiusy = height / 4;
 
   painter->drawEllipse(centreOfWindow, radiusx, radiusy );
   // draw the axis
-  QPointF left(width() / 4, height() / 2);
-  QPointF right(3 * width() / 4, height() / 2);
-  QPointF top(width() / 2, height() / 4);
-  QPointF bottom(width() / 2, 3 * height() / 4);
+  QPointF left(width / 4, height / 2);
+  QPointF right(3 * width / 4, height / 2);
+  QPointF top(width / 2, height / 4);
+  QPointF bottom(width / 2, 3 * height / 4);
   painter->drawLine(left, right);
   painter->drawLine(top, bottom);
 }
 
-void PolarisationWindow::drawPolarosations(QPainter* painter, ListMatrix4cd polarisations) {
+void PolarisationWindow::drawPolarosations(QPainter* painter) {
   QPen redPen(QColor("#ff0000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
   QPen blackDottedPen(QColor("#000000"), 2, Qt::DotLine, Qt::FlatCap, Qt::RoundJoin);
 
-  Vector2cd centre = Vector2cd(width() / 2, height() / 2);
+  Vector2cd centre = Vector2cd(width / 2, height / 2);
   Vector2cd right = Vector2cd(1.0, 0.0);
 
   QLineF newLine;
@@ -118,7 +76,7 @@ void PolarisationWindow::drawPolarosations(QPainter* painter, ListMatrix4cd pola
     auto a = acos(right.dot(displayPol) / right.norm() * displayPol.norm());
 
     newLine.setAngle(a.real() * degreeMulitplier);
-    newLine.setLength(width() / 4);
+    newLine.setLength(width / 4);
 
     painter->drawLine(newLine);
 

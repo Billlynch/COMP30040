@@ -15,8 +15,7 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
   QMainWindow(parent),
   ui(new Ui::MOKELaserSim) {
   ui->setupUi(this);
-  resultsWindow = new PolarisationWindow();
-  resultsWindow->show();
+  resultsWindow = new PolarisationWindow(ui->polarisationVisualisation);
 
   qRegisterMetaType<ListVector2cd>("ListVector2cd");
   qRegisterMetaType<ListMatrix4cd>("ListMatrix4cd");
@@ -36,7 +35,6 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
 
 MOKELaserSim::~MOKELaserSim() {
   ui->openGLWidget->close();
-  resultsWindow->close();
   delete resultsWindow;
   delete ui;
 }
