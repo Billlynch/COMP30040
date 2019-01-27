@@ -50,6 +50,18 @@ class MOKELaserSim : public QMainWindow {
 
   void on_collisionPointX_valueChanged(int value);
 
+  void on_sample_view_clicked();
+
+  void on_centre_view_clicked();
+
+  void on_pem_view_clicked();
+
+  void on_PolarisingFilter_view_clicked();
+
+  void on_analyiser_view_clicked();
+
+  void on_laser_view_clicked();
+
 private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;

@@ -12,7 +12,7 @@
 #include <QFileDialog>
 #include <QPixmap>
 #include <QMessageBox>
-
+#include "viewenum.h"
 
 MOKELaserSim::MOKELaserSim(QWidget* parent) :
   QMainWindow(parent),
@@ -157,4 +157,34 @@ void MOKELaserSim::setNormalFromImage()
 
     normalVector = new Eigen::Vector3f(qRed(normalPixel), qGreen(normalPixel), qBlue(normalPixel));
     normalVector->normalize();
+}
+
+void MOKELaserSim::on_sample_view_clicked()
+{
+    this->ui->openGLWidget->changeView(sample);
+}
+
+void MOKELaserSim::on_centre_view_clicked()
+{
+    this->ui->openGLWidget->changeView(centre);
+}
+
+void MOKELaserSim::on_pem_view_clicked()
+{
+    this->ui->openGLWidget->changeView(pem);
+}
+
+void MOKELaserSim::on_PolarisingFilter_view_clicked()
+{
+    this->ui->openGLWidget->changeView(polarFilter);
+}
+
+void MOKELaserSim::on_analyiser_view_clicked()
+{
+    this->ui->openGLWidget->changeView(analyiser);
+}
+
+void MOKELaserSim::on_laser_view_clicked()
+{
+    this->ui->openGLWidget->changeView(laser);
 }

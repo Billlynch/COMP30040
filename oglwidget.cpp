@@ -89,6 +89,49 @@ void OGLWidget::drawObject(CollideableObject& obj)
     glPopMatrix();
 }
 
+void OGLWidget::setViewPoint()
+{
+    glLoadIdentity();
+
+    switch(m_view)
+    {
+        case centre:
+            gluLookAt(0, -20, 25,
+                      0, 0, 0,
+                      0, 0, 1);
+            break;
+
+        case sample:
+            gluLookAt(0, -2, 25,
+                      0, 0, 0,
+                      0, 0, 1);
+            break;
+
+        case analyiser:
+            gluLookAt(0, -2, 25,
+                      0, 0, 0,
+                      0, 0, 1);
+            break;
+
+        case polarFilter:
+            gluLookAt(0, -2, 25,
+                      0, 0, 0,
+                      0, 0, 1);
+            break;
+
+        case laser:
+            gluLookAt(0, -2, 25,
+                      0, 0, 0,
+                      0, 0, 1);
+            break;
+        case pem:
+            gluLookAt(0, -2, 25,
+                      0, 0, 0,
+                      0, 0, 1);
+            break;
+    }
+}
+
 void OGLWidget::initializeGL() {
   glClearColor(0, 0, 50, 1);
   glEnable(GL_DEPTH_TEST);
@@ -109,6 +152,7 @@ void OGLWidget::initializeGL() {
 void OGLWidget::paintGL() {
     if (readyToRender) {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      this->setViewPoint();
 
       drawAnalyser();
 
@@ -169,7 +213,12 @@ void OGLWidget::newPositions(Eigen::Vector3d position,
 void OGLWidget::newAngleOfReflection(Eigen::Vector3d angleOfReflection)
 {
     this->rayDirectionPost = angleOfReflection;
-    //std::cout << "new angle" << std::endl;
+}
+
+void OGLWidget::changeView(View view)
+{
+    m_view = view;
+    repaint();
 }
 
 void OGLWidget::resizeGL(int w, int h) {
@@ -179,7 +228,5 @@ void OGLWidget::resizeGL(int w, int h) {
   gluPerspective(45, static_cast<double>(w / h), 0.01, 10000.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(0, -20, 25,
-            0, 0, 0,
-            0, 0, 1);
+  this->setViewPoint();
 }

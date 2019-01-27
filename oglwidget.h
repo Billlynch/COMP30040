@@ -18,6 +18,7 @@
 #endif
 
 #include <deque>
+#include "viewenum.h"
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
@@ -30,6 +31,8 @@ class OGLWidget : public QOpenGLWidget {
   OGLWidget(QWidget* parent = nullptr);
   ~OGLWidget() = default;
 
+  void changeView(View view);
+
  private:
   std::deque<Matrix4cd> PEMpolarisations;
   std::deque<Matrix4cd> samplePolarisations;
@@ -41,6 +44,7 @@ class OGLWidget : public QOpenGLWidget {
   Eigen::Vector3d rayDirectionInit;
   Eigen::Vector3d rayDirectionPost;
   std::vector<CollideableObject*> objectsInScene;
+  View m_view = centre;
 
   bool readyToRender = false;
 
@@ -51,6 +55,7 @@ class OGLWidget : public QOpenGLWidget {
   void drawSample();
   void drawAnalyser();
   void drawObject(CollideableObject& obj);
+  void setViewPoint();
 
 
  protected:

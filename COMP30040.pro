@@ -68,7 +68,8 @@ HEADERS += \
     oglwidget.h \
     kerrrotationgraph.h \
     randomnoisecalculator.h \
-    randomnoisechartview.h
+    randomnoisechartview.h \
+    viewenum.h
 
 
 FORMS += \
