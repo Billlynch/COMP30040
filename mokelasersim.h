@@ -8,6 +8,8 @@
 #include <QTimer>
 #include "polarisationwindow.h"
 #include "simulationthread.h"
+#include "randomnoisecalculator.h"
+#include "randomnoisechartview.h"
 
 
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
@@ -37,12 +39,17 @@ class MOKELaserSim : public QMainWindow {
   void on_horizontalSlider_valueChanged(int value);
   void on_angle_of_incidence_valueChanged(int value);
 
+  void on_sample_mean_valueChanged(int value);
+
+  void on_sample_deviation_valueChanged(int value);
+
 private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;
   SimulationThread thread;
   QTimer* eventLoopTimer;
   QTimer* pemTimer;
+  RandomNoiseCalculator* randomGenerator;
 
   QDoubleSpinBox* refractiveIndexSpinner;
   QDoubleSpinBox* QSpinner;
