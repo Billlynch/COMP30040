@@ -31,6 +31,11 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
   pemTimer = new QTimer(this);
   connect(pemTimer, &QTimer::timeout, &thread, &SimulationThread::incrementPEMTimeProgression);
   pemTimer->setInterval(1);
+
+  randomGenerator = new RandomNoiseCalculator(0,1);
+  connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration, ui->graphicsView, &RandomNoiseChartView::newRandomGenerator);
+  randomGenerator->generate();
+
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -65,4 +70,14 @@ void MOKELaserSim::on_angle_of_incidence_valueChanged(int angle)
 {
     thread.angleOfIncidenceChanged(static_cast<double>(angle));
     this->ui->currentAngle->display(angle);
+}
+
+void MOKELaserSim::on_sample_mean_valueChanged(int value)
+{
+    this->randomGenerator->setMean(value/100.0);
+}
+
+void MOKELaserSim::on_sample_deviation_valueChanged(int value)
+{
+    this->randomGenerator->setDeviation(value/100.0);
 }
