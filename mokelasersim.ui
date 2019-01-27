@@ -6,111 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1226</width>
-    <height>919</height>
+    <width>1734</width>
+    <height>940</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MOKELaserSim</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>408</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="1">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Q</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Refractive Index</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QDoubleSpinBox" name="n0_r_input">
-         <property name="decimals">
-          <number>5</number>
-         </property>
-         <property name="minimum">
-          <double>-99.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.001000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.580000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="n0_i_input">
-         <property name="decimals">
-          <number>5</number>
-         </property>
-         <property name="minimum">
-          <double>-99.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.001000000000000</double>
-         </property>
-         <property name="value">
-          <double>3.580000000000000</double>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="2" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QDoubleSpinBox" name="Q_r_input">
-         <property name="decimals">
-          <number>5</number>
-         </property>
-         <property name="minimum">
-          <double>-99.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.017700000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="Q_i_input">
-         <property name="decimals">
-          <number>5</number>
-         </property>
-         <property name="minimum">
-          <double>-99.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>-0.006300000000000</double>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
    <widget class="QPushButton" name="RunSimButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>120</y>
+      <x>90</x>
+      <y>20</y>
       <width>181</width>
       <height>32</height>
      </rect>
@@ -122,8 +30,8 @@
    <widget class="QPushButton" name="StopSimButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>160</y>
+      <x>90</x>
+      <y>60</y>
       <width>181</width>
       <height>32</height>
      </rect>
@@ -135,8 +43,8 @@
    <widget class="OGLWidget" name="openGLWidget">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>10</y>
+      <x>940</x>
+      <y>0</y>
       <width>771</width>
       <height>491</height>
      </rect>
@@ -145,8 +53,8 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>280</y>
+      <x>20</x>
+      <y>100</y>
       <width>321</width>
       <height>80</height>
      </rect>
@@ -198,8 +106,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>370</y>
+      <x>20</x>
+      <y>190</y>
       <width>321</width>
       <height>80</height>
      </rect>
@@ -251,86 +159,194 @@
    <widget class="kerrRotationGraph" name="kerrGraph">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>1170</x>
       <y>510</y>
       <width>511</width>
       <height>361</height>
      </rect>
     </property>
    </widget>
-   <widget class="RandomNoiseChartView" name="graphicsView">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>570</y>
-      <width>256</width>
-      <height>192</height>
+      <x>480</x>
+      <y>10</y>
+      <width>431</width>
+      <height>391</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QSlider" name="sample_deviation">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>550</y>
-      <width>181</width>
-      <height>16</height>
-     </rect>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
     </property>
-    <property name="minimum">
-     <number>10</number>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
     </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="sample_mean">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>530</y>
-      <width>181</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>-100</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>530</y>
-      <width>61</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Mean</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>550</y>
-      <width>61</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Std dev.</string>
-    </property>
+    <widget class="QWidget" name="gridLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>408</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Q</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Refractive Index</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QDoubleSpinBox" name="n0_r_input">
+          <property name="decimals">
+           <number>5</number>
+          </property>
+          <property name="minimum">
+           <double>-99.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.001000000000000</double>
+          </property>
+          <property name="value">
+           <double>1.580000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="n0_i_input">
+          <property name="decimals">
+           <number>5</number>
+          </property>
+          <property name="minimum">
+           <double>-99.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.001000000000000</double>
+          </property>
+          <property name="value">
+           <double>3.580000000000000</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QDoubleSpinBox" name="Q_r_input">
+          <property name="decimals">
+           <number>5</number>
+          </property>
+          <property name="minimum">
+           <double>-99.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>0.017700000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="Q_i_input">
+          <property name="decimals">
+           <number>5</number>
+          </property>
+          <property name="minimum">
+           <double>-99.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>-0.006300000000000</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>150</y>
+       <width>61</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Std dev.</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="sample_mean">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>130</y>
+       <width>181</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>-100</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="RandomNoiseChartView" name="graphicsView">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>170</y>
+       <width>256</width>
+       <height>192</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QSlider" name="sample_deviation">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>150</y>
+       <width>181</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>10</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>130</y>
+       <width>61</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mean</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -338,7 +354,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1226</width>
+     <width>1734</width>
      <height>20</height>
     </rect>
    </property>
