@@ -64,7 +64,6 @@ private:
   QPoint* collisionPoint = new QPoint(0,0);
   Eigen::Vector3f *normalVector = nullptr;
   RandomNoiseCalculator* randomGenerator;
-  QImage normalMapImg;
 
   QDoubleSpinBox* refractiveIndexSpinner;
   QDoubleSpinBox* QSpinner;
