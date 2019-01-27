@@ -52,7 +52,9 @@ SOURCES += \
     pem.cpp \
     simulationthread.cpp \
     oglwidget.cpp \
-    kerrrotationgraph.cpp
+    kerrrotationgraph.cpp \
+    randomnoisecalculator.cpp \
+    randomnoisechartview.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -64,7 +66,10 @@ HEADERS += \
     pem.h \
     simulationthread.h \
     oglwidget.h \
-    kerrrotationgraph.h
+    kerrrotationgraph.h \
+    randomnoisecalculator.h \
+    randomnoisechartview.h
+
 
 FORMS += \
         mokelasersim.ui
