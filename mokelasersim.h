@@ -62,7 +62,7 @@ private:
   QGraphicsScene* scene;
   QPixmap visableNormalMap;
   QPoint* collisionPoint = new QPoint(0,0);
-  Eigen::Vector3f *normalVector = nullptr;
+  Eigen::Vector3d *normalVector = nullptr;
   RandomNoiseCalculator* randomGenerator;
 
   QDoubleSpinBox* refractiveIndexSpinner;
@@ -73,6 +73,9 @@ private:
   void renderNormalImage(QImage &visualisation);
   void setupNormalTargetImage();
   void setNormalFromImage();
+
+signals:
+  void newNormalFromNormalMap(Eigen::Vector3d normal);
 
 };
 

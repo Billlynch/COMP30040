@@ -37,7 +37,7 @@ class SimulationThread : public QThread {
   void incrementPEMTimeProgression();
   void fireNextRay();
   void angleOfIncidenceChanged(double angle);
-
+  void newNormalFromNormalMap(Eigen::Vector3d normal);
  private:
   QMutex mutex;
   QWaitCondition condition;

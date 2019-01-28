@@ -20,6 +20,7 @@ class SampleObject : public CollideableObject {
   std::complex<double> m_rss;
   std::complex<double> m_rsp;
   std::complex<double> m_rps;
+  Eigen::Vector3d *m_normal_map_normal;
   Matrix4d m_R;
   GraphMap m_graphMap;
 
@@ -38,6 +39,7 @@ class SampleObject : public CollideableObject {
   bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception);
   int getType();
   void calculatePolarisationUsingGriggsFormulae(Ray& ray, std::complex<double>& theta0, std::complex<double>& theta1);
+  void updatedNormalMapNormal(Eigen::Vector3d normal);
 
  private:
   void insertIntoGraphMap(std::complex<double> angle) {
@@ -58,10 +60,17 @@ class SampleObject : public CollideableObject {
   void calculateAngleOfInterception(Ray& ray, std::complex<double>& theta0) {
     auto normal = this->getNormal();
     normal.normalize();
+    Eigen::Vector3d faux_normal;
+    if (this->m_normal_map_normal != nullptr) {
+        faux_normal = normal.cross(*this->m_normal_map_normal);
+    } else {
+        faux_normal = normal;
+    }
+
     Eigen::Vector3d rayDirection = ray.getDirection();
     rayDirection.normalize();
-    std::complex<double> numerator0 = rayDirection.dot(normal);
-    std::complex<double> denominator0 = rayDirection.norm() * normal.norm();
+    std::complex<double> numerator0 = rayDirection.dot(faux_normal);
+    std::complex<double> denominator0 = rayDirection.norm() * faux_normal.norm();
     theta0 = acos(numerator0 / denominator0); // the angle of incidence
     this->insertIntoGraphMap(theta0);
   }

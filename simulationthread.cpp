@@ -169,6 +169,11 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
   mutex.unlock();
 }
 
+void SimulationThread::newNormalFromNormalMap(Eigen::Vector3d normal)
+{
+    this->sample->updatedNormalMapNormal(std::move(normal));
+}
+
 void SimulationThread::run() {
   forever {
     if (abort) {

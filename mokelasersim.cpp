@@ -43,6 +43,9 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
   connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration, ui->graphicsView, &RandomNoiseChartView::newRandomGenerator);
   randomGenerator->generate();
 
+
+  connect(this, &MOKELaserSim::newNormalFromNormalMap, &thread, &SimulationThread::newNormalFromNormalMap);
+
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -124,6 +127,7 @@ void MOKELaserSim::updateCollisionVisualisation()
     painter->end();
 
     renderNormalImage(*visualisationNormalMapImg);
+    setNormalFromImage();
 }
 
 void MOKELaserSim::renderNormalImage(QImage &visualisation)
@@ -155,6 +159,7 @@ void MOKELaserSim::setNormalFromImage()
 {
     QRgb normalPixel = normalMapImg->pixel(*collisionPoint);
 
-    normalVector = new Eigen::Vector3f(qRed(normalPixel), qGreen(normalPixel), qBlue(normalPixel));
+    normalVector = new Eigen::Vector3d(static_cast<double>(qRed(normalPixel)), static_cast<double>(qGreen(normalPixel)), static_cast<double>(qBlue(normalPixel)));
     normalVector->normalize();
+    emit newNormalFromNormalMap(*normalVector);
 }

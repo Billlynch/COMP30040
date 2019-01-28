@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "sampleobject.h"
 #include <iostream>
 
@@ -48,6 +50,11 @@ void SampleObject::calculatePolarisationUsingGriggsFormulae(Ray& ray, std::compl
 
   Matrix4cd newPolar = m_R * ray.getPolarisation();
   ray.setPolarisation(newPolar);
+}
+
+void SampleObject::updatedNormalMapNormal(Eigen::Vector3d normal)
+{
+    this->m_normal_map_normal = &normal;
 }
 
 void SampleObject::collide(Ray& ray, Eigen::Vector3d& pointOfInterception) {
