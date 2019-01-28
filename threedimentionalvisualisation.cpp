@@ -21,6 +21,14 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
    cameraEntity->setPosition(QVector3D(0, -20, 25));
    cameraEntity->setUpVector(QVector3D(0, 0, 1));
    cameraEntity->setViewCenter(QVector3D(0, 0, 0));
+   cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
+
+
+   // For camera controls
+   Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
+   camController->setLinearSpeed( 50.0f );
+   camController->setLookSpeed( 180.0f );
+   camController->setCamera(cameraEntity);
 
    this->setupSample();
    this->setupPolariser();
@@ -234,7 +242,7 @@ void ThreeDimentionalVisualisation::setupLineSampleToAnalyiser()
     lineSampleToAnalyiserGeometry = new Qt3DRender::QGeometry(rootEntity);
 
     this->updateLineSampleToAnalyiser();
-        // mesh
+    // mesh
     auto line = new Qt3DRender::QGeometryRenderer(rootEntity);
     line->setGeometry(lineSampleToAnalyiserGeometry);
     line->setPrimitiveType(Qt3DRender::QGeometryRenderer::Lines);
