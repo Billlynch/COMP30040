@@ -21,6 +21,8 @@
 
 #include "collideableobject.h"
 
+const double degreeMulitplier3 = 180.0 / M_PI;
+
 class ThreeDimentionalVisualisation : public QWidget
 {
     Q_OBJECT

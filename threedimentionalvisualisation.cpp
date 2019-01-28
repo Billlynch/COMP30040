@@ -171,12 +171,12 @@ void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen
     this->analysierPosition = QVector3D(position(0), position(1), position(2));// std::move(position);
     this->objectsInScene = std::move(objectsInScene);
 
-    std::cout << "here" << std::endl;
-
     analysierTransform->setTranslation(this->analysierPosition);
+    analysierTransform->setRotationX(-(std::atan(-this->rayDirectionInit.x() / this->rayDirectionInit.y()) * degreeMulitplier3));
 
     this->laserPosition = QVector3D(this->analysierPosition);
     this->laserPosition.setX(this->analysierPosition.x() * -1.0);
+    laserTransform->setRotationX((std::atan(-this->rayDirectionInit.x() / this->rayDirectionInit.y()) * degreeMulitplier3));
     laserTransform->setTranslation(this->laserPosition);
 
 
@@ -185,12 +185,12 @@ void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen
 
         if (obj->getType() == 1) { // PEM
             PEMTransform->setTranslation(position);
+            PEMTransform->setRotationX(-(std::atan(obj->getNormal().x() / obj->getNormal().y()) * degreeMulitplier3) + 90.0);
         } else if (obj->getType() == 2) { // polarising filter
             PolariserTransform->setTranslation(position);
-        } else if (obj->getType() == 3) { // sample
-
-        } else {
+            PolariserTransform->setRotationX(-(std::atan(obj->getNormal().x() / obj->getNormal().y()) * degreeMulitplier3) + 90.0);
 
         }
     }
 }
+
