@@ -18,6 +18,7 @@
 #include <collideableobject.h>
 #include <QSlider>
 #include <oglwidget.h>
+#include <threedimentionalvisualisation.h>
 
 
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatrix4cd;
@@ -29,7 +30,7 @@ class SimulationThread : public QThread {
   SimulationThread(QObject* parent = nullptr);
   ~SimulationThread() override;
 
-  void simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph);
+  void simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph, ThreeDimentionalVisualisation& rep);
   void customAbort();
 
  protected:

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sample.obj</file>
+        <file>filter.obj</file>
+        <file>laser.obj</file>
+    </qresource>
+</RCC>

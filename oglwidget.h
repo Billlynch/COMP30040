@@ -2,6 +2,7 @@
 #define OGLWIDGET_H
 
 #include "collideableobject.h"
+#include <Qt3DRender>
 
 #include <QWidget>
 #include <QOpenGLWidget>
@@ -51,6 +52,7 @@ class OGLWidget : public QOpenGLWidget {
   void drawSample();
   void drawAnalyser();
   void drawObject(CollideableObject& obj);
+  void objTest();
 
 
  protected:

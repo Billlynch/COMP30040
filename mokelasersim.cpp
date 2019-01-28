@@ -59,7 +59,8 @@ void MOKELaserSim::on_RunSimButton_clicked() {
                   ui->n0_r_input->value(),
                   ui->n0_i_input->value(),
                   *ui->openGLWidget,
-                  *ui->kerrGraph);
+                  *ui->kerrGraph,
+                  *ui->threeDVis);
   pemTimer->start();
   eventLoopTimer->start();
 }

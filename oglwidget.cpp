@@ -89,6 +89,11 @@ void OGLWidget::drawObject(CollideableObject& obj)
     glPopMatrix();
 }
 
+void OGLWidget::objTest()
+{
+
+}
+
 void OGLWidget::initializeGL() {
   glClearColor(0, 0, 50, 1);
   glEnable(GL_DEPTH_TEST);

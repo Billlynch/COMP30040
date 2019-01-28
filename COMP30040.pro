@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui opengl charts concurrent
+QT += core gui opengl charts concurrent 3dcore 3drender 3dinput 3dextras multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -54,7 +54,8 @@ SOURCES += \
     oglwidget.cpp \
     kerrrotationgraph.cpp \
     randomnoisecalculator.cpp \
-    randomnoisechartview.cpp
+    randomnoisechartview.cpp \
+    threedimentionalvisualisation.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -68,7 +69,8 @@ HEADERS += \
     oglwidget.h \
     kerrrotationgraph.h \
     randomnoisecalculator.h \
-    randomnoisechartview.h
+    randomnoisechartview.h \
+    threedimentionalvisualisation.h
 
 
 FORMS += \
@@ -78,5 +80,9 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+RESOURCES += \
+    obj.qrc
 
 

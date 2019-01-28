@@ -25,11 +25,13 @@ void SimulationThread::customAbort() {
   this->abort = false;
 }
 
-void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph) {
+void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph, ThreeDimentionalVisualisation& rep) {
   QMutexLocker locker(&mutex);
 
   connect(this, &SimulationThread::emittedNewRay, &representation, &OGLWidget::newOutputFromAnalyser);
   connect(this, &SimulationThread::newPositions, &representation, &OGLWidget::newPositions);
+  connect(this, &SimulationThread::newPositions, &rep, &ThreeDimentionalVisualisation::newPositions);
+
 
   //connect(&angleOfIncidenceSlider, &QSlider::sliderMoved, this, &SimulationThread::angleOfIncidenceChanged);
 

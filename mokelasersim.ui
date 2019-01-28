@@ -43,8 +43,8 @@
    <widget class="OGLWidget" name="openGLWidget">
     <property name="geometry">
      <rect>
-      <x>940</x>
-      <y>0</y>
+      <x>440</x>
+      <y>430</y>
       <width>771</width>
       <height>491</height>
      </rect>
@@ -160,7 +160,7 @@
     <property name="geometry">
      <rect>
       <x>1170</x>
-      <y>510</y>
+      <y>560</y>
       <width>511</width>
       <height>361</height>
      </rect>
@@ -526,6 +526,22 @@
      </property>
     </widget>
    </widget>
+   <widget class="ThreeDimentionalVisualisation" name="threeDVis">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>10</y>
+      <width>770</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>300</width>
+      <height>300</height>
+     </size>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -569,6 +585,11 @@
    <class>RandomNoiseChartView</class>
    <extends>QGraphicsView</extends>
    <header>randomnoisechartview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ThreeDimentionalVisualisation</class>
+   <extends>QOpenGLWidget</extends>
+   <header>threedimentionalvisualisation.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
