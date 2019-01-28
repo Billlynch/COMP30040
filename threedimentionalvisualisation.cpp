@@ -27,6 +27,8 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
    this->setupPEM();
    this->setupLaser();
    this->setupAnalyiser();
+   this->setupLineLaserToSample();
+   this->setupLineSampleToAnalyiser();
 
    auto lightEntity = new Qt3DCore::QEntity(rootEntity);
    auto light = new Qt3DRender::QPointLight(lightEntity);
@@ -37,7 +39,6 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
    auto lightTransform = new Qt3DCore::QTransform(lightEntity);
    lightTransform->setTranslation(view->camera()->position());
    lightEntity->addComponent(lightTransform);
-
 
    // Set root object of the scene
    view->setRootEntity(rootEntity);
@@ -165,6 +166,133 @@ void ThreeDimentionalVisualisation::setupAnalyiser()
     modelEntity->addComponent(analyiserMaterial);
 }
 
+void ThreeDimentionalVisualisation::setupLineLaserToSample()
+{
+    lineLaserToSampleGeometry = new Qt3DRender::QGeometry(rootEntity);
+
+    this->updateLineLaserToSample();
+        // mesh
+    auto line = new Qt3DRender::QGeometryRenderer(rootEntity);
+    line->setGeometry(lineLaserToSampleGeometry);
+    line->setPrimitiveType(Qt3DRender::QGeometryRenderer::Lines);
+    auto *material = new Qt3DExtras::QPhongMaterial(rootEntity);
+    material->setAmbient(Qt::green);
+
+    // entity
+    auto lineEntity = new Qt3DCore::QEntity(rootEntity);
+    lineEntity->addComponent(line);
+    lineEntity->addComponent(material);
+}
+
+void ThreeDimentionalVisualisation::updateLineLaserToSample()
+{
+    // position vertices (start and end)
+    QByteArray lineBufferBytes;
+    lineBufferBytes.resize(3 * 2 * sizeof(float)); // start.x, start.y, start.end + end.x, end.y, end.z
+    auto line_laser_to_sample_positions = reinterpret_cast<float*>(lineBufferBytes.data());
+    *line_laser_to_sample_positions++ = this->laserPosition.x();
+    *line_laser_to_sample_positions++ = this->laserPosition.y();
+    *line_laser_to_sample_positions++ = this->laserPosition.z();
+    *line_laser_to_sample_positions++ = this->samplePositon.x();
+    *line_laser_to_sample_positions++ = this->samplePositon.y();
+    *line_laser_to_sample_positions++ = this->samplePositon.z();
+
+    auto buf = new Qt3DRender::QBuffer(lineLaserToSampleGeometry);
+    buf->setData(lineBufferBytes);
+
+    auto positionAttribute = new Qt3DRender::QAttribute(lineLaserToSampleGeometry);
+    positionAttribute->setName(Qt3DRender::QAttribute::defaultPositionAttributeName());
+    positionAttribute->setVertexBaseType(Qt3DRender::QAttribute::Float);
+    positionAttribute->setVertexSize(3);
+    positionAttribute->setAttributeType(Qt3DRender::QAttribute::VertexAttribute);
+    positionAttribute->setBuffer(buf);
+    positionAttribute->setByteStride(3 * sizeof(float));
+    positionAttribute->setCount(2);
+    lineLaserToSampleGeometry->addAttribute(positionAttribute); // We add the vertices in the geometry
+
+    // connectivity between vertices
+    QByteArray indexBytes;
+    indexBytes.resize(2 * sizeof(unsigned int)); // start to end
+    auto indices = reinterpret_cast<unsigned int*>(indexBytes.data());
+    *indices++ = 0;
+    *indices++ = 1;
+
+    auto *indexBuffer = new Qt3DRender::QBuffer(lineLaserToSampleGeometry);
+    indexBuffer->setData(indexBytes);
+
+    auto *indexAttribute = new Qt3DRender::QAttribute(lineLaserToSampleGeometry);
+    indexAttribute->setVertexBaseType(Qt3DRender::QAttribute::UnsignedInt);
+    indexAttribute->setAttributeType(Qt3DRender::QAttribute::IndexAttribute);
+    indexAttribute->setBuffer(indexBuffer);
+    indexAttribute->setCount(2);
+    lineLaserToSampleGeometry->addAttribute(indexAttribute); // We add the indices linking the points in the geometry
+
+}
+
+void ThreeDimentionalVisualisation::setupLineSampleToAnalyiser()
+{
+    lineSampleToAnalyiserGeometry = new Qt3DRender::QGeometry(rootEntity);
+
+    this->updateLineSampleToAnalyiser();
+        // mesh
+    auto line = new Qt3DRender::QGeometryRenderer(rootEntity);
+    line->setGeometry(lineSampleToAnalyiserGeometry);
+    line->setPrimitiveType(Qt3DRender::QGeometryRenderer::Lines);
+    auto *material = new Qt3DExtras::QPhongMaterial(rootEntity);
+    material->setAmbient(Qt::green);
+
+    // entity
+    auto lineEntity = new Qt3DCore::QEntity(rootEntity);
+    lineEntity->addComponent(line);
+    lineEntity->addComponent(material);
+}
+
+void ThreeDimentionalVisualisation::updateLineSampleToAnalyiser()
+{
+    // position vertices (start and end)
+    QByteArray lineBufferBytes;
+    lineBufferBytes.resize(3 * 2 * sizeof(float)); // start.x, start.y, start.end + end.x, end.y, end.z
+    auto line_laser_to_sample_positions = reinterpret_cast<float*>(lineBufferBytes.data());
+    *line_laser_to_sample_positions++ = this->samplePositon.x();
+    *line_laser_to_sample_positions++ = this->samplePositon.y();
+    *line_laser_to_sample_positions++ = this->samplePositon.z();
+    *line_laser_to_sample_positions++ = this->analysierPosition.x();
+    *line_laser_to_sample_positions++ = this->analysierPosition.y();
+    *line_laser_to_sample_positions++ = this->analysierPosition.z();
+
+
+    auto buf = new Qt3DRender::QBuffer(lineSampleToAnalyiserGeometry);
+    buf->setData(lineBufferBytes);
+
+    auto positionAttribute = new Qt3DRender::QAttribute(lineSampleToAnalyiserGeometry);
+    positionAttribute->setName(Qt3DRender::QAttribute::defaultPositionAttributeName());
+    positionAttribute->setVertexBaseType(Qt3DRender::QAttribute::Float);
+    positionAttribute->setVertexSize(3);
+    positionAttribute->setAttributeType(Qt3DRender::QAttribute::VertexAttribute);
+    positionAttribute->setBuffer(buf);
+    positionAttribute->setByteStride(3 * sizeof(float));
+    positionAttribute->setCount(2);
+    lineSampleToAnalyiserGeometry->addAttribute(positionAttribute); // We add the vertices in the geometry
+
+    // connectivity between vertices
+    QByteArray indexBytes;
+    indexBytes.resize(2 * sizeof(unsigned int)); // start to end
+    auto indices = reinterpret_cast<unsigned int*>(indexBytes.data());
+    *indices++ = 0;
+    *indices++ = 1;
+
+    auto *indexBuffer = new Qt3DRender::QBuffer(lineSampleToAnalyiserGeometry);
+    indexBuffer->setData(indexBytes);
+
+    auto *indexAttribute = new Qt3DRender::QAttribute(lineSampleToAnalyiserGeometry);
+    indexAttribute->setVertexBaseType(Qt3DRender::QAttribute::UnsignedInt);
+    indexAttribute->setAttributeType(Qt3DRender::QAttribute::IndexAttribute);
+    indexAttribute->setBuffer(indexBuffer);
+    indexAttribute->setCount(2);
+    lineSampleToAnalyiserGeometry->addAttribute(indexAttribute); // We add the indices linking the points in the geometry
+
+}
+
 void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen::Vector3d rayDirection, std::vector<CollideableObject *> objectsInScene)
 {
     this->rayDirectionInit = std::move(rayDirection);
@@ -178,6 +306,10 @@ void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen
     this->laserPosition.setX(this->analysierPosition.x() * -1.0);
     laserTransform->setRotationX((std::atan(-this->rayDirectionInit.x() / this->rayDirectionInit.y()) * degreeMulitplier3));
     laserTransform->setTranslation(this->laserPosition);
+
+    this->updateLineLaserToSample();
+    this->updateLineSampleToAnalyiser();
+
 
 
     foreach (CollideableObject *obj, this->objectsInScene) {

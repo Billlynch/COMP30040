@@ -15,6 +15,8 @@
 #include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DExtras/QPerVertexColorMaterial>
 #include <Qt3DRender/QPointLight>
+#include <Qt3DRender/QBuffer>
+#include <Qt3DRender/QAttribute>
 #include <QDir>
 
 #include <eigen3/Eigen/Dense>
@@ -35,6 +37,7 @@ private:
     std::vector<CollideableObject*> objectsInScene;
     QVector3D analysierPosition;
     QVector3D laserPosition;
+    QVector3D samplePositon = QVector3D(0,10,0);
 
     Eigen::Vector3d pemPosition;
     Eigen::Vector3d polarisationPosition;
@@ -44,12 +47,21 @@ private:
     Qt3DCore::QTransform *PEMTransform;
     Qt3DCore::QTransform *PolariserTransform;
     Qt3DCore::QTransform *laserTransform;
+
+    Qt3DRender::QGeometry *lineLaserToSampleGeometry;
+    Qt3DRender::QGeometry *lineSampleToAnalyiserGeometry;
+
+
     void setupSample();
     void setupPolariser();
     void setupPEM();
     void setupLaser();
     void setupAnalyiser();
     void drawObject(CollideableObject& obj);
+    void setupLineLaserToSample();
+    void updateLineLaserToSample();
+    void setupLineSampleToAnalyiser();
+    void updateLineSampleToAnalyiser();
 
 public slots:
     void newPositions(Eigen::Vector3d position,
