@@ -41,6 +41,7 @@ class SimulationThread : public QThread {
   void angleOfIncidenceChanged(double angle);
   void newLaserNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newLaserNoiseState(int state);
+  void newPemState(int state);
 
 
  private:

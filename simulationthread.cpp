@@ -185,6 +185,11 @@ void SimulationThread::newLaserNoiseState(int state)
     this->laserNoise = state;
 }
 
+void SimulationThread::newPemState(int state)
+{
+    this->pem->setEnabled(state);
+}
+
 void SimulationThread::run() {
   forever {
     if (abort) {

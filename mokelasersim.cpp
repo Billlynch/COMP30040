@@ -46,6 +46,8 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
 
   connect(this, &MOKELaserSim::newCameraLocation, ui->threeDVis, &ThreeDimentionalVisualisation::newCameraPostion);
   connect(this, &MOKELaserSim::laserNoiseStateChanhe, &thread, &SimulationThread::newLaserNoiseState);
+  connect(this, &MOKELaserSim::newPemState, &thread, &SimulationThread::newPemState);
+
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -194,4 +196,9 @@ void MOKELaserSim::on_PEM_view_clicked()
 void MOKELaserSim::on_Analysier_view_clicked()
 {
     emit newCameraLocation(ViewType::analyiser);
+}
+
+void MOKELaserSim::on_pem_enabled_chk_stateChanged(int state)
+{
+    emit newPemState(state);
 }

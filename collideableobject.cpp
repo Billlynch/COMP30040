@@ -2,6 +2,12 @@
 #include <iostream>
 
 bool CollideableObject::interceptPlane(Ray& ray, double& t) {
+
+  if (this->collisionsEnabled == 0)
+  {
+    return false;
+  }
+
   Eigen::Vector3d rayDirection = ray.getDirection();
   m_normal.normalize();
 
@@ -48,4 +54,9 @@ Eigen::Vector3d* CollideableObject::newPosition(Eigen::Vector3d samplePositition
         this->m_normal(0) = this->m_normal(0) * side;
     }
     return nullptr;
+}
+
+void CollideableObject::setEnabled(int state)
+{
+     this->collisionsEnabled = state;
 }

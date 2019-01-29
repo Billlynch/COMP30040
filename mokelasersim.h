@@ -64,6 +64,8 @@ class MOKELaserSim : public QMainWindow {
 
   void on_noise_chk_stateChanged(int arg1);
 
+  void on_pem_enabled_chk_stateChanged(int arg1);
+
 private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;
@@ -91,6 +93,7 @@ private:
 signals:
   void newCameraLocation(ViewType view);
   void laserNoiseStateChanhe(int state);
+  void newPemState(int state);
 };
 
 #endif // MOKELASERSIM_H
