@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui opengl charts concurrent 3dcore 3drender 3dinput 3dextras multimedia
+QT += core gui charts concurrent 3dcore 3drender 3dinput 3dextras multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,7 +15,7 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS GL_SILENCE_DEPRECATION
+DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -25,18 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS GL_SILENCE_DEPRECATION
 CONFIG += c++11 sdk_no_version_check
 
 unix:!macx {
-    LIBS += -lGLEW -lglfw -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lGL -lGLU -lglut
+    LIBS += -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread
 }
 
 macx: {
     INCLUDEPATH += /usr/local/Cellar/eigen/3.3.5/include/
-    unix: LIBS += -L$$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/ -lGLEW
-
-    INCLUDEPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
-    DEPENDPATH += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/include
-
-    unix: PRE_TARGETDEPS += $$PWD/../../../../../usr/local/Cellar/glew/2.1.0/lib/libGLEW.a
-    LIBS += -framework Cocoa -framework CoreVideo -framework IOKit -framework GLUT
+    LIBS += -framework Cocoa -framework CoreVideo -framework IOKit
 }
 
 
