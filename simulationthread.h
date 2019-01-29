@@ -61,9 +61,9 @@ class SimulationThread : public QThread {
 
   std::vector<CollideableObject*> m_objectsInScene;
 
-  SampleObject* setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation, kerrRotationGraph& graph);
-  PolarisingFilter* setupPolariser(Eigen::Vector2d targetPolarisation, OGLWidget& representation);
-  PEM* setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget& representation);
+  SampleObject* setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation, kerrRotationGraph& graph, ThreeDimentionalVisualisation& rep);
+  PolarisingFilter* setupPolariser(Eigen::Vector2d targetPolarisation, OGLWidget& representation, ThreeDimentionalVisualisation& rep);
+  PEM* setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget& representation, ThreeDimentionalVisualisation& rep);
   Matrix4cd generateInitalPolarisation();
 
   void trace(ListMatrix4cd& outputList, std::vector<CollideableObject*>& objectsInScene, int& rayCount);

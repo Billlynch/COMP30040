@@ -55,7 +55,15 @@ private:
     Qt3DRender::QGeometry *lineSampleToAnalyiserGeometry;
 
     std::deque<Matrix4cd> laserToPolarisingFilterRays;
+    std::deque<Matrix4cd> PolarisingFilterToSampleRays;
+    std::deque<Matrix4cd> SampleToPEMRays;
+    std::deque<Matrix4cd> PEMToAnalyiserRays;
+
     std::deque<Qt3DCore::QTransform*> *laserToPolarisingFilterTransforms = new std::deque<Qt3DCore::QTransform*>;
+    std::deque<Qt3DCore::QTransform*> *PolarisingFilterToSampleTransforms = new std::deque<Qt3DCore::QTransform*>;
+    std::deque<Qt3DCore::QTransform*> *SampleToPEMTransforms = new std::deque<Qt3DCore::QTransform*>;
+    std::deque<Qt3DCore::QTransform*> *PEMToAnalyiserTransforms = new std::deque<Qt3DCore::QTransform*>;
+
 
     void setupSample();
     void setupPolariser();
@@ -68,15 +76,19 @@ private:
     void setupLineSampleToAnalyiser();
     void updateLineSampleToAnalyiser();
     void setupRaysToPolariser();
+    void setupRaysToSample();
+    void setupRaysToPEM();
+    void setupRaysToAnalyiser();
+
 
 public slots:
     void newPositions(Eigen::Vector3d position,
                       Eigen::Vector3d rayDirection,
                       std::vector<CollideableObject*> objectsInScene);
 
-    //void newOutputFromPEM(Matrix4cd polarisation);
-    //void newOutputFromPolariser(Matrix4cd polarisation);
-    //void newOutputFromSample(Matrix4cd polarisation);
+    void newOutputFromPEM(Matrix4cd polarisation);
+    void newOutputFromPolariser(Matrix4cd polarisation);
+    void newOutputFromSample(Matrix4cd polarisation);
     void newOutputFromAnalyser(Matrix4cd polarisation);
 
 };

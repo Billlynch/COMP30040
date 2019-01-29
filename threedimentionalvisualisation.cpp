@@ -38,6 +38,10 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
    this->setupLineLaserToSample();
    this->setupLineSampleToAnalyiser();
    this->setupRaysToPolariser();
+   this->setupRaysToSample();
+   this->setupRaysToPEM();
+   this->setupRaysToAnalyiser();
+
 
    auto lightEntity = new Qt3DCore::QEntity(rootEntity);
    auto light = new Qt3DRender::QPointLight(lightEntity);
@@ -332,6 +336,90 @@ void ThreeDimentionalVisualisation::setupRaysToPolariser()
 
 }
 
+void ThreeDimentionalVisualisation::setupRaysToSample()
+{
+    for (int i = 0; i < 10; i++) {
+        //Mesh
+        auto rayMesh = new Qt3DRender::QMesh();
+        rayMesh->setSource(QUrl(QStringLiteral("qrc:/ray.obj")));
+
+        // default Transform
+        auto rayTransfrom = new Qt3DCore::QTransform();
+        rayTransfrom->setScale(0.5f);
+        rayTransfrom->setTranslation(this->analysierPosition);
+        rayTransfrom->setRotationZ(90.0f);
+        rayTransfrom->setRotationY(90.0f);
+        rayTransfrom->setRotationX(-45.0f);
+
+        auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
+        modelMaterial->setDiffuse(Qt::red);
+
+        // Laser
+        auto rayEntity = new Qt3DCore::QEntity(rootEntity);
+        rayEntity->addComponent(rayMesh);
+        rayEntity->addComponent(rayTransfrom);
+        rayEntity->addComponent(modelMaterial);
+
+        this->PolarisingFilterToSampleTransforms->insert(this->PolarisingFilterToSampleTransforms->begin(), rayTransfrom);
+    }
+}
+
+void ThreeDimentionalVisualisation::setupRaysToPEM()
+{
+    for (int i = 0; i < 10; i++) {
+        //Mesh
+        auto rayMesh = new Qt3DRender::QMesh();
+        rayMesh->setSource(QUrl(QStringLiteral("qrc:/ray.obj")));
+
+        // default Transform
+        auto rayTransfrom = new Qt3DCore::QTransform();
+        rayTransfrom->setScale(0.5f);
+        rayTransfrom->setTranslation(this->analysierPosition);
+        rayTransfrom->setRotationZ(90.0f);
+        rayTransfrom->setRotationY(90.0f);
+        rayTransfrom->setRotationX(-45.0f);
+
+        auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
+        modelMaterial->setDiffuse(Qt::red);
+
+        // Laser
+        auto rayEntity = new Qt3DCore::QEntity(rootEntity);
+        rayEntity->addComponent(rayMesh);
+        rayEntity->addComponent(rayTransfrom);
+        rayEntity->addComponent(modelMaterial);
+
+        this->SampleToPEMTransforms->insert(this->SampleToPEMTransforms->begin(), rayTransfrom);
+    }
+}
+
+void ThreeDimentionalVisualisation::setupRaysToAnalyiser()
+{
+    for (int i = 0; i < 10; i++) {
+        //Mesh
+        auto rayMesh = new Qt3DRender::QMesh();
+        rayMesh->setSource(QUrl(QStringLiteral("qrc:/ray.obj")));
+
+        // default Transform
+        auto rayTransfrom = new Qt3DCore::QTransform();
+        rayTransfrom->setScale(0.5f);
+        rayTransfrom->setTranslation(this->analysierPosition);
+        rayTransfrom->setRotationZ(90.0f);
+        rayTransfrom->setRotationY(90.0f);
+        rayTransfrom->setRotationX(-45.0f);
+
+        auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
+        modelMaterial->setDiffuse(Qt::red);
+
+        // Laser
+        auto rayEntity = new Qt3DCore::QEntity(rootEntity);
+        rayEntity->addComponent(rayMesh);
+        rayEntity->addComponent(rayTransfrom);
+        rayEntity->addComponent(modelMaterial);
+
+        this->PEMToAnalyiserTransforms->insert(this->PEMToAnalyiserTransforms->begin(), rayTransfrom);
+    }
+}
+
 void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen::Vector3d rayDirection, std::vector<CollideableObject *> objectsInScene)
 {
     this->rayDirectionInit = std::move(rayDirection);
@@ -365,12 +453,62 @@ void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen
     }
 }
 
+void ThreeDimentionalVisualisation::newOutputFromPEM(Matrix4cd polarisation)
+{
+    QVector3D PEMToAnalyiserRayDirection = this->analysierPosition - this->PEMTransform->translation();
+    PEMToAnalyiserRayDirection.normalize();
+
+    this->PEMToAnalyiserRays.insert(this->PEMToAnalyiserRays.begin(), polarisation);
+
+    if (this->PEMToAnalyiserRays.size() > 11) {
+      this->PEMToAnalyiserRays.pop_back();
+    }
+
+    for (unsigned i = 0; i < this->PEMToAnalyiserRays.size() - 1; i++) {
+        this->PEMToAnalyiserTransforms->at(i)->setRotationY(this->PEMToAnalyiserRays.at(i)(0, 0).real() * degreeMulitplier3);
+        QVector3D position = this->PEMTransform->translation() + (PEMToAnalyiserRayDirection * (i +1));
+        this->PEMToAnalyiserTransforms->at(i)->setTranslation(position);
+    }
+}
+
+void ThreeDimentionalVisualisation::newOutputFromPolariser(Matrix4cd polarisation)
+{
+    QVector3D laserToSampleRayDirection = this->samplePositon - this->PolariserTransform->translation();
+    laserToSampleRayDirection.normalize();
+
+    this->PolarisingFilterToSampleRays.insert(this->PolarisingFilterToSampleRays.begin(), polarisation);
+
+    if (this->PolarisingFilterToSampleRays.size() > 11) {
+      this->PolarisingFilterToSampleRays.pop_back();
+    }
+
+    for (unsigned i = 0; i < this->PolarisingFilterToSampleRays.size() - 1; i++) {
+        this->PolarisingFilterToSampleTransforms->at(i)->setRotationY(this->PolarisingFilterToSampleRays.at(i)(0, 0).real() * degreeMulitplier3);
+        QVector3D position = this->PolariserTransform->translation() + (laserToSampleRayDirection * (i +1));
+        this->PolarisingFilterToSampleTransforms->at(i)->setTranslation(position);
+    }
+}
+
+void ThreeDimentionalVisualisation::newOutputFromSample(Matrix4cd polarisation)
+{
+    QVector3D SampleToPEMRayDirection = this->PEMTransform->translation() - this->samplePositon;
+    SampleToPEMRayDirection.normalize();
+
+    this->SampleToPEMRays.insert(this->SampleToPEMRays.begin(), polarisation);
+
+    if (this->SampleToPEMRays.size() > 11) {
+      this->SampleToPEMRays.pop_back();
+    }
+
+    for (unsigned i = 0; i < this->SampleToPEMRays.size() - 1; i++) {
+        this->SampleToPEMTransforms->at(i)->setRotationY(this->SampleToPEMRays.at(i)(0, 0).real() * degreeMulitplier3);
+        QVector3D position = this->samplePositon + (SampleToPEMRayDirection * (i +1));
+        this->SampleToPEMTransforms->at(i)->setTranslation(position);
+    }
+}
+
 void ThreeDimentionalVisualisation::newOutputFromAnalyser(Matrix4cd polarisation)
 {
-    std::cout << "new pol" << std::endl;
-    //Eigen::Vector3d normalisedRayDir = this->rayDirectionInit.normalized();
-
-    //QVector3D laserToSampleRayDirection = QVector3D(normalisedRayDir(0), normalisedRayDir(1), normalisedRayDir(2));
     QVector3D laserToSampleRayDirection = this->samplePositon - this->laserPosition;
     laserToSampleRayDirection.normalize();
     this->laserToPolarisingFilterRays.insert(this->laserToPolarisingFilterRays.begin(), polarisation);
@@ -382,9 +520,7 @@ void ThreeDimentionalVisualisation::newOutputFromAnalyser(Matrix4cd polarisation
     for (unsigned i = 0; i < this->laserToPolarisingFilterRays.size() - 1; i++) {
         this->laserToPolarisingFilterTransforms->at(i)->setRotationY(this->laserToPolarisingFilterRays.at(i)(0, 0).real() * degreeMulitplier3);
         QVector3D position = (this->laserPosition + (laserToSampleRayDirection * (i +1)));
-
         this->laserToPolarisingFilterTransforms->at(i)->setTranslation(position);
-
     }
 }
 
