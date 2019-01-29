@@ -469,7 +469,7 @@ void ThreeDimentionalVisualisation::newOutputFromPEM(Matrix4cd polarisation)
     }
 
     for (unsigned i = 0; i < this->PEMToAnalyiserRays.size() - 1; i++) {
-        this->PEMToAnalyiserTransforms->at(i)->setRotationY(this->PEMToAnalyiserRays.at(i)(0, 0).real() * degreeMulitplier3);
+        this->PEMToAnalyiserTransforms->at(i)->setRotationZ(this->PEMToAnalyiserRays.at(i)(0, 0).real() * degreeMulitplier3);
         QVector3D position = this->PEMTransform->translation() + (PEMToAnalyiserRayDirection * (i * RaySpreadFactorLaserSide));
         this->PEMToAnalyiserTransforms->at(i)->setTranslation(position);
     }
@@ -505,7 +505,7 @@ void ThreeDimentionalVisualisation::newOutputFromSample(Matrix4cd polarisation)
     }
 
     for (unsigned i = 0; i < this->SampleToPEMRays.size() - 1; i++) {
-        this->SampleToPEMTransforms->at(i)->setRotationY(this->SampleToPEMRays.at(i)(0, 0).real() * degreeMulitplier3);
+        this->SampleToPEMTransforms->at(i)->setRotationZ(this->SampleToPEMRays.at(i)(0, 0).real() * degreeMulitplier3);
         QVector3D position = this->samplePositon + (SampleToPEMRayDirection * (i * RaySpreadFactorSampleSide));
         this->SampleToPEMTransforms->at(i)->setTranslation(position);
     }
