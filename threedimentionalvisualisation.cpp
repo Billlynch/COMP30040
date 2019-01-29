@@ -17,7 +17,7 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
    rootEntity = new Qt3DCore::QEntity();
 
    // Camera
-   auto cameraEntity = view->camera();
+   cameraEntity = view->camera();
    cameraEntity->setPosition(QVector3D(0, -20, 25));
    cameraEntity->setUpVector(QVector3D(0, 0, 1));
    cameraEntity->setViewCenter(QVector3D(0, 0, 0));
@@ -525,6 +525,46 @@ void ThreeDimentionalVisualisation::newOutputFromAnalyser(Matrix4cd polarisation
         this->laserToPolarisingFilterTransforms->at(i)->setRotationY(this->laserToPolarisingFilterRays.at(i)(0, 0).real() * degreeMulitplier3);
         QVector3D position = (this->laserPosition + (laserToSampleRayDirection * (i * RaySpreadFactorLaserSide)));
         this->laserToPolarisingFilterTransforms->at(i)->setTranslation(position);
+    }
+}
+
+void ThreeDimentionalVisualisation::newCameraPostion(ViewType view)
+{
+    switch (view) {
+        case centre:
+            cameraEntity->setPosition(QVector3D(0, -20, 25));
+            cameraEntity->setViewCenter(QVector3D(0, 0, 0));
+            break;
+
+        case laser:
+            cameraEntity->setPosition(QVector3D(0, -20, 25));
+            cameraEntity->setViewCenter(this->laserPosition);
+            break;
+
+        case polarFilter:
+            cameraEntity->setPosition(QVector3D(0, -20, 25));
+            cameraEntity->setViewCenter(this->PolariserTransform->translation());
+            break;
+
+        case sample:
+            cameraEntity->setPosition(QVector3D(0, -20, 25));
+            cameraEntity->setViewCenter(this->samplePositon);
+            break;
+
+        case pem:
+            cameraEntity->setPosition(QVector3D(0, -20, 25));
+            cameraEntity->setViewCenter(this->PEMTransform->translation());
+            break;
+
+        case analyiser:
+            cameraEntity->setPosition(QVector3D(0, -20, 25));
+            cameraEntity->setViewCenter(this->analysierPosition);
+            break;
+
+        default:
+            cameraEntity->setPosition(QVector3D(0, -20, 25));
+            cameraEntity->setViewCenter(QVector3D(0, 0, 0));
+            break;
     }
 }
 

@@ -23,6 +23,7 @@
 #include <eigen3/Eigen/Dense>
 
 #include "collideableobject.h"
+#include "viewtype.h"
 
 #include <deque>
 
@@ -42,6 +43,7 @@ private:
     QVector3D laserPosition;
     QVector3D samplePositon = QVector3D(0,10,0);
     QVector3D filterOffet = QVector3D(0,0,-3);
+    Qt3DRender::QCamera *cameraEntity;
 
 
     Eigen::Vector3d pemPosition;
@@ -95,6 +97,7 @@ public slots:
     void newOutputFromPolariser(Matrix4cd polarisation);
     void newOutputFromSample(Matrix4cd polarisation);
     void newOutputFromAnalyser(Matrix4cd polarisation);
+    void newCameraPostion(ViewType view);
 
 };
 #endif // THREEDIMENTIONALVISUALISATION_H

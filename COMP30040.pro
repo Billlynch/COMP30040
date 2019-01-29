@@ -68,7 +68,8 @@ HEADERS += \
     kerrrotationgraph.h \
     randomnoisecalculator.h \
     randomnoisechartview.h \
-    threedimentionalvisualisation.h
+    threedimentionalvisualisation.h \
+    viewtype.h
 
 
 FORMS += \
