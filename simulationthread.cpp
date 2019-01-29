@@ -25,11 +25,9 @@ void SimulationThread::customAbort() {
   this->abort = false;
 }
 
-void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph, ThreeDimentionalVisualisation& rep) {
+void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i, kerrRotationGraph& graph, ThreeDimentionalVisualisation& rep) {
   QMutexLocker locker(&mutex);
 
-  connect(this, &SimulationThread::emittedNewRay, &representation, &OGLWidget::newOutputFromAnalyser);
-  connect(this, &SimulationThread::newPositions, &representation, &OGLWidget::newPositions);
   connect(this, &SimulationThread::newPositions, &rep, &ThreeDimentionalVisualisation::newPositions);
   connect(this, &SimulationThread::emittedNewRayFromAnalyiser, &rep, &ThreeDimentionalVisualisation::newOutputFromAnalyser);
 
@@ -40,11 +38,11 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
   m_n_1 = {n0_r, n0_i};
 
   // setup the sample
-  sample = setupSample(m_n_1, m_q, representation, graph, rep);
+  sample = setupSample(m_n_1, m_q, graph, rep);
   // setup the Polariser
-  polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0), representation, rep);
+  polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0), rep);
   //setup the PEM
-  pem = setupPEM(50200, 2.405, representation, rep);
+  pem = setupPEM(50200, 2.405, rep);
 
   m_objectsInScene = {pem, sample, polarisingFilter};
 
@@ -56,7 +54,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
   }
 }
 
-SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation, kerrRotationGraph& graph, ThreeDimentionalVisualisation &rep) {
+SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q,kerrRotationGraph& graph, ThreeDimentionalVisualisation &rep) {
   SampleObject* tempSample = new SampleObject( Eigen::Vector3d(0.0, 10.0, 0.0), // location
                                                0, // side
                                                Eigen::Vector3d(0.0, 1.0, 0.0), // normal
@@ -64,15 +62,13 @@ SampleObject* SimulationThread::setupSample(std::complex<double> n1, std::comple
                                                n1, // refractive index
                                                q); // Q value
 
-  connect(tempSample, &SampleObject::outputPolarisationUpdated, &representation, &OGLWidget::newOutputFromSample);  
   connect(tempSample, &SampleObject::outputPolarisationUpdated, &rep, &ThreeDimentionalVisualisation::newOutputFromSample);
-  connect(tempSample, &SampleObject::outputDirectionUpdated, &representation, &OGLWidget::newAngleOfReflection);
   connect(tempSample, &SampleObject::newAngleOutout, &graph, &kerrRotationGraph::updateSeries);
 
   return tempSample;
 }
 
-PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation, OGLWidget& representation, ThreeDimentionalVisualisation& rep) {
+PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation, ThreeDimentionalVisualisation& rep) {
   PolarisingFilter* tempPolarisingFilter = new PolarisingFilter(Eigen::Vector3d(1.0, 1.0, 0.0),
                                                                 1, // side
                                                                 Eigen::Vector3d(0.0, 1.0, 0.0),
@@ -80,13 +76,12 @@ PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolaris
                                                                 1.0, // no refractive index for now
                                                                 targetPolarisation);
 
-  connect(tempPolarisingFilter, &PolarisingFilter::outputPolarisationUpdated, &representation, &OGLWidget::newOutputFromPolariser);
   connect(tempPolarisingFilter, &PolarisingFilter::outputPolarisationUpdated, &rep, &ThreeDimentionalVisualisation::newOutputFromPolariser);
 
   return tempPolarisingFilter;
 }
 
-PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget& representation, ThreeDimentionalVisualisation& rep) {
+PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<double> phase, ThreeDimentionalVisualisation& rep) {
   PEM* tempPEM = new PEM(Eigen::Vector3d(-1.0, 1.0, 0.0),
                          -1, // side
                          Eigen::Vector3d(0.0, 1.0, 0.0),
@@ -94,7 +89,6 @@ PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<dou
                          phase,
                          amplitude);
 
-  connect(tempPEM, &PEM::outputPolarisationUpdated, &representation, &OGLWidget::newOutputFromPEM);
   connect(tempPEM, &PEM::outputPolarisationUpdated, &rep, &ThreeDimentionalVisualisation::newOutputFromPEM);
 
 

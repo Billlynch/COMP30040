@@ -51,7 +51,6 @@ SOURCES += \
     polarisingfilter.cpp \
     pem.cpp \
     simulationthread.cpp \
-    oglwidget.cpp \
     kerrrotationgraph.cpp \
     randomnoisecalculator.cpp \
     randomnoisechartview.cpp \
@@ -66,7 +65,6 @@ HEADERS += \
     polarisingfilter.h \
     pem.h \
     simulationthread.h \
-    oglwidget.h \
     kerrrotationgraph.h \
     randomnoisecalculator.h \
     randomnoisechartview.h \

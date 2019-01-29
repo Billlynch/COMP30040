@@ -40,16 +40,6 @@
      <string>Stop Simulation</string>
     </property>
    </widget>
-   <widget class="OGLWidget" name="openGLWidget">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>430</y>
-      <width>771</width>
-      <height>491</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -571,11 +561,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
-  <customwidget>
-   <class>OGLWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>oglwidget.h</header>
-  </customwidget>
   <customwidget>
    <class>kerrRotationGraph</class>
    <extends>QGraphicsView</extends>
