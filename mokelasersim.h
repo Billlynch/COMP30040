@@ -11,7 +11,7 @@
 #include <QPainter>
 #include "randomnoisecalculator.h"
 #include "randomnoisechartview.h"
-
+#include "viewtype.h"
 
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 1>> ListVector2cd;
@@ -50,6 +50,18 @@ class MOKELaserSim : public QMainWindow {
 
   void on_collisionPointX_valueChanged(int value);
 
+  void on_centre_view_clicked();
+
+  void on_laser_view_clicked();
+
+  void on_polariser_view_clicked();
+
+  void on_sample_view_clicked();
+
+  void on_PEM_view_clicked();
+
+  void on_Analysier_view_clicked();
+
   void on_noise_chk_stateChanged(int arg1);
 
 private:
@@ -77,9 +89,8 @@ private:
   void setNormalFromImage();
 
 signals:
+  void newCameraLocation(ViewType view);
   void laserNoiseStateChanhe(int state);
-
-
 };
 
 #endif // MOKELASERSIM_H

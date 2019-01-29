@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1733</width>
+    <width>1823</width>
     <height>1028</height>
    </rect>
   </property>
@@ -38,16 +38,6 @@
     </property>
     <property name="text">
      <string>Stop Simulation</string>
-    </property>
-   </widget>
-   <widget class="OGLWidget" name="openGLWidget">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>0</y>
-      <width>771</width>
-      <height>491</height>
-     </rect>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -160,7 +150,7 @@
     <property name="geometry">
      <rect>
       <x>1170</x>
-      <y>510</y>
+      <y>560</y>
       <width>511</width>
       <height>361</height>
      </rect>
@@ -526,13 +516,99 @@
      </property>
     </widget>
    </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>10</y>
+      <width>881</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="ThreeDimentionalVisualisation" name="threeDVis">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>770</width>
+       <height>500</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>300</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>10</y>
+       <width>98</width>
+       <height>241</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QPushButton" name="centre_view">
+        <property name="text">
+         <string>Centre</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="laser_view">
+        <property name="text">
+         <string>Laser</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="polariser_view">
+        <property name="text">
+         <string>Polariser</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="sample_view">
+        <property name="text">
+         <string>Sample</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="PEM_view">
+        <property name="text">
+         <string>PEM</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Analysier_view">
+        <property name="text">
+         <string>Analyiser</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1733</width>
+     <width>1823</width>
      <height>23</height>
     </rect>
    </property>
@@ -556,11 +632,6 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>OGLWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>oglwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>kerrRotationGraph</class>
    <extends>QGraphicsView</extends>
    <header>kerrrotationgraph.h</header>
@@ -569,6 +640,11 @@
    <class>RandomNoiseChartView</class>
    <extends>QGraphicsView</extends>
    <header>randomnoisechartview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ThreeDimentionalVisualisation</class>
+   <extends>QOpenGLWidget</extends>
+   <header>threedimentionalvisualisation.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

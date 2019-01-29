@@ -44,11 +44,11 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
   connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration, &thread, &SimulationThread::newLaserNoise);
   randomGenerator->generate();
 
+  connect(this, &MOKELaserSim::newCameraLocation, ui->threeDVis, &ThreeDimentionalVisualisation::newCameraPostion);
   connect(this, &MOKELaserSim::laserNoiseStateChanhe, &thread, &SimulationThread::newLaserNoiseState);
 }
 
 MOKELaserSim::~MOKELaserSim() {
-  ui->openGLWidget->close();
   delete resultsWindow;
   delete ui;
 }
@@ -58,8 +58,8 @@ void MOKELaserSim::on_RunSimButton_clicked() {
                   ui->Q_i_input->value(),
                   ui->n0_r_input->value(),
                   ui->n0_i_input->value(),
-                  *ui->openGLWidget,
-                  *ui->kerrGraph);
+                  *ui->kerrGraph,
+                  *ui->threeDVis);
   pemTimer->start();
   eventLoopTimer->start();
 }
@@ -164,4 +164,34 @@ void MOKELaserSim::setNormalFromImage()
 void MOKELaserSim::on_noise_chk_stateChanged(int state)
 {
     emit laserNoiseStateChanhe(state);
+}
+
+void MOKELaserSim::on_centre_view_clicked()
+{
+    emit newCameraLocation(ViewType::centre);
+}
+
+void MOKELaserSim::on_laser_view_clicked()
+{
+    emit newCameraLocation(ViewType::laser);
+}
+
+void MOKELaserSim::on_polariser_view_clicked()
+{
+    emit newCameraLocation(ViewType::polarFilter);
+}
+
+void MOKELaserSim::on_sample_view_clicked()
+{
+    emit newCameraLocation(ViewType::sample);
+}
+
+void MOKELaserSim::on_PEM_view_clicked()
+{
+    emit newCameraLocation(ViewType::pem);
+}
+
+void MOKELaserSim::on_Analysier_view_clicked()
+{
+    emit newCameraLocation(ViewType::analyiser);
 }

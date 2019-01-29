@@ -17,7 +17,7 @@
 #include <pem.h>
 #include <collideableobject.h>
 #include <QSlider>
-#include <oglwidget.h>
+#include <threedimentionalvisualisation.h>
 
 
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatrix4cd;
@@ -29,7 +29,7 @@ class SimulationThread : public QThread {
   SimulationThread(QObject* parent = nullptr);
   ~SimulationThread() override;
 
-  void simulate(double Q_r, double Q_i, double n0_r, double n0_i, OGLWidget& representation, kerrRotationGraph& graph);
+  void simulate(double Q_r, double Q_i, double n0_r, double n0_i, kerrRotationGraph& graph, ThreeDimentionalVisualisation& rep);
   void customAbort();
 
  protected:
@@ -60,9 +60,9 @@ class SimulationThread : public QThread {
 
   std::vector<CollideableObject*> m_objectsInScene;
 
-  SampleObject* setupSample(std::complex<double> n1, std::complex<double> q, OGLWidget& representation, kerrRotationGraph& graph);
-  PolarisingFilter* setupPolariser(Eigen::Vector2d targetPolarisation, OGLWidget& representation);
-  PEM* setupPEM(std::complex<double> amplitude, std::complex<double> phase, OGLWidget& representation);
+  SampleObject* setupSample(std::complex<double> n1, std::complex<double> q, kerrRotationGraph& graph, ThreeDimentionalVisualisation& rep);
+  PolarisingFilter* setupPolariser(Eigen::Vector2d targetPolarisation, ThreeDimentionalVisualisation& rep);
+  PEM* setupPEM(std::complex<double> amplitude, std::complex<double> phase, ThreeDimentionalVisualisation& rep);
   Matrix4cd generateInitalPolarisation();
 
   void trace(ListMatrix4cd& outputList, std::vector<CollideableObject*>& objectsInScene, int& rayCount);
@@ -70,6 +70,8 @@ class SimulationThread : public QThread {
 
  signals:
   void emittedNewRay(Matrix4cd polarisation);
+  void emittedNewRayFromAnalyiser(Matrix4cd polarisation);
+
   void newPositions(Eigen::Vector3d analyiserPosition, Eigen::Vector3d rayDirection, std::vector<CollideableObject*> objectsInScene);
   void simComplete(ListMatrix4cd &polarisations);
 
