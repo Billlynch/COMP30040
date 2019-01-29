@@ -3,5 +3,6 @@
         <file>sample.obj</file>
         <file>filter.obj</file>
         <file>laser.obj</file>
+        <file>ray.obj</file>
     </qresource>
 </RCC>

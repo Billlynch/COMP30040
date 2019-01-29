@@ -24,6 +24,8 @@
 
 #include "collideableobject.h"
 
+#include <deque>
+
 const double degreeMulitplier3 = 180.0 / M_PI;
 
 class ThreeDimentionalVisualisation : public QWidget
@@ -52,6 +54,8 @@ private:
     Qt3DRender::QGeometry *lineLaserToSampleGeometry;
     Qt3DRender::QGeometry *lineSampleToAnalyiserGeometry;
 
+    std::deque<Matrix4cd> laserToPolarisingFilterRays;
+    std::deque<Qt3DCore::QTransform*> *laserToPolarisingFilterTransforms = new std::deque<Qt3DCore::QTransform*>;
 
     void setupSample();
     void setupPolariser();
@@ -63,12 +67,17 @@ private:
     void updateLineLaserToSample();
     void setupLineSampleToAnalyiser();
     void updateLineSampleToAnalyiser();
+    void setupRaysToPolariser();
 
 public slots:
     void newPositions(Eigen::Vector3d position,
                       Eigen::Vector3d rayDirection,
                       std::vector<CollideableObject*> objectsInScene);
 
+    //void newOutputFromPEM(Matrix4cd polarisation);
+    //void newOutputFromPolariser(Matrix4cd polarisation);
+    //void newOutputFromSample(Matrix4cd polarisation);
+    void newOutputFromAnalyser(Matrix4cd polarisation);
 
 };
 #endif // THREEDIMENTIONALVISUALISATION_H

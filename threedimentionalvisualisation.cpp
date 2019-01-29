@@ -37,6 +37,7 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
    this->setupAnalyiser();
    this->setupLineLaserToSample();
    this->setupLineSampleToAnalyiser();
+   this->setupRaysToPolariser();
 
    auto lightEntity = new Qt3DCore::QEntity(rootEntity);
    auto light = new Qt3DRender::QPointLight(lightEntity);
@@ -301,6 +302,36 @@ void ThreeDimentionalVisualisation::updateLineSampleToAnalyiser()
 
 }
 
+void ThreeDimentionalVisualisation::setupRaysToPolariser()
+{
+
+    for (int i = 0; i < 10; i++) {
+        //Mesh
+        auto rayMesh = new Qt3DRender::QMesh();
+        rayMesh->setSource(QUrl(QStringLiteral("qrc:/ray.obj")));
+
+        // default Transform
+        auto rayTransfrom = new Qt3DCore::QTransform();
+        rayTransfrom->setScale(0.5f);
+        rayTransfrom->setTranslation(this->analysierPosition);
+        rayTransfrom->setRotationZ(90.0f);
+        rayTransfrom->setRotationY(90.0f);
+        rayTransfrom->setRotationX(-45.0f);
+
+        auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
+        modelMaterial->setDiffuse(Qt::red);
+
+        // Laser
+        auto rayEntity = new Qt3DCore::QEntity(rootEntity);
+        rayEntity->addComponent(rayMesh);
+        rayEntity->addComponent(rayTransfrom);
+        rayEntity->addComponent(modelMaterial);
+
+        this->laserToPolarisingFilterTransforms->insert(this->laserToPolarisingFilterTransforms->begin(), rayTransfrom);
+    }
+
+}
+
 void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen::Vector3d rayDirection, std::vector<CollideableObject *> objectsInScene)
 {
     this->rayDirectionInit = std::move(rayDirection);
@@ -331,6 +362,29 @@ void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen
             PolariserTransform->setRotationX(-(std::atan(obj->getNormal().x() / obj->getNormal().y()) * degreeMulitplier3) + 90.0);
 
         }
+    }
+}
+
+void ThreeDimentionalVisualisation::newOutputFromAnalyser(Matrix4cd polarisation)
+{
+    std::cout << "new pol" << std::endl;
+    //Eigen::Vector3d normalisedRayDir = this->rayDirectionInit.normalized();
+
+    //QVector3D laserToSampleRayDirection = QVector3D(normalisedRayDir(0), normalisedRayDir(1), normalisedRayDir(2));
+    QVector3D laserToSampleRayDirection = this->samplePositon - this->laserPosition;
+    laserToSampleRayDirection.normalize();
+    this->laserToPolarisingFilterRays.insert(this->laserToPolarisingFilterRays.begin(), polarisation);
+
+    if (this->laserToPolarisingFilterRays.size() > 11) {
+      this->laserToPolarisingFilterRays.pop_back();
+    }
+
+    for (unsigned i = 0; i < this->laserToPolarisingFilterRays.size() - 1; i++) {
+        this->laserToPolarisingFilterTransforms->at(i)->setRotationY(this->laserToPolarisingFilterRays.at(i)(0, 0).real() * degreeMulitplier3);
+        QVector3D position = (this->laserPosition + (laserToSampleRayDirection * (i +1)));
+
+        this->laserToPolarisingFilterTransforms->at(i)->setTranslation(position);
+
     }
 }
 

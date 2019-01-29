@@ -31,6 +31,8 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r, double n0_i
   connect(this, &SimulationThread::emittedNewRay, &representation, &OGLWidget::newOutputFromAnalyser);
   connect(this, &SimulationThread::newPositions, &representation, &OGLWidget::newPositions);
   connect(this, &SimulationThread::newPositions, &rep, &ThreeDimentionalVisualisation::newPositions);
+  connect(this, &SimulationThread::emittedNewRayFromAnalyiser, &rep, &ThreeDimentionalVisualisation::newOutputFromAnalyser);
+
 
 
   //connect(&angleOfIncidenceSlider, &QSlider::sliderMoved, this, &SimulationThread::angleOfIncidenceChanged);
@@ -142,6 +144,7 @@ void SimulationThread::fireNextRay() {
 
   Ray* ray = new Ray(this->emissionPosition, this->emissionDirection, polar, Eigen::Vector2d(1.0, 1.0));
   emit emittedNewRay(ray->getPolarisation());
+  emit emittedNewRayFromAnalyiser(ray->getPolarisation());
   castRay(*ray, m_objectsInScene, depth);
   ray->setPolarisation( ray->getCalculationMatrix() * polar );
   outputFromTrace.push_back(ray->getPolarisation());
