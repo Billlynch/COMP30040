@@ -41,6 +41,8 @@ private:
     QVector3D analysierPosition;
     QVector3D laserPosition;
     QVector3D samplePositon = QVector3D(0,10,0);
+    QVector3D filterOffet = QVector3D(0,0,-3);
+
 
     Eigen::Vector3d pemPosition;
     Eigen::Vector3d polarisationPosition;
