@@ -64,6 +64,9 @@ private:
     std::deque<Qt3DCore::QTransform*> *SampleToPEMTransforms = new std::deque<Qt3DCore::QTransform*>;
     std::deque<Qt3DCore::QTransform*> *PEMToAnalyiserTransforms = new std::deque<Qt3DCore::QTransform*>;
 
+    float RaySpreadFactorSampleSide = 1.0f;
+    float RaySpreadFactorLaserSide = 1.0f;
+
 
     void setupSample();
     void setupPolariser();
