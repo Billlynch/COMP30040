@@ -41,8 +41,10 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
 
   randomGenerator = new RandomNoiseCalculator(0,1);
   connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration, ui->graphicsView, &RandomNoiseChartView::newRandomGenerator);
+  connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration, &thread, &SimulationThread::newLaserNoise);
   randomGenerator->generate();
 
+  connect(this, &MOKELaserSim::laserNoiseStateChanhe, &thread, &SimulationThread::newLaserNoiseState);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -157,4 +159,9 @@ void MOKELaserSim::setNormalFromImage()
 
     normalVector = new Eigen::Vector3f(qRed(normalPixel), qGreen(normalPixel), qBlue(normalPixel));
     normalVector->normalize();
+}
+
+void MOKELaserSim::on_noise_chk_stateChanged(int state)
+{
+    emit laserNoiseStateChanhe(state);
 }

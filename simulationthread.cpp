@@ -95,10 +95,12 @@ PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<dou
 }
 
 Matrix4cd SimulationThread::generateInitalPolarisation() {
-  std::complex<double> Epp = 1.0;
+  std::cout << this->emissionNoiseDist(this->emissionNoiseGen) << std::endl;
+
+  std::complex<double> Epp = 1.0 * this->laserNoise ? this->emissionNoiseDist(this->emissionNoiseGen) : 1;
   std::complex<double> Esp = 0.0;
   std::complex<double> Eps = 0.0;
-  std::complex<double> Ess = 1.0;
+  std::complex<double> Ess = 1.0 * this->laserNoise ? this->emissionNoiseDist(this->emissionNoiseGen) : 1;
   Matrix4cd polar;
   polar << Epp, Eps, Esp, Ess;
 
@@ -167,6 +169,18 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
   emit newPositions(this->emissionPosition, this->emissionDirection, this->m_objectsInScene);
 
   mutex.unlock();
+}
+
+void SimulationThread::newLaserNoise(std::normal_distribution<> d, std::mt19937 gen)
+{
+    std::cout << "thread has new random noise" << std::endl;
+    this->emissionNoiseDist = d;
+    this->emissionNoiseGen = gen;
+}
+
+void SimulationThread::newLaserNoiseState(int state)
+{
+    this->laserNoise = state;
 }
 
 void SimulationThread::run() {

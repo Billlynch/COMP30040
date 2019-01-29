@@ -50,6 +50,8 @@ class MOKELaserSim : public QMainWindow {
 
   void on_collisionPointX_valueChanged(int value);
 
+  void on_noise_chk_stateChanged(int arg1);
+
 private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;
@@ -73,6 +75,10 @@ private:
   void renderNormalImage(QImage &visualisation);
   void setupNormalTargetImage();
   void setNormalFromImage();
+
+signals:
+  void laserNoiseStateChanhe(int state);
+
 
 };
 

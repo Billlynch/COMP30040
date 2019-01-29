@@ -7,6 +7,8 @@
 #include <QWaitCondition>
 #include <complex>
 #include <vector>
+#include <random>
+#include <cmath>
 
 #include <sampleobject.h>
 #include <polarisingfilter.h>
@@ -37,13 +39,19 @@ class SimulationThread : public QThread {
   void incrementPEMTimeProgression();
   void fireNextRay();
   void angleOfIncidenceChanged(double angle);
+  void newLaserNoise(std::normal_distribution<> d, std::mt19937 gen);
+  void newLaserNoiseState(int state);
+
 
  private:
+  int laserNoise = 0;
   QMutex mutex;
   QWaitCondition condition;
   bool restart, abort;
   Eigen::Vector3d emissionPosition = Eigen::Vector3d(0.0, -5.0, 0.0);
   Eigen::Vector3d emissionDirection = Eigen::Vector3d(1.0, 1.0, 0.0);
+  std::normal_distribution<> emissionNoiseDist;
+  std::mt19937 emissionNoiseGen;
 
   std::complex<double> m_q, m_n_1;
   SampleObject* sample;
