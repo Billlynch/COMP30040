@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1823</width>
-    <height>1028</height>
+    <width>1968</width>
+    <height>1041</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="RunSimButton">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>20</y>
+      <x>10</x>
+      <y>10</y>
       <width>181</width>
       <height>32</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="StopSimButton">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>60</y>
+      <x>200</x>
+      <y>10</y>
       <width>181</width>
       <height>32</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>100</y>
+      <x>10</x>
+      <y>50</y>
       <width>321</width>
       <height>80</height>
      </rect>
@@ -96,8 +96,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>190</y>
+      <x>10</x>
+      <y>130</y>
       <width>321</width>
       <height>80</height>
      </rect>
@@ -149,8 +149,8 @@
    <widget class="kerrRotationGraph" name="kerrGraph">
     <property name="geometry">
      <rect>
-      <x>1170</x>
-      <y>560</y>
+      <x>1290</x>
+      <y>600</y>
       <width>511</width>
       <height>361</height>
      </rect>
@@ -159,8 +159,8 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>560</y>
+      <x>10</x>
+      <y>210</y>
       <width>291</width>
       <height>311</height>
      </rect>
@@ -257,8 +257,8 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>460</y>
+      <x>0</x>
+      <y>530</y>
       <width>371</width>
       <height>441</height>
      </rect>
@@ -340,8 +340,8 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>560</y>
+      <x>610</x>
+      <y>40</y>
       <width>431</width>
       <height>391</height>
      </rect>
@@ -535,8 +535,8 @@
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>10</y>
+      <x>1070</x>
+      <y>0</y>
       <width>881</width>
       <height>531</height>
      </rect>
@@ -634,8 +634,8 @@
    <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>10</y>
+      <x>380</x>
+      <y>570</y>
       <width>421</width>
       <height>391</height>
      </rect>
@@ -736,14 +736,119 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QFrame" name="frame_4">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>570</y>
+      <width>421</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>401</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Polariser</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetNoConstraint</enum>
+        </property>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>Mean</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="text">
+           <string>Noise</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="polar_enabled_chk">
+          <property name="text">
+           <string>Enabled</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>Std. Dev.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSlider" name="deviation_polar">
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSlider" name="mean_polar">
+          <property name="minimum">
+           <number>-100</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="RandomNoiseChartView" name="noise_polar"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1823</width>
-     <height>23</height>
+     <width>1968</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMOKE_Laser_Sim">

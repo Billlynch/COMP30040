@@ -42,6 +42,7 @@ public slots:
   void newLaserNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newLaserNoiseState(int state);
   void newPemState(int state);
+  void newPolariserState(int state);
   void newPemNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newPemNoiseState(int state);
 

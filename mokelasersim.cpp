@@ -62,6 +62,8 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
           &SimulationThread::newLaserNoiseState);
   connect(this, &MOKELaserSim::newPemState, &thread,
           &SimulationThread::newPemState);
+  connect(this, &MOKELaserSim::newPolariserState, &thread,
+          &SimulationThread::newPolariserState);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -212,4 +214,9 @@ void MOKELaserSim::on_deviation_pem_valueChanged(int value) {
 
 void MOKELaserSim::on_mean_pem_valueChanged(int value) {
   this->randomGenerator_pem->setMean(value / 100.0);
+}
+
+void MOKELaserSim::on_polar_enabled_chk_stateChanged(int state)
+{
+    emit newPolariserState(state);
 }
