@@ -1,3 +1,9 @@
+#include <utility>
+
+#include <utility>
+
+#include <utility>
+
 #include "collideableobject.h"
 #include <iostream>
 
@@ -22,8 +28,8 @@ bool CollideableObject::interceptPlane(Ray& ray, double& t) {
   return false;
 }
 
-CollideableObject::CollideableObject(const Eigen::Vector3d& location, int side, const Eigen::Vector3d& normal) :
-  m_location(location), side(side), m_normal(normal){
+CollideableObject::CollideableObject(Eigen::Vector3d  location, int side, Eigen::Vector3d  normal) :
+  m_location(std::move(location)), side(side), m_normal(std::move(normal)){
 }
 
 CollideableObject::~CollideableObject() = default;
@@ -46,11 +52,8 @@ Eigen::Vector3d* CollideableObject::newPosition(Eigen::Vector3d samplePositition
     double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
     this->m_location(0) = oppLength * side;
 
-    if  (side == 1) {
-     std::cout << "PEM being calced" << std::endl;
-    }
     if  (side != 0) {
-        this->m_normal = emissionDirection;
+        this->m_normal = std::move(emissionDirection);
         this->m_normal(0) = this->m_normal(0) * side;
     }
     return nullptr;

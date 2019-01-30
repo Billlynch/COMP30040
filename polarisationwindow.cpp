@@ -7,6 +7,7 @@
 
 PolarisationWindow::PolarisationWindow(QGraphicsView *view) {
   this->m_view = view;
+  this->scene = new QGraphicsScene(this);
   outputImage = new QImage(width, height, QImage::Format_RGB16);
   outputImage->fill(Qt::white);
   render(*outputImage);
@@ -16,7 +17,6 @@ PolarisationWindow::PolarisationWindow(QGraphicsView *view) {
 
 void PolarisationWindow::render(QImage &visualisation) {
     if (enabled) {
-  scene = new QGraphicsScene(this);
   scene->addPixmap(QPixmap::fromImage(visualisation));
   scene->setSceneRect(visualisation.rect());
   m_view->setScene(scene);
@@ -64,8 +64,8 @@ void PolarisationWindow::drawAxis(QPainter* painter) {
 }
 
 void PolarisationWindow::drawPolarosations(QPainter* painter) {
-  QPen redPen(QColor("#ff0000"), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
-  QPen blackDottedPen(QColor("#000000"), 2, Qt::DotLine, Qt::FlatCap, Qt::RoundJoin);
+  QPen redPen(Qt::red, 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
+  QPen blackDottedPen(Qt::black, 2, Qt::DotLine, Qt::FlatCap, Qt::RoundJoin);
 
   Vector2cd centre = Vector2cd(width / 2, height / 2);
   Vector2cd right = Vector2cd(1.0, 0.0);

@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 #include "sampleobject.h"
 #include <iostream>
 
@@ -7,7 +11,7 @@ SampleObject::SampleObject(Eigen::Vector3d location,
                            Eigen::Vector3d normal,
                            double radius,
                            std::complex<double> n1,
-                           std::complex<double> q) : CollideableObject (location, side, normal) {
+                           std::complex<double> q) : CollideableObject (std::move(location), side, std::move(normal)) {
   m_radius = radius;
   m_n1 = n1;
   m_q = q;
@@ -17,9 +21,7 @@ SampleObject::SampleObject(Eigen::Vector3d location,
   m_n0 = {1.0, 0};
 }
 
-SampleObject::~SampleObject() {
-
-}
+SampleObject::~SampleObject() = default;
 
 void SampleObject::calculatePolarisationUsingGriggsFormulae(Ray& ray, std::complex<double>& theta0, std::complex<double>& theta1) {
   m_i = {0, 1};

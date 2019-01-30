@@ -27,7 +27,7 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
 
 
    // For camera controls
-   Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
+   auto *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
    camController->setLinearSpeed( 50.0f );
    camController->setLookSpeed( 180.0f );
    camController->setCamera(cameraEntity);

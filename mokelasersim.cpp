@@ -19,6 +19,8 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
   ui(new Ui::MOKELaserSim) {
   ui->setupUi(this);
   resultsWindow = new PolarisationWindow(ui->polarisationVisualisation);
+  this->scene = new QGraphicsScene(this);
+  this->normalMapImg = new QImage();
 
   qRegisterMetaType<ListVector2cd>("ListVector2cd");
   qRegisterMetaType<ListMatrix4cd>("ListMatrix4cd");
@@ -139,7 +141,6 @@ void MOKELaserSim::updateCollisionVisualisation()
 
 void MOKELaserSim::renderNormalImage(QImage &visualisation)
 {
-    scene = new QGraphicsScene(this);
     scene->addPixmap(QPixmap::fromImage(visualisation));
     scene->setSceneRect(visualisation.rect());
 

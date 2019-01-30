@@ -21,7 +21,7 @@ class CollideableObject:  public QObject {
  public:
   double m_n0 = 1.0;
 
-  CollideableObject(const Eigen::Vector3d& location, int side, const Eigen::Vector3d& normal);
+  CollideableObject(Eigen::Vector3d  location, int side, Eigen::Vector3d  normal);
 
   virtual ~CollideableObject();
 

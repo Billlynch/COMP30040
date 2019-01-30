@@ -26,7 +26,6 @@ private:
     double m_mean, m_dev;
     std::random_device rd{};
     std::mt19937 *gen = new std::mt19937(rd());
-    std::normal_distribution<> *d;
 };
 
 #endif // RANDOMNOISECALCULATOR_H

@@ -91,9 +91,6 @@ private:
   RandomNoiseCalculator* randomGenerator_pem;
 
 
-  QDoubleSpinBox* refractiveIndexSpinner;
-  QDoubleSpinBox* QSpinner;
-
   bool loadFile(const QString &fileName);
   void updateCollisionVisualisation();
   void renderNormalImage(QImage &visualisation);
