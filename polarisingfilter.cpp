@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "polarisingfilter.h"
 #include <iostream>
 
@@ -7,10 +9,10 @@ PolarisingFilter::PolarisingFilter(Eigen::Vector3d location,
                                    Eigen::Vector3d normal,
                                    double radius,
                                    std::complex<double> n1,
-                                   Eigen::Vector2d targetPolarisation) : CollideableObject (location, side, normal) {
+                                   Eigen::Vector2d targetPolarisation) : CollideableObject (std::move(location), side, std::move(normal)) {
   m_radius = radius;
   m_n1 = n1;
-  m_targetPolarisation = targetPolarisation;
+  m_targetPolarisation = std::move(targetPolarisation);
   calculatePolarisationMatrix();
 }
 

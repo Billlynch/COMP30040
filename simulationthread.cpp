@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "simulationthread.h"
 #include <iostream>
 #include <cmath>
@@ -74,7 +76,7 @@ PolarisingFilter* SimulationThread::setupPolariser(Eigen::Vector2d targetPolaris
                                                                 Eigen::Vector3d(0.0, 1.0, 0.0),
                                                                 1.0,
                                                                 1.0, // no refractive index for now
-                                                                targetPolarisation);
+                                                                std::move(targetPolarisation));
 
   connect(tempPolarisingFilter, &PolarisingFilter::outputPolarisationUpdated, &rep, &ThreeDimentionalVisualisation::newOutputFromPolariser);
 
@@ -98,10 +100,10 @@ PEM* SimulationThread::setupPEM(std::complex<double> amplitude, std::complex<dou
 Matrix4cd SimulationThread::generateInitalPolarisation() {
   std::cout << this->emissionNoiseDist(this->emissionNoiseGen) << std::endl;
 
-  std::complex<double> Epp = 1.0 * this->laserNoise ? this->emissionNoiseDist(this->emissionNoiseGen) : 1;
+  std::complex<double> Epp = 1.0 * (this->laserNoise ? this->emissionNoiseDist(this->emissionNoiseGen) : 1.0);
   std::complex<double> Esp = 0.0;
   std::complex<double> Eps = 0.0;
-  std::complex<double> Ess = 1.0 * this->laserNoise ? this->emissionNoiseDist(this->emissionNoiseGen) : 1;
+  std::complex<double> Ess = 1.0 * (this->laserNoise ? this->emissionNoiseDist(this->emissionNoiseGen) : 1.0);
   Matrix4cd polar;
   polar << Epp, Eps, Esp, Ess;
 

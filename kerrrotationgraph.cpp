@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "kerrrotationgraph.h"
 #include <iostream>
 
@@ -43,7 +45,6 @@ void kerrRotationGraph::updateSeries(GraphMap graphMap)
 {
     m_chart->removeSeries(m_series_p);
     m_chart->removeSeries(m_series_s);
-    std::cout << "got new graph map" << std::endl;
-    this->m_graphMap = graphMap;
+    this->m_graphMap = std::move(graphMap);
     this->addMapToSeries();
 }

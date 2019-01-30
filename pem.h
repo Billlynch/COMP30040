@@ -29,11 +29,11 @@ class PEM :  public CollideableObject {
       std::complex<double> phaseAmplitude,
       std::complex<double> angularFrequency);
 
-  ~PEM() {}
-  int getType();
+  ~PEM() override = default;
+  int getType() override;
 
-  void collide(Ray& ray, Eigen::Vector3d& pointOfInterception);
-  bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception);
+  void collide(Ray& ray, Eigen::Vector3d& pointOfInterception) override;
+  bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) override;
   void incrementTime();
 
   void setNoiseState(int state);

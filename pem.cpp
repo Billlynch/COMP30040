@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 #include "pem.h"
 
 #include <iostream>
@@ -21,11 +25,13 @@ PEM::PEM(Eigen::Vector3d location,
          Eigen::Vector3d normal,
          double radius,
          std::complex<double> phaseAmplitude,
-         std::complex<double> angularFrequency) : CollideableObject (location, side, normal),
+         std::complex<double> angularFrequency) : CollideableObject (std::move(location), side, std::move(normal)),
   m_phaseAmplitude(phaseAmplitude),
   m_angularFrequency(angularFrequency),
   m_radius(radius)
-{}
+{
+    this->time = 0.0f;
+}
 
 int PEM::getType()
 {

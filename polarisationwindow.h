@@ -23,8 +23,10 @@ class PolarisationWindow : public QObject {
 
  public slots:
   void simResultsUpdated(ListMatrix4cd &polarisations);
+  void setEnabledState(int state);
 
  private:
+  int enabled = 1;
   ListMatrix4cd polarisations;
   QImage *outputImage;
   QGraphicsScene *scene;
