@@ -14,7 +14,7 @@ class CollideableObject:  public QObject {
   Eigen::Vector3d m_location;
   Eigen::Vector3d m_normal;
   int side;
-
+  int collisionsEnabled = 1;
  protected:
   bool interceptPlane(Ray& ray, double& t);
 
@@ -37,6 +37,8 @@ class CollideableObject:  public QObject {
 
   virtual void collide(Ray& ray, Eigen::Vector3d& pointOfInterception) = 0;
   virtual bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) = 0;
+
+  void setEnabled(int state);
 };
 
 #endif // COLLIDEABLEOBJECT_H

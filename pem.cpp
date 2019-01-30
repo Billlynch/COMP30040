@@ -6,6 +6,10 @@
 void PEM::calculatePolarisationMatrix() {
   std::complex<double> phi =  m_phaseAmplitude * sin(m_angularFrequency * time);
 
+  if (noiseState == 1){
+      phi *= dist(noise_gen);
+  }
+
   std::complex<double> a =  exp((m_i * phi ) / 2.0);
   std::complex<double> b =  exp((-m_i * phi ) / 2.0);
 
@@ -35,9 +39,6 @@ bool PEM::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
     pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);
-    if (sqrt(d2) <= m_radius) {
-      //std::cout << "collide with PEM" << std::endl;
-    }
     return (sqrt(d2) <= m_radius);
   }
 
@@ -45,7 +46,20 @@ bool PEM::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
 }
 
 void PEM::incrementTime() {
-  this->time++;
+    this->time++;
+}
+
+void PEM::setNoiseState(int state)
+{
+    this->noiseState = state;
+}
+
+void PEM::newNoise(std::normal_distribution<> d, std::mt19937 gen)
+{
+    std::cout << "HEre" << std::endl;
+    this->dist = d;
+    this->noise_gen = gen;
+    std::cout << "HEre" << std::endl;
 }
 
 

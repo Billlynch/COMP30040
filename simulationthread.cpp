@@ -175,7 +175,6 @@ void SimulationThread::angleOfIncidenceChanged(double angle) {
 
 void SimulationThread::newLaserNoise(std::normal_distribution<> d, std::mt19937 gen)
 {
-    std::cout << "thread has new random noise" << std::endl;
     this->emissionNoiseDist = d;
     this->emissionNoiseGen = gen;
 }
@@ -183,6 +182,23 @@ void SimulationThread::newLaserNoise(std::normal_distribution<> d, std::mt19937 
 void SimulationThread::newLaserNoiseState(int state)
 {
     this->laserNoise = state;
+}
+
+void SimulationThread::newPemState(int state)
+{
+    this->pem->setEnabled(state);
+}
+
+void SimulationThread::newPemNoise(std::normal_distribution<> d, std::mt19937 gen)
+{
+    if (this->pem != NULL) {
+        this->pem->newNoise(d, gen);
+    }
+}
+
+void SimulationThread::newPemNoiseState(int state)
+{
+    this->pem->setNoiseState(state);
 }
 
 void SimulationThread::run() {

@@ -43,9 +43,18 @@ MOKELaserSim::MOKELaserSim(QWidget* parent) :
   connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration, ui->graphicsView, &RandomNoiseChartView::newRandomGenerator);
   connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration, &thread, &SimulationThread::newLaserNoise);
   randomGenerator->generate();
+  ui->graphicsView->setTitle("Sample Noise?");
+
+  randomGenerator_pem = new RandomNoiseCalculator(0,1);
+  connect(randomGenerator_pem, &RandomNoiseCalculator::newRandomNoiseGeneration, ui->noise_pem, &RandomNoiseChartView::newRandomGenerator);
+  connect(randomGenerator_pem, &RandomNoiseCalculator::newRandomNoiseGeneration, &thread, &SimulationThread::newPemNoise);
+  randomGenerator_pem->generate();
+  ui->noise_pem->setTitle("PEM Noise Visualisation");
 
   connect(this, &MOKELaserSim::newCameraLocation, ui->threeDVis, &ThreeDimentionalVisualisation::newCameraPostion);
   connect(this, &MOKELaserSim::laserNoiseStateChanhe, &thread, &SimulationThread::newLaserNoiseState);
+  connect(this, &MOKELaserSim::newPemState, &thread, &SimulationThread::newPemState);
+
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -194,4 +203,19 @@ void MOKELaserSim::on_PEM_view_clicked()
 void MOKELaserSim::on_Analysier_view_clicked()
 {
     emit newCameraLocation(ViewType::analyiser);
+}
+
+void MOKELaserSim::on_pem_enabled_chk_stateChanged(int state)
+{
+    emit newPemState(state);
+}
+
+void MOKELaserSim::on_deviation_pem_valueChanged(int value)
+{
+    this->randomGenerator_pem->setDeviation(value/100.0);
+}
+
+void MOKELaserSim::on_mean_pem_valueChanged(int value)
+{
+    this->randomGenerator_pem->setMean(value/100.0);
 }
