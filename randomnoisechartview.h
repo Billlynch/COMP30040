@@ -25,6 +25,7 @@ class RandomNoiseChartView : public QChartView
 {
     Q_OBJECT
 private:
+    std::string name;
     QList<QPointF> *m_points;
     QSplineSeries *m_lineSeries;
     QChart *m_chart;
@@ -35,7 +36,8 @@ private:
 
     void render();
 public:
-    RandomNoiseChartView(QWidget *parent = nullptr);
+    RandomNoiseChartView(QWidget *parent = nullptr, const std::string& name = "");
+    void setTitle(const std::string& title);
 
 public slots:
     void newRandomGenerator(std::normal_distribution<>, std::mt19937);

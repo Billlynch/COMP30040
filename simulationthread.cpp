@@ -191,7 +191,7 @@ void SimulationThread::newPemState(int state)
 
 void SimulationThread::newPemNoise(std::normal_distribution<> d, std::mt19937 gen)
 {
-    if (this->pem != nullptr) {
+    if (this->pem != NULL) {
         this->pem->newNoise(d, gen);
     }
 }
