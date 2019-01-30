@@ -674,14 +674,26 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QSlider" name="horizontalSlider_2">
+         <widget class="QSlider" name="deviation_pem">
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QSlider" name="horizontalSlider_3">
+         <widget class="QSlider" name="mean_pem">
+          <property name="minimum">
+           <number>-100</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -690,7 +702,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QGraphicsView" name="graphicsView_2"/>
+       <widget class="RandomNoiseChartView" name="noise_pem"/>
       </item>
      </layout>
     </widget>

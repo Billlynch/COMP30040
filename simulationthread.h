@@ -42,13 +42,16 @@ class SimulationThread : public QThread {
   void newLaserNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newLaserNoiseState(int state);
   void newPemState(int state);
+  void newPemNoise(std::normal_distribution<> d, std::mt19937 gen);
+  void newPemNoiseState(int state);
+
 
 
  private:
   int laserNoise = 0;
   QMutex mutex;
   QWaitCondition condition;
-  bool restart, abort;
+  bool restart,abort;
   Eigen::Vector3d emissionPosition = Eigen::Vector3d(0.0, -5.0, 0.0);
   Eigen::Vector3d emissionDirection = Eigen::Vector3d(1.0, 1.0, 0.0);
   std::normal_distribution<> emissionNoiseDist;

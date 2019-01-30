@@ -1,4 +1,5 @@
 #include "randomnoisechartview.h"
+#include <iostream>
 
 void RandomNoiseChartView::populateChart()
 {

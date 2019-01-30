@@ -3,6 +3,7 @@
 
 #include "collideableobject.h"
 #include <QTimer>
+#include <random>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22cd;
 
@@ -14,6 +15,9 @@ class PEM :  public CollideableObject {
   std::complex<double> m_angularFrequency;
   double time, m_radius;
   std::complex<double> m_i = {0, 1};
+  int noiseState = 0;
+  std::normal_distribution<> dist;
+  std::mt19937 noise_gen;
 
   void calculatePolarisationMatrix();
 
@@ -31,6 +35,9 @@ class PEM :  public CollideableObject {
   void collide(Ray& ray, Eigen::Vector3d& pointOfInterception);
   bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception);
   void incrementTime();
+
+  void setNoiseState(int state);
+  void newNoise(std::normal_distribution<> d, std::mt19937 gen);
 
  signals:
   void outputPolarisationUpdated(Matrix4cd polarisation);

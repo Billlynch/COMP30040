@@ -66,6 +66,10 @@ class MOKELaserSim : public QMainWindow {
 
   void on_pem_enabled_chk_stateChanged(int arg1);
 
+  void on_deviation_pem_valueChanged(int value);
+
+  void on_mean_pem_valueChanged(int value);
+
 private:
   Ui::MOKELaserSim* ui;
   PolarisationWindow* resultsWindow;
@@ -80,6 +84,8 @@ private:
   QPoint* collisionPoint = new QPoint(0,0);
   Eigen::Vector3f *normalVector = nullptr;
   RandomNoiseCalculator* randomGenerator;
+  RandomNoiseCalculator* randomGenerator_pem;
+
 
   QDoubleSpinBox* refractiveIndexSpinner;
   QDoubleSpinBox* QSpinner;
