@@ -14,29 +14,27 @@ class PolarisingFilter : public CollideableObject {
   double m_radius;
   std::complex<double> m_n1;
 
- public:
-  PolarisingFilter(Eigen::Vector3d location,
-                   int side,
-                   Eigen::Vector3d normal,
-                   double radius,
-                   std::complex<double> n1,
+public:
+  PolarisingFilter(Eigen::Vector3d location, int side, Eigen::Vector3d normal,
+                   double radius, std::complex<double> n1,
                    Eigen::Vector2d targetPolarisation);
 
   ~PolarisingFilter() {}
 
-  void collide(Ray& ray, Eigen::Vector3d& pointOfInterception);
-  bool intersect(Ray& ray, Eigen::Vector3d& pointOfInterception);
+  void collide(Ray &ray, Eigen::Vector3d &pointOfInterception);
+  bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
   int getType();
 
- protected:
+protected:
   void calculatePolarisationMatrix();
 
-  void calculateAngleOfRefraction(std::complex<double> theta0, std::complex<double>& theta1) {
+  void calculateAngleOfRefraction(std::complex<double> theta0,
+                                  std::complex<double> &theta1) {
     std::complex<double> numerator1 = m_n0 * sin(theta0);
     theta1 = asin(numerator1 / m_n1); // the angle of refraction
   }
 
-  void calculateAngleOfInterception(Ray& ray, std::complex<double>& theta0) {
+  void calculateAngleOfInterception(Ray &ray, std::complex<double> &theta0) {
     auto normal = this->getNormal();
     normal.normalize();
     Eigen::Vector3d rayDirection = ray.getDirection();
@@ -46,7 +44,7 @@ class PolarisingFilter : public CollideableObject {
     theta0 = acos(numerator0 / denominator0); // the angle of incidence
   }
 
- signals:
+signals:
   void outputPolarisationUpdated(Matrix4cd polarisation);
 };
 

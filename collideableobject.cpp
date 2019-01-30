@@ -7,10 +7,9 @@
 #include "collideableobject.h"
 #include <iostream>
 
-bool CollideableObject::interceptPlane(Ray& ray, double& t) {
+bool CollideableObject::interceptPlane(Ray &ray, double &t) {
 
-  if (this->collisionsEnabled == 0)
-  {
+  if (this->collisionsEnabled == 0) {
     return false;
   }
 
@@ -28,38 +27,39 @@ bool CollideableObject::interceptPlane(Ray& ray, double& t) {
   return false;
 }
 
-CollideableObject::CollideableObject(Eigen::Vector3d  location, int side, Eigen::Vector3d  normal) :
-  m_location(std::move(location)), side(side), m_normal(std::move(normal)){
+CollideableObject::CollideableObject(Eigen::Vector3d location, int side,
+                                     Eigen::Vector3d normal)
+    : m_location(std::move(location)), side(side), m_normal(std::move(normal)) {
 }
 
 CollideableObject::~CollideableObject() = default;
 
-const Eigen::Vector3d& CollideableObject::getLocation() const {
+const Eigen::Vector3d &CollideableObject::getLocation() const {
   return CollideableObject::m_location;
 }
 
-const Eigen::Vector3d& CollideableObject::getNormal() const {
+const Eigen::Vector3d &CollideableObject::getNormal() const {
   return CollideableObject::m_normal;
 }
 
-void CollideableObject::setLocation(const Eigen::Vector3d& location) {
-    CollideableObject::m_location = location;
+void CollideableObject::setLocation(const Eigen::Vector3d &location) {
+  CollideableObject::m_location = location;
 }
 
-Eigen::Vector3d* CollideableObject::newPosition(Eigen::Vector3d samplePositition, double angle, Eigen::Vector3d emissionDirection)
-{
-    double adjLength = samplePositition(1) - this->m_location(1);
-    double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
-    this->m_location(0) = oppLength * side;
+Eigen::Vector3d *
+CollideableObject::newPosition(Eigen::Vector3d samplePositition, double angle,
+                               Eigen::Vector3d emissionDirection) {
+  double adjLength = samplePositition(1) - this->m_location(1);
+  double oppLength = std::tan(angle * (M_PI / 180.0)) * adjLength;
+  this->m_location(0) = oppLength * side;
 
-    if  (side != 0) {
-        this->m_normal = std::move(emissionDirection);
-        this->m_normal(0) = this->m_normal(0) * side;
-    }
-    return nullptr;
+  if (side != 0) {
+    this->m_normal = std::move(emissionDirection);
+    this->m_normal(0) = this->m_normal(0) * side;
+  }
+  return nullptr;
 }
 
-void CollideableObject::setEnabled(int state)
-{
-     this->collisionsEnabled = state;
+void CollideableObject::setEnabled(int state) {
+  this->collisionsEnabled = state;
 }
