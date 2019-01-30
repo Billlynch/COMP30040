@@ -14,12 +14,11 @@
 
 #include "ray.h"
 
-
-Ray::Ray(Eigen::Vector3d origin, Eigen::Vector3d direction, Matrix4cd polarisation, Eigen::Vector2d targetPolarisation):
-  m_origin(std::move(origin)),
-  m_direction(std::move(direction)),
-  m_polarisation(std::move(polarisation)),
-  m_targetPolarisation(std::move(targetPolarisation)) {
+Ray::Ray(Eigen::Vector3d origin, Eigen::Vector3d direction,
+         Matrix4cd polarisation, Eigen::Vector2d targetPolarisation)
+    : m_origin(std::move(origin)), m_direction(std::move(direction)),
+      m_polarisation(std::move(polarisation)),
+      m_targetPolarisation(std::move(targetPolarisation)) {
 
   Eigen::Vector2d right = Eigen::Vector2d(1.0, 0.0);
   m_targetPolarisation.norm();
@@ -38,22 +37,13 @@ Ray::Ray(Eigen::Vector3d origin, Eigen::Vector3d direction, Matrix4cd polarisati
 
 Ray::~Ray() = default;
 
-Eigen::Vector3d Ray::getOrigin() {
-  return Ray::m_origin;
-}
+Eigen::Vector3d Ray::getOrigin() { return Ray::m_origin; }
 
-Eigen::Vector3d Ray::getDirection() {
-  return Ray::m_direction;
-}
+Eigen::Vector3d Ray::getDirection() { return Ray::m_direction; }
 
-Matrix4cd Ray::getPolarisation() {
-  return Ray::m_polarisation;
-}
+Matrix4cd Ray::getPolarisation() { return Ray::m_polarisation; }
 
-Matrix4cd Ray::getCalculationMatrix() {
-  return m_calculationMatrix;
-}
-
+Matrix4cd Ray::getCalculationMatrix() { return m_calculationMatrix; }
 
 void Ray::setOrigin(Eigen::Vector3d origin) {
   Ray::m_origin = std::move(origin);
@@ -67,8 +57,6 @@ void Ray::setPolarisation(Matrix4cd polarisation) {
   Ray::m_polarisation = std::move(polarisation);
 }
 
-
-void Ray::calculationMatrixMultiplication(Matrix4cd& x) {
+void Ray::calculationMatrixMultiplication(Matrix4cd &x) {
   m_calculationMatrix = m_calculationMatrix * x;
 }
-

@@ -4,12 +4,11 @@
 #ifndef RAY_H
 #define RAY_H
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
-typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>> ListMatrix4cd;
+typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
+    ListMatrix4cd;
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
-
-//const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
-
+// const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
 
 class Ray {
   Eigen::Vector3d m_origin;
@@ -18,14 +17,11 @@ class Ray {
   Matrix4cd m_calculationMatrix;
   Eigen::Vector2d m_targetPolarisation;
 
- public:
-  Ray(Eigen::Vector3d origin,
-      Eigen::Vector3d direction,
-      Matrix4cd polarisation,
+public:
+  Ray(Eigen::Vector3d origin, Eigen::Vector3d direction, Matrix4cd polarisation,
       Eigen::Vector2d targetPolarisation);
 
   ~Ray();
-
 
   Eigen::Vector3d getOrigin();
   Eigen::Vector3d getDirection();
@@ -37,7 +33,7 @@ class Ray {
   void setDirection(Eigen::Vector3d direction);
   void setPolarisation(Matrix4cd polarisation);
 
-  void calculationMatrixMultiplication(Matrix4cd& x);
+  void calculationMatrixMultiplication(Matrix4cd &x);
 
   void flipPolarization();
 };

@@ -3,29 +3,30 @@
 #include "polarisingfilter.h"
 #include <iostream>
 
-
-PolarisingFilter::PolarisingFilter(Eigen::Vector3d location,
-                                   int side,
-                                   Eigen::Vector3d normal,
-                                   double radius,
+PolarisingFilter::PolarisingFilter(Eigen::Vector3d location, int side,
+                                   Eigen::Vector3d normal, double radius,
                                    std::complex<double> n1,
-                                   Eigen::Vector2d targetPolarisation) : CollideableObject (std::move(location), side, std::move(normal)) {
+                                   Eigen::Vector2d targetPolarisation)
+    : CollideableObject(std::move(location), side, std::move(normal)) {
   m_radius = radius;
   m_n1 = n1;
   m_targetPolarisation = std::move(targetPolarisation);
   calculatePolarisationMatrix();
 }
 
-void PolarisingFilter::collide(Ray& ray, Eigen::Vector3d& pointOfInterception) {
+void PolarisingFilter::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   ray.setPolarisation(m_polarizationMatrix * ray.getPolarisation());
   ray.calculationMatrixMultiplication(m_polarizationMatrix);
 
   // assuming no change in direction
-  ray.setOrigin(pointOfInterception + ray.getDirection() * 0.01f); // move it along the normal so it won't hit the same object again
+  ray.setOrigin(pointOfInterception +
+                ray.getDirection() * 0.01f); // move it along the normal so it
+                                             // won't hit the same object again
   emit outputPolarisationUpdated(ray.getPolarisation());
 }
 
-bool PolarisingFilter::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception) {
+bool PolarisingFilter::intersect(Ray &ray,
+                                 Eigen::Vector3d &pointOfInterception) {
   double t;
 
   if (this->interceptPlane(ray, t)) {
@@ -33,7 +34,7 @@ bool PolarisingFilter::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception)
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);
     if (sqrt(d2) <= m_radius) {
-      //std::cout << "collide with polariser" << std::endl;
+      // std::cout << "collide with polariser" << std::endl;
     }
     return (sqrt(d2) <= m_radius);
   }
@@ -41,10 +42,7 @@ bool PolarisingFilter::intersect(Ray& ray, Eigen::Vector3d& pointOfInterception)
   return false;
 }
 
-int PolarisingFilter::getType()
-{
-  return 2;
-}
+int PolarisingFilter::getType() { return 2; }
 
 void PolarisingFilter::calculatePolarisationMatrix() {
   Eigen::Vector2d right = Eigen::Vector2d(1.0, 0.0);
