@@ -15,10 +15,12 @@ PolarisationWindow::PolarisationWindow(QGraphicsView *view) {
 
 
 void PolarisationWindow::render(QImage &visualisation) {
+    if (enabled) {
   scene = new QGraphicsScene(this);
   scene->addPixmap(QPixmap::fromImage(visualisation));
   scene->setSceneRect(visualisation.rect());
   m_view->setScene(scene);
+    }
 }
 
 void PolarisationWindow::renderNow()
@@ -33,11 +35,19 @@ void PolarisationWindow::renderNow()
 }
 
 void PolarisationWindow::simResultsUpdated(ListMatrix4cd &polarisationsIn) {
+    if (enabled) {
   polarisations = polarisationsIn;
   renderNow();
+    }
+}
+
+void PolarisationWindow::setEnabledState(int state)
+{
+    this->enabled = state;
 }
 
 void PolarisationWindow::drawAxis(QPainter* painter) {
+    if (enabled) {
   QPointF centreOfWindow(width / 2, height / 2);
   int radiusx = width / 4;
   int radiusy = height / 4;
@@ -50,6 +60,7 @@ void PolarisationWindow::drawAxis(QPainter* painter) {
   QPointF bottom(width / 2, 3 * height / 4);
   painter->drawLine(left, right);
   painter->drawLine(top, bottom);
+    }
 }
 
 void PolarisationWindow::drawPolarosations(QPainter* painter) {
@@ -59,7 +70,7 @@ void PolarisationWindow::drawPolarosations(QPainter* painter) {
   Vector2cd centre = Vector2cd(width / 2, height / 2);
   Vector2cd right = Vector2cd(1.0, 0.0);
 
-  QLineF newLine;
+  QLineF newLine = QLineF();
 
 
   for (unsigned int j = 0; j < polarisations.size(); j++) {
@@ -67,18 +78,20 @@ void PolarisationWindow::drawPolarosations(QPainter* painter) {
       painter->setPen(redPen);
     }
 
-    polarisations[j].normalize();
+    if (&polarisations[j] != nullptr) {
+        polarisations[j].normalize();
 
-    newLine.setP1(QPointF(static_cast<int>(centre(0).real()),
-                          static_cast<int>(centre(1).real())));
+        newLine.setP1(QPointF(static_cast<int>(centre(0).real()),
+                              static_cast<int>(centre(1).real())));
 
-    Vector2cd displayPol = Vector2cd(polarisations[j](0, 0), polarisations[j](1, 1));
-    auto a = acos(right.dot(displayPol) / right.norm() * displayPol.norm());
+        Vector2cd displayPol = Vector2cd(polarisations[j](0, 0), polarisations[j](1, 1));
+        auto a = acos(right.dot(displayPol) / right.norm() * displayPol.norm());
 
-    newLine.setAngle(a.real() * degreeMulitplier);
-    newLine.setLength(width / 4);
+        newLine.setAngle(a.real() * degreeMulitplier);
+        newLine.setLength(width / 4);
 
-    painter->drawLine(newLine);
+        painter->drawLine(newLine);
+    }
 
     if (j == 0) {
       painter->setPen(blackDottedPen);

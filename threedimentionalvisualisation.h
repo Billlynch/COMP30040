@@ -35,8 +35,10 @@ class ThreeDimentionalVisualisation : public QWidget
     QWidget *container;
   public:
       explicit ThreeDimentionalVisualisation(QWidget *parent = nullptr);
+    void setEnabledState(int state);
 
 private:
+    int enabled = 1;
     Qt3DCore::QEntity *rootEntity;
     std::vector<CollideableObject*> objectsInScene;
     QVector3D analysierPosition;

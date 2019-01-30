@@ -25,7 +25,9 @@ PEM::PEM(Eigen::Vector3d location,
   m_phaseAmplitude(phaseAmplitude),
   m_angularFrequency(angularFrequency),
   m_radius(radius)
-{}
+{
+    this->time = 0.0f;
+}
 
 int PEM::getType()
 {

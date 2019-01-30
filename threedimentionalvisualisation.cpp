@@ -4,6 +4,8 @@
 ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
    : QWidget(parent)
 {
+    if (enabled) {
+
     auto view = new Qt3DExtras::Qt3DWindow();
 
     // put Qt3DWindow into a container in order to make it possible
@@ -55,6 +57,12 @@ ThreeDimentionalVisualisation::ThreeDimentionalVisualisation(QWidget *parent)
 
    // Set root object of the scene
    view->setRootEntity(rootEntity);
+    }
+}
+
+void ThreeDimentionalVisualisation::setEnabledState(int state)
+{
+    this->enabled = state;
 }
 
 void ThreeDimentionalVisualisation::setupSample()
@@ -394,6 +402,8 @@ void ThreeDimentionalVisualisation::setupRaysToPEM()
 
 void ThreeDimentionalVisualisation::setupRaysToAnalyiser()
 {
+    if (enabled) {
+
     for (int i = 0; i < 10; i++) {
         //Mesh
         auto rayMesh = new Qt3DRender::QMesh();
@@ -418,10 +428,13 @@ void ThreeDimentionalVisualisation::setupRaysToAnalyiser()
 
         this->PEMToAnalyiserTransforms->insert(this->PEMToAnalyiserTransforms->begin(), rayTransfrom);
     }
+    }
 }
 
 void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen::Vector3d rayDirection, std::vector<CollideableObject *> objectsInScene)
 {
+    if (enabled) {
+
     this->rayDirectionInit = std::move(rayDirection);
     this->analysierPosition = QVector3D(position(0), position(1), position(2));// std::move(position);
     this->objectsInScene = std::move(objectsInScene);
@@ -455,10 +468,13 @@ void ThreeDimentionalVisualisation::newPositions(Eigen::Vector3d position, Eigen
 
         }
     }
+    }
 }
 
 void ThreeDimentionalVisualisation::newOutputFromPEM(Matrix4cd polarisation)
 {
+    if (enabled) {
+
     QVector3D PEMToAnalyiserRayDirection = this->analysierPosition - (this->PEMTransform->translation() - filterOffet);
     PEMToAnalyiserRayDirection.normalize();
 
@@ -473,10 +489,13 @@ void ThreeDimentionalVisualisation::newOutputFromPEM(Matrix4cd polarisation)
         QVector3D position = (this->PEMTransform->translation() - filterOffet) + (PEMToAnalyiserRayDirection * (i * RaySpreadFactorLaserSide));
         this->PEMToAnalyiserTransforms->at(i)->setTranslation(position);
     }
+    }
 }
 
 void ThreeDimentionalVisualisation::newOutputFromPolariser(Matrix4cd polarisation)
 {
+    if (enabled) {
+
     QVector3D laserToSampleRayDirection = this->samplePositon - (this->PolariserTransform->translation() - filterOffet);
     laserToSampleRayDirection.normalize();
 
@@ -491,10 +510,13 @@ void ThreeDimentionalVisualisation::newOutputFromPolariser(Matrix4cd polarisatio
         QVector3D position = (this->PolariserTransform->translation() - filterOffet) + (laserToSampleRayDirection * (i * RaySpreadFactorSampleSide));
         this->PolarisingFilterToSampleTransforms->at(i)->setTranslation(position);
     }
+    }
 }
 
 void ThreeDimentionalVisualisation::newOutputFromSample(Matrix4cd polarisation)
 {
+    if (enabled) {
+
     QVector3D SampleToPEMRayDirection = (this->PEMTransform->translation() - filterOffet) - this->samplePositon;
     SampleToPEMRayDirection.normalize();
 
@@ -509,10 +531,13 @@ void ThreeDimentionalVisualisation::newOutputFromSample(Matrix4cd polarisation)
         QVector3D position = this->samplePositon + (SampleToPEMRayDirection * (i * RaySpreadFactorSampleSide));
         this->SampleToPEMTransforms->at(i)->setTranslation(position);
     }
+    }
 }
 
 void ThreeDimentionalVisualisation::newOutputFromAnalyser(Matrix4cd polarisation)
 {
+    if (enabled) {
+
     QVector3D laserToSampleRayDirection = this->samplePositon - this->laserPosition;
     laserToSampleRayDirection.normalize();
     this->laserToPolarisingFilterRays.insert(this->laserToPolarisingFilterRays.begin(), polarisation);
@@ -526,10 +551,12 @@ void ThreeDimentionalVisualisation::newOutputFromAnalyser(Matrix4cd polarisation
         QVector3D position = (this->laserPosition + (laserToSampleRayDirection * (i * RaySpreadFactorLaserSide)));
         this->laserToPolarisingFilterTransforms->at(i)->setTranslation(position);
     }
+    }
 }
 
 void ThreeDimentionalVisualisation::newCameraPostion(ViewType view)
 {
+    if (enabled) {
     switch (view) {
         case centre:
             cameraEntity->setPosition(QVector3D(0, -20, 25));
@@ -565,6 +592,7 @@ void ThreeDimentionalVisualisation::newCameraPostion(ViewType view)
             cameraEntity->setPosition(QVector3D(0, -20, 25));
             cameraEntity->setViewCenter(QVector3D(0, 0, 0));
             break;
+    }
     }
 }
 

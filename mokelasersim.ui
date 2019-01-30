@@ -159,8 +159,8 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>650</y>
+      <x>520</x>
+      <y>560</y>
       <width>291</width>
       <height>311</height>
      </rect>
@@ -258,9 +258,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>550</y>
+      <y>460</y>
       <width>371</width>
-      <height>411</height>
+      <height>441</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -273,7 +273,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
+       <y>80</y>
        <width>350</width>
        <height>350</height>
       </rect>
@@ -318,6 +318,22 @@
      </property>
      <property name="text">
       <string>Black dotted line indicates resulting polarisation</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="polariEnable_chk">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>99</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Enabled</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>
@@ -532,6 +548,9 @@
      <enum>QFrame::Raised</enum>
     </property>
     <widget class="ThreeDimentionalVisualisation" name="threeDVis">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -552,8 +571,8 @@
       <rect>
        <x>780</x>
        <y>10</y>
-       <width>98</width>
-       <height>241</height>
+       <width>101</width>
+       <height>281</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -596,6 +615,16 @@
        <widget class="QPushButton" name="Analysier_view">
         <property name="text">
          <string>Analyiser</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="threeDEnable_chk">
+        <property name="text">
+         <string>Enabled</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

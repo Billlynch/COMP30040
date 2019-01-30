@@ -64,6 +64,10 @@ class MOKELaserSim : public QMainWindow {
 
   void on_noise_chk_stateChanged(int arg1);
 
+  void on_threeDEnable_chk_stateChanged(int arg1);
+
+  void on_polariEnable_chk_stateChanged(int arg1);
+
   void on_pem_enabled_chk_stateChanged(int arg1);
 
   void on_deviation_pem_valueChanged(int value);

@@ -205,6 +205,16 @@ void MOKELaserSim::on_Analysier_view_clicked()
     emit newCameraLocation(ViewType::analyiser);
 }
 
+void MOKELaserSim::on_threeDEnable_chk_stateChanged(int state)
+{
+    this->ui->threeDVis->setEnabledState(state);
+}
+
+void MOKELaserSim::on_polariEnable_chk_stateChanged(int state)
+{
+    this->resultsWindow->setEnabledState(state);
+}
+
 void MOKELaserSim::on_pem_enabled_chk_stateChanged(int state)
 {
     emit newPemState(state);
