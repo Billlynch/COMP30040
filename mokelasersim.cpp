@@ -56,6 +56,16 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   randomGenerator_pem->generate();
   ui->noise_pem->setTitle("PEM Noise Visualisation");
 
+  randomGenerator_polar = new RandomNoiseCalculator(0, 1);
+  connect(randomGenerator_polar,
+          &RandomNoiseCalculator::newRandomNoiseGeneration, ui->noise_polar,
+          &RandomNoiseChartView::newRandomGenerator);
+  connect(randomGenerator_polar,
+          &RandomNoiseCalculator::newRandomNoiseGeneration, &thread,
+          &SimulationThread::newPolarNoise);
+  randomGenerator_polar->generate();
+  ui->noise_pem->setTitle("Polariser Noise Visualisation");
+
   connect(this, &MOKELaserSim::newCameraLocation, ui->threeDVis,
           &ThreeDimentionalVisualisation::newCameraPostion);
   connect(this, &MOKELaserSim::laserNoiseStateChanhe, &thread,
@@ -64,6 +74,10 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
           &SimulationThread::newPemState);
   connect(this, &MOKELaserSim::newPolariserState, &thread,
           &SimulationThread::newPolariserState);
+  connect(this, &MOKELaserSim::newPolarNoiseState, &thread,
+          &SimulationThread::newPolarNoiseState);
+  connect(this, &MOKELaserSim::newPEMNoiseState, &thread,
+          &SimulationThread::newPemNoiseState);
 
   connect(this, &MOKELaserSim::newPolariserState, ui->threeDVis,
           &ThreeDimentionalVisualisation::newPolariserState);
@@ -71,7 +85,8 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(this, &MOKELaserSim::newPemState, ui->threeDVis,
           &ThreeDimentionalVisualisation::newPemState);
 
-  connect(&thread, &SimulationThread::emittedNewRayFromLaser, ui->threeDVis, &ThreeDimentionalVisualisation::newOutputFromLaser);
+  connect(&thread, &SimulationThread::emittedNewRayFromLaser, ui->threeDVis,
+          &ThreeDimentionalVisualisation::newOutputFromLaser);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -224,7 +239,18 @@ void MOKELaserSim::on_mean_pem_valueChanged(int value) {
   this->randomGenerator_pem->setMean(value / 100.0);
 }
 
-void MOKELaserSim::on_polar_enabled_chk_stateChanged(int state)
-{
-    emit newPolariserState(state);
+void MOKELaserSim::on_polar_enabled_chk_stateChanged(int state) {
+  emit newPolariserState(state);
+}
+
+void MOKELaserSim::on_deviation_polar_valueChanged(int value) {
+  this->randomGenerator_polar->setDeviation(value / 100.0);
+}
+
+void MOKELaserSim::on_mean_polar_valueChanged(int value) {
+  this->randomGenerator_polar->setMean(value / 100.0);
+}
+
+void MOKELaserSim::on_polar_noise_chk_stateChanged(int state) {
+  emit newPolarNoiseState(state);
 }

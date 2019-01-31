@@ -15,6 +15,7 @@ PolarisingFilter::PolarisingFilter(Eigen::Vector3d location, int side,
 }
 
 void PolarisingFilter::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
+  this->calculatePolarisationMatrix();
   ray.setPolarisation(m_polarizationMatrix * ray.getPolarisation());
   ray.calculationMatrixMultiplication(m_polarizationMatrix);
 
@@ -52,13 +53,25 @@ void PolarisingFilter::calculatePolarisationMatrix() {
 
   double angle = a.real();
 
+  if (this->noiseState == 2) {
+    angle *= this->dist(this->noise_gen);
+  }
+
   m_polarizationMatrix(0, 0) = pow(cos(angle), 2.0);
   m_polarizationMatrix(0, 1) = sin(angle) * cos(angle);
   m_polarizationMatrix(1, 0) = sin(angle) * cos(angle);
   m_polarizationMatrix(1, 1) = pow(sin(angle), 2.0);
 }
 
-Matrix22d PolarisingFilter::getPolarisationMatrix()
-{
-    return m_polarizationMatrix;
+Matrix22d PolarisingFilter::getPolarisationMatrix() {
+  this->calculatePolarisationMatrix();
+  return m_polarizationMatrix;
 }
+
+void PolarisingFilter::newNoise(std::normal_distribution<> d,
+                                std::mt19937 gen) {
+  this->dist = d;
+  this->noise_gen = gen;
+}
+
+void PolarisingFilter::setNoiseState(int state) { this->noiseState = state; }

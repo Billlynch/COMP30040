@@ -70,13 +70,13 @@ SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q,
                        n1,                              // refractive index
                        q);                              // Q value
 
-
   connect(tempSample, &SampleObject::newAngleOutout, &graph,
           &kerrRotationGraph::updateSeries);
 
   rep.sampleObject = tempSample;
 
-  connect(tempSample, &SampleObject::newThetas, &rep, &ThreeDimentionalVisualisation::newThetas);
+  connect(tempSample, &SampleObject::newThetas, &rep,
+          &ThreeDimentionalVisualisation::newThetas);
 
   return tempSample;
 }
@@ -91,9 +91,7 @@ SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation,
                            1.0, // no refractive index for now
                            std::move(targetPolarisation));
 
-
   rep.polariserObject = tempPolarisingFilter;
-
 
   return tempPolarisingFilter;
 }
@@ -104,7 +102,6 @@ PEM *SimulationThread::setupPEM(std::complex<double> amplitude,
   PEM *tempPEM = new PEM(Eigen::Vector3d(-1.0, 1.0, 0.0),
                          -1, // side
                          Eigen::Vector3d(0.0, 1.0, 0.0), 5.0, phase, amplitude);
-
 
   rep.pemObject = tempPEM;
 
@@ -208,11 +205,16 @@ void SimulationThread::newLaserNoiseState(int state) {
   this->laserNoise = state;
 }
 
-void SimulationThread::newPemState(int state) { this->pem->setEnabled(state); }
+void SimulationThread::newPemState(int state) {
+  if (this->pem != nullptr) {
+    this->pem->setEnabled(state);
+  }
+}
 
-void SimulationThread::newPolariserState(int state)
-{
+void SimulationThread::newPolariserState(int state) {
+  if (this->polarisingFilter != nullptr) {
     this->polarisingFilter->setEnabled(state);
+  }
 }
 
 void SimulationThread::newPemNoise(std::normal_distribution<> d,
@@ -223,7 +225,23 @@ void SimulationThread::newPemNoise(std::normal_distribution<> d,
 }
 
 void SimulationThread::newPemNoiseState(int state) {
-  this->pem->setNoiseState(state);
+  if (this->pem != nullptr) {
+    this->pem->setNoiseState(state);
+  }
+}
+
+void SimulationThread::newPolarNoise(std::normal_distribution<> d,
+                                     std::mt19937 gen) {
+  if (this->polarisingFilter != nullptr) {
+    this->polarisingFilter->newNoise(d, gen);
+  }
+}
+
+void SimulationThread::newPolarNoiseState(int state) {
+  if (this->polarisingFilter != nullptr) {
+
+    this->polarisingFilter->setNoiseState(state);
+  }
 }
 
 void SimulationThread::run() {
