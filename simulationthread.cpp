@@ -37,11 +37,6 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r,
 
   connect(this, &SimulationThread::newPositions, &rep,
           &ThreeDimentionalVisualisation::newPositions);
-  connect(this, &SimulationThread::emittedNewRayFromAnalyiser, &rep,
-          &ThreeDimentionalVisualisation::newOutputFromAnalyser);
-
-  // connect(&angleOfIncidenceSlider, &QSlider::sliderMoved, this,
-  // &SimulationThread::angleOfIncidenceChanged);
 
   m_q = {Q_r, Q_i};
   m_n_1 = {n0_r, n0_i};
@@ -75,14 +70,13 @@ SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q,
                        n1,                              // refractive index
                        q);                              // Q value
 
-  connect(tempSample, &SampleObject::outputPolarisationUpdated, &rep,
-          &ThreeDimentionalVisualisation::newOutputFromSample);
+
   connect(tempSample, &SampleObject::newAngleOutout, &graph,
           &kerrRotationGraph::updateSeries);
 
   rep.sampleObject = tempSample;
 
-  connect(tempSample, &SampleObject::newThetas, rep.sampleObject, &SampleObject::newThetas);
+  connect(tempSample, &SampleObject::newThetas, &rep, &ThreeDimentionalVisualisation::newThetas);
 
   return tempSample;
 }
@@ -97,8 +91,6 @@ SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation,
                            1.0, // no refractive index for now
                            std::move(targetPolarisation));
 
-  connect(tempPolarisingFilter, &PolarisingFilter::outputPolarisationUpdated,
-          &rep, &ThreeDimentionalVisualisation::newOutputFromPolariser);
 
   rep.polariserObject = tempPolarisingFilter;
 
@@ -113,8 +105,6 @@ PEM *SimulationThread::setupPEM(std::complex<double> amplitude,
                          -1, // side
                          Eigen::Vector3d(0.0, 1.0, 0.0), 5.0, phase, amplitude);
 
-  connect(tempPEM, &PEM::outputPolarisationUpdated, &rep,
-          &ThreeDimentionalVisualisation::newOutputFromPEM);
 
   rep.pemObject = tempPEM;
 
