@@ -16,8 +16,11 @@ SimulationThread::~SimulationThread() {
   mutex.unlock();
   wait();
 
-  delete sample;
-  delete polarisingFilter;
+  if (sample != nullptr) {
+    delete sample;
+    delete pem;
+    delete polarisingFilter;
+  }
 }
 
 void SimulationThread::customAbort() {
@@ -209,7 +212,7 @@ void SimulationThread::newPemState(int state) { this->pem->setEnabled(state); }
 
 void SimulationThread::newPemNoise(std::normal_distribution<> d,
                                    std::mt19937 gen) {
-  if (this->pem != NULL) {
+  if (this->pem != nullptr) {
     this->pem->newNoise(d, gen);
   }
 }

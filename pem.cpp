@@ -48,10 +48,8 @@ void PEM::incrementTime() { this->time++; }
 void PEM::setNoiseState(int state) { this->noiseState = state; }
 
 void PEM::newNoise(std::normal_distribution<> d, std::mt19937 gen) {
-  std::cout << "HEre" << std::endl;
   this->dist = d;
   this->noise_gen = gen;
-  std::cout << "HEre" << std::endl;
 }
 
 void PEM::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {

@@ -56,9 +56,9 @@ private:
   std::mt19937 emissionNoiseGen;
 
   std::complex<double> m_q, m_n_1;
-  SampleObject *sample;
-  PEM *pem;
-  PolarisingFilter *polarisingFilter;
+  SampleObject *sample = nullptr;
+  PEM *pem = nullptr;
+  PolarisingFilter *polarisingFilter = nullptr;
 
   std::vector<CollideableObject *> m_objectsInScene;
 
