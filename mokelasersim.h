@@ -75,6 +75,13 @@ private slots:
 
   void on_polar_enabled_chk_stateChanged(int arg1);
 
+  void on_deviation_polar_valueChanged(int value);
+
+  void on_mean_polar_valueChanged(int value);
+
+
+  void on_polar_noise_chk_stateChanged(int state);
+
 private:
   Ui::MOKELaserSim *ui;
   PolarisationWindow *resultsWindow;
@@ -89,8 +96,10 @@ private:
   QPixmap visableNormalMap;
   QPoint *collisionPoint = new QPoint(0, 0);
   Eigen::Vector3f *normalVector = nullptr;
-  RandomNoiseCalculator *randomGenerator;
-  RandomNoiseCalculator *randomGenerator_pem;
+  RandomNoiseCalculator *randomGenerator = nullptr;
+  RandomNoiseCalculator *randomGenerator_pem = nullptr;
+  RandomNoiseCalculator *randomGenerator_polar = nullptr;
+
 
   bool loadFile(const QString &fileName);
   void updateCollisionVisualisation();
@@ -103,6 +112,9 @@ signals:
   void laserNoiseStateChanhe(int state);
   void newPemState(int state);
   void newPolariserState(int state);
+  void newPolarNoiseState(int state);
+  void newPEMNoiseState(int state);
+
 };
 
 #endif // MOKELASERSIM_H

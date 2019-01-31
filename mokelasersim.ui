@@ -679,7 +679,7 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="pem_noise_chk">
           <property name="text">
            <string>Noise</string>
           </property>
@@ -784,7 +784,7 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QCheckBox" name="checkBox_3">
+         <widget class="QCheckBox" name="polar_noise_chk">
           <property name="text">
            <string>Noise</string>
           </property>
@@ -848,7 +848,7 @@
      <x>0</x>
      <y>0</y>
      <width>1968</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMOKE_Laser_Sim">

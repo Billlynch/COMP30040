@@ -2,6 +2,7 @@
 #define POLARISINGFILTER_H
 
 #include "collideableobject.h"
+#include <random>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22d;
 
@@ -13,6 +14,9 @@ class PolarisingFilter : public CollideableObject {
   Eigen::Vector2d m_targetPolarisation;
   double m_radius;
   std::complex<double> m_n1;
+  std::normal_distribution<> dist;
+  std::mt19937 noise_gen;
+  int noiseState = 0;
 
 public:
   PolarisingFilter(Eigen::Vector3d location, int side, Eigen::Vector3d normal,
@@ -26,6 +30,8 @@ public:
   int getType();
 
   Matrix22d getPolarisationMatrix();
+  void newNoise(std::normal_distribution<> d, std::mt19937 gen);
+  void setNoiseState(int state);
 
 protected:
   void calculatePolarisationMatrix();
