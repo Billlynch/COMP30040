@@ -33,9 +33,7 @@ bool PolarisingFilter::intersect(Ray &ray,
     pointOfInterception = ray.getOrigin() + ray.getDirection() * t;
     Eigen::Vector3d v = pointOfInterception - this->getLocation();
     double d2 = v.dot(v);
-    if (sqrt(d2) <= m_radius) {
-      // std::cout << "collide with polariser" << std::endl;
-    }
+
     return (sqrt(d2) <= m_radius);
   }
 
@@ -58,4 +56,9 @@ void PolarisingFilter::calculatePolarisationMatrix() {
   m_polarizationMatrix(0, 1) = sin(angle) * cos(angle);
   m_polarizationMatrix(1, 0) = sin(angle) * cos(angle);
   m_polarizationMatrix(1, 1) = pow(sin(angle), 2.0);
+}
+
+Matrix22d PolarisingFilter::getPolarisationMatrix()
+{
+    return m_polarizationMatrix;
 }

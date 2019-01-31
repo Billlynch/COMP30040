@@ -42,6 +42,7 @@ public slots:
   void newLaserNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newLaserNoiseState(int state);
   void newPemState(int state);
+  void newPolariserState(int state);
   void newPemNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newPemNoiseState(int state);
 
@@ -79,6 +80,7 @@ private:
 signals:
   void emittedNewRay(Matrix4cd polarisation);
   void emittedNewRayFromAnalyiser(Matrix4cd polarisation);
+  void emittedNewRayFromLaser(Ray ray);
 
   void newPositions(Eigen::Vector3d analyiserPosition,
                     Eigen::Vector3d rayDirection,

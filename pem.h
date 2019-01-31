@@ -35,6 +35,7 @@ public:
 
   void setNoiseState(int state);
   void newNoise(std::normal_distribution<> d, std::mt19937 gen);
+  Matrix22cd getPolarizationMatrix();
 
 signals:
   void outputPolarisationUpdated(Matrix4cd polarisation);

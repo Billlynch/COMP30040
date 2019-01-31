@@ -73,6 +73,8 @@ private slots:
 
   void on_mean_pem_valueChanged(int value);
 
+  void on_polar_enabled_chk_stateChanged(int arg1);
+
 private:
   Ui::MOKELaserSim *ui;
   PolarisationWindow *resultsWindow;
@@ -100,6 +102,7 @@ signals:
   void newCameraLocation(ViewType view);
   void laserNoiseStateChanhe(int state);
   void newPemState(int state);
+  void newPolariserState(int state);
 };
 
 #endif // MOKELASERSIM_H

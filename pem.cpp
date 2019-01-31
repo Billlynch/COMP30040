@@ -65,3 +65,8 @@ void PEM::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
 
   emit outputPolarisationUpdated(ray.getPolarisation());
 }
+
+Matrix22cd PEM::getPolarizationMatrix()
+{
+    return this->m_polarizationMatrix;
+}

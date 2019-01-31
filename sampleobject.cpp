@@ -56,6 +56,7 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   std::complex<double> theta0, theta1;
   calculateAngleOfInterception(ray, theta0);
   calculateAngleOfRefraction(theta0, theta1);
+  emit newThetas(theta0, theta1);
 
   // calculate S
   calculatePolarisationUsingGriggsFormulae(ray, theta0, theta1);
