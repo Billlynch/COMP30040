@@ -596,18 +596,19 @@ void ThreeDimentionalVisualisation::newOutputFromLaser(Ray ray) {
 
     if (this->LPRays.size() > 11) {
       auto rayToMoveState = this->LPRays.back();
-      rayToMoveState.setPolarisation(
-          rayToMoveState.getPolarisation() *
-          this->polariserObject->getPolarisationMatrix());
-
+      if (this->polariserState) {
+        rayToMoveState.setPolarisation(
+            rayToMoveState.getPolarisation() *
+            this->polariserObject->getPolarisationMatrix());
+      }
       this->PSRays.insert(this->PSRays.begin(), rayToMoveState);
       this->LPRays.pop_back();
     }
 
     if (this->PSRays.size() > 11) {
       auto rayToMoveState = this->PSRays.back();
-      rayToMoveState.setPolarisation(rayToMoveState.getPolarisation() *
-                                     this->pemObject->getPolarizationMatrix());
+      this->sampleObject->calculatePolarisationUsingGriggsFormulae(
+          rayToMoveState, theta0, theta1);
 
       this->SPRays.insert(this->SPRays.begin(), rayToMoveState);
       this->PSRays.pop_back();
@@ -615,9 +616,11 @@ void ThreeDimentionalVisualisation::newOutputFromLaser(Ray ray) {
 
     if (this->SPRays.size() > 11) {
       auto rayToMoveState = this->SPRays.back();
-      rayToMoveState.setPolarisation(rayToMoveState.getPolarisation() *
-                                     this->pemObject->getPolarizationMatrix());
-
+      if (this->pemState) {
+        rayToMoveState.setPolarisation(
+            rayToMoveState.getPolarisation() *
+            this->pemObject->getPolarizationMatrix());
+      }
       this->PARays.insert(this->PARays.begin(), rayToMoveState);
       this->SPRays.pop_back();
     }
