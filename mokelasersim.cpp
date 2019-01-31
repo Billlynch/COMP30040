@@ -88,7 +88,8 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(&thread, &SimulationThread::emittedNewRayFromLaser, ui->threeDVis,
           &ThreeDimentionalVisualisation::newOutputFromLaser);
 
-  connect(this, &MOKELaserSim::newMyValue, &thread, &SimulationThread::newMyValue);
+  connect(this, &MOKELaserSim::newMyValue, &thread,
+          &SimulationThread::newMyValue);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -116,8 +117,10 @@ void MOKELaserSim::on_horizontalSlider_valueChanged(int value) {
 }
 
 void MOKELaserSim::on_angle_of_incidence_valueChanged(int angle) {
-  thread.angleOfIncidenceChanged(static_cast<double>(angle));
-  this->ui->currentAngle->display(angle);
+  if (thread.isRunning()) {
+    thread.angleOfIncidenceChanged(static_cast<double>(angle));
+    this->ui->currentAngle->display(angle);
+  }
 }
 
 void MOKELaserSim::on_loadImage_btn_clicked() {
@@ -257,7 +260,6 @@ void MOKELaserSim::on_polar_noise_chk_stateChanged(int state) {
   emit newPolarNoiseState(state);
 }
 
-void MOKELaserSim::on_my_slider_valueChanged(int value)
-{
-  emit newMyValue(value/10.0);
+void MOKELaserSim::on_my_slider_valueChanged(int value) {
+  emit newMyValue(value / 10.0);
 }
