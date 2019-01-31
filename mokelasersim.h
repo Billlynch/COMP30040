@@ -82,6 +82,8 @@ private slots:
 
   void on_polar_noise_chk_stateChanged(int state);
 
+  void on_my_slider_valueChanged(int value);
+
 private:
   Ui::MOKELaserSim *ui;
   PolarisationWindow *resultsWindow;
@@ -114,6 +116,7 @@ signals:
   void newPolariserState(int state);
   void newPolarNoiseState(int state);
   void newPEMNoiseState(int state);
+  void newMyValue(double value);
 
 };
 

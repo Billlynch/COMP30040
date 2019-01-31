@@ -87,6 +87,8 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
 
   connect(&thread, &SimulationThread::emittedNewRayFromLaser, ui->threeDVis,
           &ThreeDimentionalVisualisation::newOutputFromLaser);
+
+  connect(this, &MOKELaserSim::newMyValue, &thread, &SimulationThread::newMyValue);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -253,4 +255,9 @@ void MOKELaserSim::on_mean_polar_valueChanged(int value) {
 
 void MOKELaserSim::on_polar_noise_chk_stateChanged(int state) {
   emit newPolarNoiseState(state);
+}
+
+void MOKELaserSim::on_my_slider_valueChanged(int value)
+{
+  emit newMyValue(value/10.0);
 }
