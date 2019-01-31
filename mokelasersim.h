@@ -84,6 +84,8 @@ private slots:
 
   void on_my_slider_valueChanged(int value);
 
+  void on_graph_clear_clicked();
+
 private:
   Ui::MOKELaserSim *ui;
   PolarisationWindow *resultsWindow;

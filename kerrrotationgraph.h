@@ -20,6 +20,7 @@ class kerrRotationGraph : public QChartView {
   Q_OBJECT
 public:
   explicit kerrRotationGraph(QWidget *parent = nullptr);
+  void clear();
 
 private:
   QLineSeries *m_series_p = new QLineSeries();

@@ -263,3 +263,5 @@ void MOKELaserSim::on_polar_noise_chk_stateChanged(int state) {
 void MOKELaserSim::on_my_slider_valueChanged(int value) {
   emit newMyValue(value / 10.0);
 }
+
+void MOKELaserSim::on_graph_clear_clicked() { this->ui->kerrGraph->clear(); }

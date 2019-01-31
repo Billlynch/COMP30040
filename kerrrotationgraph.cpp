@@ -10,6 +10,14 @@ kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
   this->showChart();
 }
 
+void kerrRotationGraph::clear() {
+  std::cout << "clear" << std::endl;
+  this->m_graphMap = GraphMap();
+  m_chart->removeSeries(m_series_p);
+  m_chart->removeSeries(m_series_s);
+  this->addMapToSeries();
+}
+
 void kerrRotationGraph::addMapToSeries() {
   m_series_p = new QSplineSeries();
   m_series_s = new QSplineSeries();
@@ -18,12 +26,19 @@ void kerrRotationGraph::addMapToSeries() {
   m_series_s->setName("Kerr Rotation S");
 
   for (auto const &val : m_graphMap) {
-    m_series_p->append(val.first * (180.0 / M_PI),
-                       val.second.first.real() * (180.0 / M_PI)); // p
-    m_series_s->append(val.first * (180.0 / M_PI),
-                       val.second.second.real() * (180.0 / M_PI)); // s
-  }
+    int indx = val.first * (180.0 / M_PI);
+    double p = val.second.first.real() * (180.0 / M_PI);
+    double s = val.second.second.real() * (180.0 / M_PI);
+    QPointF point_s = QPointF(indx, s);
+    QPointF point_p = QPointF(indx, p);
 
+    if (m_series_p->points().indexOf(point_s) != -1) {
+      m_series_p->remove(indx);
+      m_series_s->remove(indx);
+    }
+    m_series_p->append(point_p); // p
+    m_series_s->append(point_s); // s
+  }
   this->showChart();
 }
 

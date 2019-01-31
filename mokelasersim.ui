@@ -873,6 +873,19 @@
      <string>My</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="graph_clear">
+    <property name="geometry">
+     <rect>
+      <x>1400</x>
+      <y>560</y>
+      <width>92</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
