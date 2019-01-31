@@ -652,3 +652,14 @@ void ThreeDimentionalVisualisation::newPolariserState(int state) {
   polariserMaterial->setEnabled(state);
   this->LPRaysMaterial->setEnabled(state);
 }
+
+void ThreeDimentionalVisualisation::newOutputFromLaser(Ray ray)
+{
+    std::cout << "new Ray" << std::endl;
+}
+
+void ThreeDimentionalVisualisation::newThetas(std::complex<double> theta0, std::complex<double> theta1)
+{
+    this->theta0 = theta0;
+    this->theta1 = theta1;
+}

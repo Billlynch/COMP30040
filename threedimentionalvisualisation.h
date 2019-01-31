@@ -23,7 +23,11 @@
 #include <eigen3/Eigen/Dense>
 
 #include "collideableobject.h"
+#include "ray.h"
 #include "viewtype.h"
+#include "pem.h"
+#include "sampleobject.h"
+#include "polarisingfilter.h"
 
 #include <deque>
 
@@ -36,11 +40,18 @@ class ThreeDimentionalVisualisation : public QWidget {
 public:
   explicit ThreeDimentionalVisualisation(QWidget *parent = nullptr);
   void setEnabledState(int state);
+  PEM *pemObject;
+  SampleObject *sampleObject;
+  PolarisingFilter *polariserObject;
 
 private:
   int enabled = 1;
   int pemState = 1;
   int polariserState = 1;
+
+  std::complex<double> theta0;
+  std::complex<double> theta1;
+
   Qt3DCore::QEntity *rootEntity;
   std::vector<CollideableObject *> objectsInScene;
   QVector3D analysierPosition;
@@ -61,13 +72,11 @@ private:
   Qt3DRender::QGeometry *lineLaserToSampleGeometry;
   Qt3DRender::QGeometry *lineSampleToAnalyiserGeometry;
 
-
   Qt3DExtras::QPhongMaterial *PEMMaterial;
   Qt3DExtras::QPhongMaterial *polariserMaterial;
   Qt3DExtras::QPhongMaterial *PSRaysMaterial;
   Qt3DExtras::QPhongMaterial *LPRaysMaterial;
   Qt3DExtras::QPhongMaterial *SPRaysMaterial;
-
 
   std::deque<Matrix4cd> laserToPolarisingFilterRays;
   std::deque<Matrix4cd> PolarisingFilterToSampleRays;
@@ -87,8 +96,6 @@ private:
   float RaySpreadFactorLaserSide = 1.0f;
   float LaserToSampleSpreadFactorLaserSide = 1.0f;
   float LaserToPolariserSpreadFactorLaserSide = 1.0f;
-
-
 
   void setupSample();
   void setupPolariser();
@@ -116,5 +123,7 @@ public slots:
   void newCameraPostion(ViewType view);
   void newPemState(int state);
   void newPolariserState(int state);
+  void newOutputFromLaser(Ray ray);
+  void newThetas(std::complex<double> theta0, std::complex<double> theta1);
 };
 #endif // THREEDIMENTIONALVISUALISATION_H

@@ -70,6 +70,8 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
 
   connect(this, &MOKELaserSim::newPemState, ui->threeDVis,
           &ThreeDimentionalVisualisation::newPemState);
+
+  connect(&thread, &SimulationThread::emittedNewRayFromLaser, ui->threeDVis, &ThreeDimentionalVisualisation::newOutputFromLaser);
 }
 
 MOKELaserSim::~MOKELaserSim() {

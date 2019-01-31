@@ -80,6 +80,7 @@ private:
 signals:
   void emittedNewRay(Matrix4cd polarisation);
   void emittedNewRayFromAnalyiser(Matrix4cd polarisation);
+  void emittedNewRayFromLaser(Ray ray);
 
   void newPositions(Eigen::Vector3d analyiserPosition,
                     Eigen::Vector3d rayDirection,

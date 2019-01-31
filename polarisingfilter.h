@@ -25,6 +25,8 @@ public:
   bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
   int getType();
 
+  Matrix22d getPolarisationMatrix();
+
 protected:
   void calculatePolarisationMatrix();
 

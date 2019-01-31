@@ -80,6 +80,9 @@ SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q,
   connect(tempSample, &SampleObject::newAngleOutout, &graph,
           &kerrRotationGraph::updateSeries);
 
+  connect(tempSample, &SampleObject::newThetas, rep.sampleObject, &SampleObject::newThetas);
+  rep.sampleObject = tempSample;
+
   return tempSample;
 }
 
@@ -96,6 +99,8 @@ SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation,
   connect(tempPolarisingFilter, &PolarisingFilter::outputPolarisationUpdated,
           &rep, &ThreeDimentionalVisualisation::newOutputFromPolariser);
 
+  rep.polariserObject = tempPolarisingFilter;
+
   return tempPolarisingFilter;
 }
 
@@ -108,6 +113,8 @@ PEM *SimulationThread::setupPEM(std::complex<double> amplitude,
 
   connect(tempPEM, &PEM::outputPolarisationUpdated, &rep,
           &ThreeDimentionalVisualisation::newOutputFromPEM);
+
+  rep.pemObject = tempPEM;
 
   return tempPEM;
 }
@@ -164,6 +171,7 @@ void SimulationThread::fireNextRay() {
   Ray *ray = new Ray(this->emissionPosition, this->emissionDirection, polar,
                      Eigen::Vector2d(1.0, 1.0));
   emit emittedNewRay(ray->getPolarisation());
+  emit emittedNewRayFromLaser(*ray);
   emit emittedNewRayFromAnalyiser(ray->getPolarisation());
   castRay(*ray, m_objectsInScene, depth);
   ray->setPolarisation(ray->getCalculationMatrix() * polar);
