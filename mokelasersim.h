@@ -90,8 +90,8 @@ private:
   QTimer *pemTimer;
   QImage *normalMapImg;
   QImage *visualisationNormalMapImg =
-      new QImage(256, 256, QImage::Format_RGBA64);
-  QImage pointImage = QImage(20, 20, QImage::Format_RGBA64);
+      new QImage(256, 256, QImage::Format_RGBA8888);
+  QImage pointImage = QImage(20, 20, QImage::Format_RGBA8888);
   QGraphicsScene *scene;
   QPixmap visableNormalMap;
   QPoint *collisionPoint = new QPoint(0, 0);
