@@ -80,8 +80,9 @@ SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q,
   connect(tempSample, &SampleObject::newAngleOutout, &graph,
           &kerrRotationGraph::updateSeries);
 
-  connect(tempSample, &SampleObject::newThetas, rep.sampleObject, &SampleObject::newThetas);
   rep.sampleObject = tempSample;
+
+  connect(tempSample, &SampleObject::newThetas, rep.sampleObject, &SampleObject::newThetas);
 
   return tempSample;
 }
@@ -100,6 +101,7 @@ SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation,
           &rep, &ThreeDimentionalVisualisation::newOutputFromPolariser);
 
   rep.polariserObject = tempPolarisingFilter;
+
 
   return tempPolarisingFilter;
 }
