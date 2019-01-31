@@ -39,6 +39,8 @@ public:
 
 private:
   int enabled = 1;
+  int pemState = 1;
+  int polariserState = 1;
   Qt3DCore::QEntity *rootEntity;
   std::vector<CollideableObject *> objectsInScene;
   QVector3D analysierPosition;
@@ -59,22 +61,34 @@ private:
   Qt3DRender::QGeometry *lineLaserToSampleGeometry;
   Qt3DRender::QGeometry *lineSampleToAnalyiserGeometry;
 
+
+  Qt3DExtras::QPhongMaterial *PEMMaterial;
+  Qt3DExtras::QPhongMaterial *polariserMaterial;
+  Qt3DExtras::QPhongMaterial *PSRaysMaterial;
+  Qt3DExtras::QPhongMaterial *LPRaysMaterial;
+  Qt3DExtras::QPhongMaterial *SPRaysMaterial;
+
+
   std::deque<Matrix4cd> laserToPolarisingFilterRays;
   std::deque<Matrix4cd> PolarisingFilterToSampleRays;
   std::deque<Matrix4cd> SampleToPEMRays;
   std::deque<Matrix4cd> PEMToAnalyiserRays;
 
-  std::deque<Qt3DCore::QTransform *> *laserToPolarisingFilterTransforms =
+  std::deque<Qt3DCore::QTransform *> *PSRaysTransforms =
       new std::deque<Qt3DCore::QTransform *>;
   std::deque<Qt3DCore::QTransform *> *PolarisingFilterToSampleTransforms =
       new std::deque<Qt3DCore::QTransform *>;
-  std::deque<Qt3DCore::QTransform *> *SampleToPEMTransforms =
+  std::deque<Qt3DCore::QTransform *> *SPRays =
       new std::deque<Qt3DCore::QTransform *>;
   std::deque<Qt3DCore::QTransform *> *PEMToAnalyiserTransforms =
       new std::deque<Qt3DCore::QTransform *>;
 
   float RaySpreadFactorSampleSide = 1.0f;
   float RaySpreadFactorLaserSide = 1.0f;
+  float LaserToSampleSpreadFactorLaserSide = 1.0f;
+  float LaserToPolariserSpreadFactorLaserSide = 1.0f;
+
+
 
   void setupSample();
   void setupPolariser();
@@ -100,5 +114,7 @@ public slots:
   void newOutputFromSample(Matrix4cd polarisation);
   void newOutputFromAnalyser(Matrix4cd polarisation);
   void newCameraPostion(ViewType view);
+  void newPemState(int state);
+  void newPolariserState(int state);
 };
 #endif // THREEDIMENTIONALVISUALISATION_H

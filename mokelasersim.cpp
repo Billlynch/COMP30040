@@ -64,6 +64,12 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
           &SimulationThread::newPemState);
   connect(this, &MOKELaserSim::newPolariserState, &thread,
           &SimulationThread::newPolariserState);
+
+  connect(this, &MOKELaserSim::newPolariserState, ui->threeDVis,
+          &ThreeDimentionalVisualisation::newPolariserState);
+
+  connect(this, &MOKELaserSim::newPemState, ui->threeDVis,
+          &ThreeDimentionalVisualisation::newPemState);
 }
 
 MOKELaserSim::~MOKELaserSim() {

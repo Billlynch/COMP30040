@@ -210,8 +210,9 @@ void SimulationThread::newLaserNoiseState(int state) {
 
 void SimulationThread::newPemState(int state) { this->pem->setEnabled(state); }
 
-void SimulationThread::newPolariserState(int state) {
-  this->polarisingFilter->setEnabled(state);
+void SimulationThread::newPolariserState(int state)
+{
+    this->polarisingFilter->setEnabled(state);
 }
 
 void SimulationThread::newPemNoise(std::normal_distribution<> d,

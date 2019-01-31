@@ -97,7 +97,7 @@ void ThreeDimentionalVisualisation::setupPolariser() {
   PolariserTransform->setRotationY(90.0f);
   PolariserTransform->setRotationX(45.0f);
 
-  auto polariserMaterial = new Qt3DExtras::QPhongMaterial();
+  polariserMaterial = new Qt3DExtras::QPhongMaterial();
   polariserMaterial->setDiffuse(Qt::red);
 
   // Model
@@ -120,8 +120,9 @@ void ThreeDimentionalVisualisation::setupPEM() {
   PEMTransform->setRotationY(90.0f);
   PEMTransform->setRotationX(-45.0f);
 
-  auto PEMMaterial = new Qt3DExtras::QPhongMaterial();
+  PEMMaterial = new Qt3DExtras::QPhongMaterial();
   PEMMaterial->setDiffuse(Qt::red);
+  PEMMaterial->setEnabled(this->pemState);
 
   // Model
   auto modelEntity = new Qt3DCore::QEntity(rootEntity);
@@ -313,6 +314,10 @@ void ThreeDimentionalVisualisation::updateLineSampleToAnalyiser() {
 
 void ThreeDimentionalVisualisation::setupRaysToPolariser() {
 
+  PSRaysMaterial = new Qt3DExtras::QPhongMaterial();
+  PSRaysMaterial->setDiffuse(Qt::red);
+  PSRaysMaterial->setEnabled(false);
+
   for (int i = 0; i < 10; i++) {
     // Mesh
     auto rayMesh = new Qt3DRender::QMesh();
@@ -326,21 +331,21 @@ void ThreeDimentionalVisualisation::setupRaysToPolariser() {
     rayTransfrom->setRotationY(90.0f);
     rayTransfrom->setRotationX(-45.0f);
 
-    auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
-    modelMaterial->setDiffuse(Qt::red);
-
     // Laser
     auto rayEntity = new Qt3DCore::QEntity(rootEntity);
     rayEntity->addComponent(rayMesh);
     rayEntity->addComponent(rayTransfrom);
-    rayEntity->addComponent(modelMaterial);
+    rayEntity->addComponent(PSRaysMaterial);
 
-    this->laserToPolarisingFilterTransforms->insert(
-        this->laserToPolarisingFilterTransforms->begin(), rayTransfrom);
+    this->PSRaysTransforms->insert(
+        this->PSRaysTransforms->begin(), rayTransfrom);
   }
 }
 
 void ThreeDimentionalVisualisation::setupRaysToSample() {
+    LPRaysMaterial = new Qt3DExtras::QPhongMaterial();
+    LPRaysMaterial->setDiffuse(Qt::red);
+
   for (int i = 0; i < 10; i++) {
     // Mesh
     auto rayMesh = new Qt3DRender::QMesh();
@@ -354,14 +359,12 @@ void ThreeDimentionalVisualisation::setupRaysToSample() {
     rayTransfrom->setRotationY(90.0f);
     rayTransfrom->setRotationX(-45.0f);
 
-    auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
-    modelMaterial->setDiffuse(Qt::red);
 
     // Laser
     auto rayEntity = new Qt3DCore::QEntity(rootEntity);
     rayEntity->addComponent(rayMesh);
     rayEntity->addComponent(rayTransfrom);
-    rayEntity->addComponent(modelMaterial);
+    rayEntity->addComponent(LPRaysMaterial);
 
     this->PolarisingFilterToSampleTransforms->insert(
         this->PolarisingFilterToSampleTransforms->begin(), rayTransfrom);
@@ -369,6 +372,9 @@ void ThreeDimentionalVisualisation::setupRaysToSample() {
 }
 
 void ThreeDimentionalVisualisation::setupRaysToPEM() {
+    SPRaysMaterial = new Qt3DExtras::QPhongMaterial();
+    SPRaysMaterial->setDiffuse(Qt::red);
+    SPRaysMaterial->setEnabled(false);
   for (int i = 0; i < 10; i++) {
     // Mesh
     auto rayMesh = new Qt3DRender::QMesh();
@@ -382,16 +388,14 @@ void ThreeDimentionalVisualisation::setupRaysToPEM() {
     rayTransfrom->setRotationY(90.0f);
     rayTransfrom->setRotationX(-45.0f);
 
-    auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
-    modelMaterial->setDiffuse(Qt::red);
 
     // Laser
     auto rayEntity = new Qt3DCore::QEntity(rootEntity);
     rayEntity->addComponent(rayMesh);
     rayEntity->addComponent(rayTransfrom);
-    rayEntity->addComponent(modelMaterial);
+    rayEntity->addComponent(SPRaysMaterial);
 
-    this->SampleToPEMTransforms->insert(this->SampleToPEMTransforms->begin(),
+    this->SPRays->insert(this->SPRays->begin(),
                                         rayTransfrom);
   }
 }
@@ -460,6 +464,9 @@ void ThreeDimentionalVisualisation::newPositions(
         this->samplePositon.distanceToPoint(
             this->PolariserTransform->translation()) /
         10.0;
+
+    this->LaserToSampleSpreadFactorLaserSide =
+        this->samplePositon.distanceToPoint(this->laserPosition) / 10.0;
 
     foreach (CollideableObject *obj, this->objectsInScene) {
       QVector3D position = QVector3D(
@@ -552,12 +559,12 @@ void ThreeDimentionalVisualisation::newOutputFromSample(
     }
 
     for (unsigned i = 0; i < this->SampleToPEMRays.size() - 1; i++) {
-      this->SampleToPEMTransforms->at(i)->setRotationZ(
+      this->SPRays->at(i)->setRotationZ(
           this->SampleToPEMRays.at(i)(0, 0).real() * degreeMulitplier3);
       QVector3D position =
           this->samplePositon +
           (SampleToPEMRayDirection * (i * RaySpreadFactorSampleSide));
-      this->SampleToPEMTransforms->at(i)->setTranslation(position);
+      this->SPRays->at(i)->setTranslation(position);
     }
   }
 }
@@ -565,7 +572,7 @@ void ThreeDimentionalVisualisation::newOutputFromSample(
 void ThreeDimentionalVisualisation::newOutputFromAnalyser(
     Matrix4cd polarisation) {
   if (enabled) {
-
+    PSRaysMaterial->setEnabled(true);
     QVector3D laserToSampleRayDirection =
         this->samplePositon - this->laserPosition;
     laserToSampleRayDirection.normalize();
@@ -578,13 +585,16 @@ void ThreeDimentionalVisualisation::newOutputFromAnalyser(
 
     for (unsigned i = 0; i < this->laserToPolarisingFilterRays.size() - 1;
          i++) {
-      this->laserToPolarisingFilterTransforms->at(i)->setRotationY(
+      this->PSRaysTransforms->at(i)->setRotationY(
           this->laserToPolarisingFilterRays.at(i)(0, 0).real() *
           degreeMulitplier3);
       QVector3D position =
           (this->laserPosition +
-           (laserToSampleRayDirection * (i * RaySpreadFactorLaserSide)));
-      this->laserToPolarisingFilterTransforms->at(i)->setTranslation(position);
+           (laserToSampleRayDirection *
+            (i * (this->polariserState
+                      ? RaySpreadFactorLaserSide
+                      : this->LaserToSampleSpreadFactorLaserSide))));
+      this->PSRaysTransforms->at(i)->setTranslation(position);
     }
   }
 }
@@ -628,4 +638,17 @@ void ThreeDimentionalVisualisation::newCameraPostion(ViewType view) {
       break;
     }
   }
+}
+
+void ThreeDimentionalVisualisation::newPemState(int state) {
+  this->pemState = state;
+  PEMMaterial->setEnabled(state);
+
+  this->PEMToAnalyiserRays.clear();
+}
+
+void ThreeDimentionalVisualisation::newPolariserState(int state) {
+  this->polariserState = state;
+  polariserMaterial->setEnabled(state);
+  this->LPRaysMaterial->setEnabled(state);
 }
