@@ -146,7 +146,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="normalMap_frame">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -244,7 +244,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="polarOut_frame">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -327,7 +327,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="Sample_frame">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -468,7 +468,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_2">
+   <widget class="QFrame" name="ThreeD_frame">
     <property name="geometry">
      <rect>
       <x>830</x>
@@ -567,7 +567,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_3">
+   <widget class="QFrame" name="pem_frame">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -685,7 +685,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_4">
+   <widget class="QFrame" name="polariser_frame">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -803,7 +803,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_6">
+   <widget class="QFrame" name="laser_frame">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -976,7 +976,7 @@
      <x>0</x>
      <y>0</y>
      <width>1739</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMOKE_Laser_Sim">
