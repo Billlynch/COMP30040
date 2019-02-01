@@ -30,6 +30,7 @@ void RandomNoiseChartView::render() {
 
   m_chart->legend()->hide();
   this->setChart(m_chart);
+  //  this->chart()->setPlotArea(area);
   this->show();
 }
 
@@ -41,6 +42,9 @@ RandomNoiseChartView::RandomNoiseChartView(QWidget *parent,
   m_points = new QList<QPointF>();
 
   this->setRenderHint(QPainter::Antialiasing);
+  QRect area = QRect(0, 0, 256, 128);
+
+  this->setSceneRect(area);
 }
 
 void RandomNoiseChartView::setTitle(const std::string &title) {

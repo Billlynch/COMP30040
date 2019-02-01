@@ -244,6 +244,13 @@ void SimulationThread::newPolarNoiseState(int state) {
   }
 }
 
+void SimulationThread::newMyValue(double my)
+{
+    if (this->sample != nullptr) {
+        this->sample->setM_Y(my);
+    }
+}
+
 void SimulationThread::run() {
   forever {
     if (abort) {

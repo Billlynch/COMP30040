@@ -36,6 +36,7 @@ public:
   void calculatePolarisationUsingGriggsFormulae(Ray &ray,
                                                 std::complex<double> &theta0,
                                                 std::complex<double> &theta1);
+  void setM_Y(double m_y);
 
 private:
   void insertIntoGraphMap(std::complex<double> angle) {
