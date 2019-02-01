@@ -20,6 +20,11 @@ SampleObject::SampleObject(Eigen::Vector3d location, int side,
 
 SampleObject::~SampleObject() = default;
 
+void SampleObject::updatedNormalMapNormal(Eigen::Vector3d normal)
+{
+    this->m_normal_map_normal = &normal;
+}
+
 void SampleObject::calculatePolarisationUsingGriggsFormulae(
     Ray &ray, std::complex<double> &theta0, std::complex<double> &theta1) {
   m_i = {0, 1};

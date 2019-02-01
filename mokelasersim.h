@@ -99,7 +99,7 @@ private:
   QGraphicsScene *scene;
   QPixmap visableNormalMap;
   QPoint *collisionPoint = new QPoint(0, 0);
-  Eigen::Vector3f *normalVector = nullptr;
+  Eigen::Vector3d *normalVector = nullptr;
   RandomNoiseCalculator *randomGenerator = nullptr;
   RandomNoiseCalculator *randomGenerator_pem = nullptr;
   RandomNoiseCalculator *randomGenerator_polar = nullptr;
@@ -119,6 +119,7 @@ signals:
   void newPolarNoiseState(int state);
   void newPEMNoiseState(int state);
   void newMyValue(double value);
+  void newNormalFromNormalMap(Eigen::Vector3d normal);
 
 };
 

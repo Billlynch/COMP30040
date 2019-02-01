@@ -23,6 +23,7 @@ private:
   std::complex<double> m_rps;
   Matrix4d m_R;
   GraphMap m_graphMap;
+  Eigen::Vector3d *m_normal_map_normal;
 
 public:
   SampleObject(Eigen::Vector3d location, int side, Eigen::Vector3d normal,
@@ -37,6 +38,7 @@ public:
                                                 std::complex<double> &theta0,
                                                 std::complex<double> &theta1);
   void setM_Y(double m_y);
+  void updatedNormalMapNormal(Eigen::Vector3d normal);
 
 private:
   void insertIntoGraphMap(std::complex<double> angle) {
@@ -58,10 +60,16 @@ protected:
   void calculateAngleOfInterception(Ray &ray, std::complex<double> &theta0) {
     auto normal = this->getNormal();
     normal.normalize();
+    Eigen::Vector3d faux_normal;
+    if (this->m_normal_map_normal != nullptr) {
+        faux_normal = normal.cross(*this->m_normal_map_normal);
+    } else {
+        faux_normal = normal;
+    }
     Eigen::Vector3d rayDirection = ray.getDirection();
     rayDirection.normalize();
-    std::complex<double> numerator0 = rayDirection.dot(normal);
-    std::complex<double> denominator0 = rayDirection.norm() * normal.norm();
+    std::complex<double> numerator0 = rayDirection.dot(faux_normal);
+    std::complex<double> denominator0 = rayDirection.norm() * faux_normal.norm();
     theta0 = acos(numerator0 / denominator0); // the angle of incidence
     this->insertIntoGraphMap(theta0);
   }

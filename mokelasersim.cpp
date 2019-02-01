@@ -90,6 +90,9 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
 
   connect(this, &MOKELaserSim::newMyValue, &thread,
           &SimulationThread::newMyValue);
+
+  connect(this, &MOKELaserSim::newNormalFromNormalMap, &thread, &SimulationThread::newNormalFromNormalMap);
+
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -191,7 +194,7 @@ void MOKELaserSim::setupNormalTargetImage() {
 void MOKELaserSim::setNormalFromImage() {
   QRgb normalPixel = normalMapImg->pixel(*collisionPoint);
 
-  normalVector = new Eigen::Vector3f(qRed(normalPixel), qGreen(normalPixel),
+  normalVector = new Eigen::Vector3d(qRed(normalPixel), qGreen(normalPixel),
                                      qBlue(normalPixel));
   normalVector->normalize();
 }
