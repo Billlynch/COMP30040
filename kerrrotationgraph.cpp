@@ -4,7 +4,7 @@
 #include <iostream>
 
 kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
-  auto *chartView = new QChartView(m_chart);
+  auto chartView = new QChartView(m_chart);
   chartView->setRenderHint(QPainter::Antialiasing);
   this->setChart(m_chart);
   this->showChart();
