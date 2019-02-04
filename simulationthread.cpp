@@ -148,7 +148,8 @@ void SimulationThread::castRay(Ray &ray,
 
 void SimulationThread::calculateNewPositions(Ray ray)
 {
-    this->pem->setLocation(this->sample->getLocation() - (ray.getDirection() * 2));
+    auto dir = ray.getDirection().normalized();
+    this->pem->setLocation(this->sample->getLocation() - (dir * 10));
 
     // notifity the visualisation
     emit newPositions(this->emissionPosition, this->emissionDirection,

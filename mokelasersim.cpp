@@ -196,8 +196,11 @@ void MOKELaserSim::setupNormalTargetImage() {
 void MOKELaserSim::setNormalFromImage() {
   QRgb normalPixel = normalMapImg->pixel(*collisionPoint);
 
-  normalVector = new Eigen::Vector3d(convertToVectorScale(qRed(normalPixel)), convertToVectorScale(qGreen(normalPixel)),
-                                     convertToVectorScale(qBlue(normalPixel)));
+  auto red = convertToVectorScale(qRed(normalPixel));
+  auto green = convertToVectorScale(qGreen(normalPixel));
+  auto blue = convertToVectorScale(qBlue(normalPixel));
+
+  normalVector = new Eigen::Vector3d(red, blue, green); // y is up in the simulation and z is up in normal maps
   //normalVector->normalize();
 
   emit newNormalFromNormalMap(*normalVector);

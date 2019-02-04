@@ -25,7 +25,7 @@ void SampleObject::updatedNormalMapNormal(Eigen::Vector3d normal)
     this->m_normal_map_normal = new Eigen::Vector3d(normal);
     Eigen::Vector3d faux_normal = Eigen::Vector3d(0,0,0);
     if (this->m_normal_map_normal != nullptr) {
-        faux_normal = this->getNormal() + *this->m_normal_map_normal;
+        faux_normal = this->getNormal() - *this->m_normal_map_normal;
         faux_normal.normalize();
         this->setNormal(faux_normal);
     } else {
