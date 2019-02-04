@@ -60,17 +60,11 @@ protected:
   void calculateAngleOfInterception(Ray &ray, std::complex<double> &theta0) {
     auto normal = this->getNormal();
     normal.normalize();
-    Eigen::Vector3d faux_normal = Eigen::Vector3d(0,0,0);
-    if (this->m_normal_map_normal != nullptr) {
-        faux_normal = normal + *this->m_normal_map_normal;
-        faux_normal.normalize();
-    } else {
-        faux_normal = normal;
-    }
+
     Eigen::Vector3d rayDirection = ray.getDirection();
     rayDirection.normalize();
-    std::complex<double> numerator0 = rayDirection.dot(faux_normal);
-    std::complex<double> denominator0 = rayDirection.norm() * faux_normal.norm();
+    std::complex<double> numerator0 = rayDirection.dot(normal);
+    std::complex<double> denominator0 = rayDirection.norm() * normal.norm();
     theta0 = acos(numerator0 / denominator0); // the angle of incidence
     this->insertIntoGraphMap(theta0);
   }

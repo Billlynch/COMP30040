@@ -30,6 +30,7 @@ public:
   const Eigen::Vector3d &getNormal() const;
 
   void setLocation(const Eigen::Vector3d &location);
+  void setNormal(Eigen::Vector3d normal);
 
   virtual int
   getType() = 0; // 0 = light source, 1 = PEM, 2 = polarising filter, 3 = sample

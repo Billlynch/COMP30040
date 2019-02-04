@@ -54,6 +54,7 @@ public slots:
 
 private:
   int laserNoise = 0;
+  int newNormalMapVector = 0;
   QMutex mutex;
   QWaitCondition condition;
   bool restart, abort;
@@ -82,6 +83,9 @@ private:
              std::vector<CollideableObject *> &objectsInScene, int &rayCount);
   void castRay(Ray &ray, std::vector<CollideableObject *> &objectsInScene,
                int &depth);
+
+  void calculateNewPositions(Ray ray);
+
 
 signals:
   void emittedNewRay(Matrix4cd polarisation);

@@ -43,7 +43,12 @@ const Eigen::Vector3d &CollideableObject::getNormal() const {
 }
 
 void CollideableObject::setLocation(const Eigen::Vector3d &location) {
-  CollideableObject::m_location = location;
+    CollideableObject::m_location = location;
+}
+
+void CollideableObject::setNormal(Eigen::Vector3d normal)
+{
+ this->m_normal = normal;
 }
 
 Eigen::Vector3d *

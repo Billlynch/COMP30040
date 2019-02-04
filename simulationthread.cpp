@@ -135,10 +135,24 @@ void SimulationThread::castRay(Ray &ray,
     for (unsigned int j = 0; j < objectsInScene.size(); j++) {
       if (objectsInScene[j]->intersect(ray, pointOfInterception)) {
         objectsInScene[j]->collide(ray, pointOfInterception);
+        if (this->newNormalMapVector == 1 && objectsInScene[j]->getType() == 3) // if need to update and just hit the sample
+        {
+            this->calculateNewPositions(ray);
+            this->newNormalMapVector = 0;
+        }
         castRay(ray, objectsInScene, depth);
       }
     }
   }
+}
+
+void SimulationThread::calculateNewPositions(Ray ray)
+{
+    this->pem->setLocation(this->sample->getLocation() - (ray.getDirection() * 2));
+
+    // notifity the visualisation
+    emit newPositions(this->emissionPosition, this->emissionDirection,
+                      this->m_objectsInScene);
 }
 
 void SimulationThread::incrementPEMTimeProgression() {
@@ -254,6 +268,7 @@ void SimulationThread::newMyValue(double my)
 void SimulationThread::newNormalFromNormalMap(Eigen::Vector3d normal)
 {
     this->sample->updatedNormalMapNormal(std::move(normal));
+    this->newNormalMapVector = 1;
 }
 
 void SimulationThread::run() {
