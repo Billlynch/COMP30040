@@ -23,7 +23,7 @@ private:
   std::complex<double> m_rps;
   Matrix4d m_R;
   GraphMap m_graphMap;
-  Eigen::Vector3d *m_normal_map_normal;
+  Eigen::Vector3d *m_normal_map_normal = nullptr;
 
 public:
   SampleObject(Eigen::Vector3d location, int side, Eigen::Vector3d normal,
@@ -60,9 +60,10 @@ protected:
   void calculateAngleOfInterception(Ray &ray, std::complex<double> &theta0) {
     auto normal = this->getNormal();
     normal.normalize();
-    Eigen::Vector3d faux_normal;
+    Eigen::Vector3d faux_normal = Eigen::Vector3d(0,0,0);
     if (this->m_normal_map_normal != nullptr) {
-        faux_normal = normal.cross(*this->m_normal_map_normal);
+        faux_normal = normal + *this->m_normal_map_normal;
+        faux_normal.normalize();
     } else {
         faux_normal = normal;
     }

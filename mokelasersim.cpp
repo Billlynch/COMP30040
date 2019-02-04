@@ -152,11 +152,13 @@ void MOKELaserSim::on_sample_deviation_valueChanged(int value) {
 void MOKELaserSim::on_collisionPointY_valueChanged(int value) {
   this->collisionPoint->setY(value);
   this->updateCollisionVisualisation();
+    this->setNormalFromImage();
 }
 
 void MOKELaserSim::on_collisionPointX_valueChanged(int value) {
   this->collisionPoint->setX(value);
   this->updateCollisionVisualisation();
+    this->setNormalFromImage();
 }
 
 void MOKELaserSim::updateCollisionVisualisation() {
@@ -194,9 +196,11 @@ void MOKELaserSim::setupNormalTargetImage() {
 void MOKELaserSim::setNormalFromImage() {
   QRgb normalPixel = normalMapImg->pixel(*collisionPoint);
 
-  normalVector = new Eigen::Vector3d(qRed(normalPixel), qGreen(normalPixel),
-                                     qBlue(normalPixel));
-  normalVector->normalize();
+  normalVector = new Eigen::Vector3d(convertToVectorScale(qRed(normalPixel)), convertToVectorScale(qGreen(normalPixel)),
+                                     convertToVectorScale(qBlue(normalPixel)));
+  //normalVector->normalize();
+
+  emit newNormalFromNormalMap(*normalVector);
 }
 
 void MOKELaserSim::on_noise_chk_stateChanged(int state) {

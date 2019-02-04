@@ -110,6 +110,9 @@ private:
   void renderNormalImage(QImage &visualisation);
   void setupNormalTargetImage();
   void setNormalFromImage();
+  double convertToVectorScale(int i) {
+      return (i / 128.0) - 1;
+  }
 
 signals:
   void newCameraLocation(ViewType view);

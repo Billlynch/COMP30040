@@ -22,7 +22,7 @@ SampleObject::~SampleObject() = default;
 
 void SampleObject::updatedNormalMapNormal(Eigen::Vector3d normal)
 {
-    this->m_normal_map_normal = &normal;
+    this->m_normal_map_normal = new Eigen::Vector3d(normal);
 }
 
 void SampleObject::calculatePolarisationUsingGriggsFormulae(
