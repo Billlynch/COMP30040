@@ -71,13 +71,13 @@ void ThreeDimentionalVisualisation::setupSample() {
 
   // Transform
   auto meshTransform = new Qt3DCore::QTransform();
-  meshTransform->setScale(0.5f);
-  meshTransform->setTranslation(QVector3D(0.0, 10.0, -1.7));
+  meshTransform->setScale(1.0f);
+  meshTransform->setTranslation(QVector3D(0.0, 10.0, -3.5));
   meshTransform->setRotationZ(90.0f);
   meshTransform->setRotationY(90.0f);
 
   auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
-  modelMaterial->setDiffuse(Qt::red);
+  modelMaterial->setDiffuse(Qt::blue);
 
   // Model
   auto modelEntity = new Qt3DCore::QEntity(rootEntity);
@@ -100,7 +100,7 @@ void ThreeDimentionalVisualisation::setupPolariser() {
   PolariserTransform->setRotationX(45.0f);
 
   polariserMaterial = new Qt3DExtras::QPhongMaterial();
-  polariserMaterial->setDiffuse(Qt::red);
+  polariserMaterial->setDiffuse(Qt::black);
 
   // Model
   auto modelEntity = new Qt3DCore::QEntity(rootEntity);
@@ -123,7 +123,7 @@ void ThreeDimentionalVisualisation::setupPEM() {
   PEMTransform->setRotationX(-45.0f);
 
   PEMMaterial = new Qt3DExtras::QPhongMaterial();
-  PEMMaterial->setDiffuse(Qt::red);
+  PEMMaterial->setDiffuse(Qt::black);
   PEMMaterial->setEnabled(this->pemState);
 
   // Model
@@ -147,7 +147,7 @@ void ThreeDimentionalVisualisation::setupLaser() {
   laserTransform->setRotationX(-45.0f);
 
   auto *modelMaterial = new Qt3DExtras::QPhongMaterial();
-  modelMaterial->setDiffuse(Qt::red);
+  modelMaterial->setDiffuse(Qt::green);
 
   // Laser
   auto laserEntity = new Qt3DCore::QEntity(rootEntity);
@@ -170,7 +170,7 @@ void ThreeDimentionalVisualisation::setupAnalyiser() {
   analysierTransform->setRotationX(45.0f);
 
   auto analyiserMaterial = new Qt3DExtras::QPhongMaterial();
-  analyiserMaterial->setDiffuse(Qt::red);
+  analyiserMaterial->setDiffuse(Qt::green);
 
   // Model
   auto modelEntity = new Qt3DCore::QEntity(rootEntity);
@@ -439,7 +439,7 @@ void ThreeDimentionalVisualisation::renderRays() {
           degreeMulitplier3);
       QVector3D position =
           (this->PolariserTransform->translation() - filterOffet) +
-          (LPPSDirection * (i * RaySpreadFactorSampleSide));
+          (LPPSDirection * ((i-1) * (RaySpreadFactorSampleSide));
       this->PSRaysTransforms->at(i)->setTranslation(position);
     }
   }
@@ -452,7 +452,7 @@ void ThreeDimentionalVisualisation::renderRays() {
           this->SPRays.at(i).getPolarisation()(0, 0).real() *
           degreeMulitplier3);
       QVector3D position = this->samplePositon +
-                           (SPPADirection * (i * RaySpreadFactorSampleSide));
+                           (SPPADirection * ((i+1) * RaySpreadFactorSampleSide));
       this->SPRaysTransforms->at(i)->setTranslation(position);
     }
   }
