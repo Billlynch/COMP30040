@@ -725,54 +725,35 @@
         <property name="sizeConstraint">
          <enum>QLayout::SetNoConstraint</enum>
         </property>
-        <item row="0" column="0">
-         <widget class="QCheckBox" name="polar_noise_chk">
-          <property name="text">
-           <string>Noise</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QSlider" name="mean_polar">
-          <property name="minimum">
-           <number>-100</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_15">
-          <property name="text">
-           <string>Mean</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QSlider" name="deviation_polar">
+         <widget class="QDial" name="polar_direction">
           <property name="minimum">
-           <number>10</number>
+           <number>1</number>
           </property>
           <property name="maximum">
-           <number>100</number>
+           <number>360</number>
+          </property>
+          <property name="sliderPosition">
+           <number>180</number>
           </property>
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="invertedAppearance">
+           <bool>false</bool>
+          </property>
+          <property name="invertedControls">
+           <bool>false</bool>
+          </property>
+          <property name="wrapping">
+           <bool>true</bool>
+          </property>
+          <property name="notchesVisible">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string>Std. Dev.</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
+        <item row="0" column="0">
          <widget class="QCheckBox" name="polar_enabled_chk">
           <property name="text">
            <string>Enabled</string>
@@ -782,23 +763,39 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="1">
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>Normalised S</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Normalised P</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="label_23">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
-      </item>
-      <item>
-       <widget class="RandomNoiseChartView" name="noise_polar">
-        <property name="minimumSize">
-         <size>
-          <width>256</width>
-          <height>128</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>2560000</width>
-          <height>128000</height>
-         </size>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
@@ -976,7 +973,7 @@
      <x>0</x>
      <y>0</y>
      <width>1739</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMOKE_Laser_Sim">

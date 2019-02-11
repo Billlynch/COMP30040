@@ -48,6 +48,8 @@ public slots:
   void newPolarNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newPolarNoiseState(int state);
   void newMyValue(double my);
+  void newPolarisationTarget(Eigen::Vector2d target);
+
 
 
 

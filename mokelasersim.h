@@ -19,6 +19,7 @@ typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
     ListMatrix4cd;
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
+
 namespace Ui {
 class MOKELaserSim;
 }
@@ -75,16 +76,11 @@ private slots:
 
   void on_polar_enabled_chk_stateChanged(int arg1);
 
-  void on_deviation_polar_valueChanged(int value);
-
-  void on_mean_polar_valueChanged(int value);
-
-
-  void on_polar_noise_chk_stateChanged(int state);
-
   void on_my_slider_valueChanged(int value);
 
   void on_graph_clear_clicked();
+
+  void on_polar_direction_valueChanged(int value);
 
 private:
   Ui::MOKELaserSim *ui;
@@ -102,7 +98,6 @@ private:
   Eigen::Vector3f *normalVector = nullptr;
   RandomNoiseCalculator *randomGenerator = nullptr;
   RandomNoiseCalculator *randomGenerator_pem = nullptr;
-  RandomNoiseCalculator *randomGenerator_polar = nullptr;
 
 
   bool loadFile(const QString &fileName);
@@ -116,9 +111,9 @@ signals:
   void laserNoiseStateChanhe(int state);
   void newPemState(int state);
   void newPolariserState(int state);
-  void newPolarNoiseState(int state);
   void newPEMNoiseState(int state);
   void newMyValue(double value);
+  void newPolarisationTarget(Eigen::Vector2d target);
 
 };
 

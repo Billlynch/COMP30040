@@ -44,11 +44,11 @@ bool PolarisingFilter::intersect(Ray &ray,
 int PolarisingFilter::getType() { return 2; }
 
 void PolarisingFilter::calculatePolarisationMatrix() {
-  Eigen::Vector2d right = Eigen::Vector2d(1.0, 0.0);
+  Eigen::Vector2d down = Eigen::Vector2d(0.0, -1.0);
   m_targetPolarisation.norm();
-  right.norm();
-  auto temp1 = right.dot(m_targetPolarisation);
-  auto temp2 = right.norm() * m_targetPolarisation.norm();
+  down.norm();
+  auto temp1 = down.dot(m_targetPolarisation);
+  auto temp2 = down.norm() * m_targetPolarisation.norm();
   std::complex<double> a = acos(temp1 / temp2);
 
   double angle = a.real();
@@ -75,3 +75,8 @@ void PolarisingFilter::newNoise(std::normal_distribution<> d,
 }
 
 void PolarisingFilter::setNoiseState(int state) { this->noiseState = state; }
+
+void PolarisingFilter::setTarget(Eigen::Vector2d target)
+{
+    this->m_targetPolarisation = target;
+}

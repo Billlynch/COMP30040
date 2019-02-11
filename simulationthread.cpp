@@ -251,6 +251,13 @@ void SimulationThread::newMyValue(double my)
     }
 }
 
+void SimulationThread::newPolarisationTarget(Eigen::Vector2d target)
+{
+    if (this->polarisingFilter != nullptr) {
+        this->polarisingFilter->setTarget(target);
+    }
+}
+
 void SimulationThread::run() {
   forever {
     if (abort) {

@@ -32,6 +32,7 @@ public:
   Matrix22d getPolarisationMatrix();
   void newNoise(std::normal_distribution<> d, std::mt19937 gen);
   void setNoiseState(int state);
+  void setTarget(Eigen::Vector2d target);
 
 protected:
   void calculatePolarisationMatrix();
