@@ -513,7 +513,7 @@ void ThreeDimentionalVisualisation::newPositions(
           obj->getLocation()(0), obj->getLocation()(1), obj->getLocation()(2));
 
       if (obj->getType() == 1) { // PEM
-        PEMTransform->setTranslation(position + filterOffet);
+        PEMTransform->setTranslation(position);
         PEMTransform->setRotationX(
             -(std::atan(obj->getNormal().x() / obj->getNormal().y()) *
               degreeMulitplier3) +
