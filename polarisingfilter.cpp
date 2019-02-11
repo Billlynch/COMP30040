@@ -53,10 +53,6 @@ void PolarisingFilter::calculatePolarisationMatrix() {
 
   double angle = a.real();
 
-  if (this->noiseState == 2) {
-    angle *= this->dist(this->noise_gen);
-  }
-
   m_polarizationMatrix(0, 0) = pow(cos(angle), 2.0);
   m_polarizationMatrix(0, 1) = sin(angle) * cos(angle);
   m_polarizationMatrix(1, 0) = sin(angle) * cos(angle);
@@ -68,13 +64,6 @@ Matrix22d PolarisingFilter::getPolarisationMatrix() {
   return m_polarizationMatrix;
 }
 
-void PolarisingFilter::newNoise(std::normal_distribution<> d,
-                                std::mt19937 gen) {
-  this->dist = d;
-  this->noise_gen = gen;
-}
-
-void PolarisingFilter::setNoiseState(int state) { this->noiseState = state; }
 
 void PolarisingFilter::setTarget(Eigen::Vector2d target)
 {

@@ -230,19 +230,6 @@ void SimulationThread::newPemNoiseState(int state) {
   }
 }
 
-void SimulationThread::newPolarNoise(std::normal_distribution<> d,
-                                     std::mt19937 gen) {
-  if (this->polarisingFilter != nullptr) {
-    this->polarisingFilter->newNoise(d, gen);
-  }
-}
-
-void SimulationThread::newPolarNoiseState(int state) {
-  if (this->polarisingFilter != nullptr) {
-
-    this->polarisingFilter->setNoiseState(state);
-  }
-}
 
 void SimulationThread::newMyValue(double my)
 {
