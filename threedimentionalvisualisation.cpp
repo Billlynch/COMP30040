@@ -439,7 +439,7 @@ void ThreeDimentionalVisualisation::renderRays() {
           degreeMulitplier3);
       QVector3D position =
           (this->PolariserTransform->translation() - filterOffet) +
-          (LPPSDirection * (i * RaySpreadFactorSampleSide));
+          (LPPSDirection * ((i-1) * (RaySpreadFactorSampleSide));
       this->PSRaysTransforms->at(i)->setTranslation(position);
     }
   }
@@ -452,7 +452,7 @@ void ThreeDimentionalVisualisation::renderRays() {
           this->SPRays.at(i).getPolarisation()(0, 0).real() *
           degreeMulitplier3);
       QVector3D position = this->samplePositon +
-                           (SPPADirection * (i * RaySpreadFactorSampleSide));
+                           (SPPADirection * ((i+1) * RaySpreadFactorSampleSide));
       this->SPRaysTransforms->at(i)->setTranslation(position);
     }
   }
