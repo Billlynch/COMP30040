@@ -42,9 +42,17 @@ private:
   void insertIntoGraphMap(std::complex<double> angle) {
     auto originalSize = m_graphMap.size();
     GraphItem newItem = GraphItem(m_rsp / m_rpp, m_rps / m_rss);
-    m_graphMap.insert(std::pair<double, GraphItem>(angle.real(), newItem));
-    if (originalSize != m_graphMap.size()) {
-      emit newAngleOutout(m_graphMap);
+    std::pair<GraphMap::iterator, bool > result;
+
+    result = m_graphMap.insert(std::pair<double, GraphItem>(angle.real(), newItem));
+
+    if (result.second == false) { // the angle has already been done and graphed
+        if  (result.first->second != newItem) { // are the s and p values the different?
+            result.first->second = newItem; // replace the values
+            emit newAngleOutout(m_graphMap); // update the graph
+        }
+    } else { // insertion was successful so update the graph
+        emit newAngleOutout(m_graphMap);
     }
   }
 
