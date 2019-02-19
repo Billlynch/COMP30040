@@ -124,11 +124,17 @@
        </item>
        <item>
         <widget class="QSlider" name="angle_of_incidence">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>89</number>
+         </property>
          <property name="pageStep">
           <number>5</number>
          </property>
          <property name="value">
-          <number>45</number>
+          <number>1</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -976,7 +982,7 @@
      <x>0</x>
      <y>0</y>
      <width>1739</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMOKE_Laser_Sim">
