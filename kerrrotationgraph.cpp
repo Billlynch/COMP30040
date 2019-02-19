@@ -2,6 +2,7 @@
 
 #include "kerrrotationgraph.h"
 #include <iostream>
+#include <QValueAxis>
 
 kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
   auto chartView = new QChartView(m_chart);
@@ -47,6 +48,9 @@ void kerrRotationGraph::showChart() {
   m_chart->addSeries(m_series_s);
 
   m_chart->createDefaultAxes();
+  m_chart->axisX()->setTitleText("Angle of Incidence (Deg.)");
+  m_chart->axisY()->setTitleText("Kerr Rotation (Deg.)");
+
   m_chart->setTitle("Kerr Rotation (Deg.) Longitudinal");
 
   this->show();
