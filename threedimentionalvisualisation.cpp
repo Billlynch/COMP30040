@@ -439,7 +439,7 @@ void ThreeDimentionalVisualisation::renderRays() {
           degreeMulitplier3);
       QVector3D position =
           (this->PolariserTransform->translation() - filterOffet) +
-          (LPPSDirection * ((i-1) * (RaySpreadFactorSampleSide));
+          (LPPSDirection * ((i-1) * RaySpreadFactorSampleSide));
       this->PSRaysTransforms->at(i)->setTranslation(position);
     }
   }
