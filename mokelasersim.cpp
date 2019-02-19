@@ -12,6 +12,7 @@
 #include <iostream>
 #include <qtconcurrentrun.h>
 #include <vector>
+#include <cmath>
 
 MOKELaserSim::MOKELaserSim(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MOKELaserSim) {
@@ -54,17 +55,7 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(randomGenerator_pem, &RandomNoiseCalculator::newRandomNoiseGeneration,
           &thread, &SimulationThread::newPemNoise);
   randomGenerator_pem->generate();
-  ui->noise_pem->setTitle("PEM Noise Visualisation");
-
-  randomGenerator_polar = new RandomNoiseCalculator(0, 1);
-  connect(randomGenerator_polar,
-          &RandomNoiseCalculator::newRandomNoiseGeneration, ui->noise_polar,
-          &RandomNoiseChartView::newRandomGenerator);
-  connect(randomGenerator_polar,
-          &RandomNoiseCalculator::newRandomNoiseGeneration, &thread,
-          &SimulationThread::newPolarNoise);
-  randomGenerator_polar->generate();
-  ui->noise_polar->setTitle("Polariser Noise Visualisation");
+  ui->noise_pem->setTitle("PEM Noise Visualisation");  
 
   connect(this, &MOKELaserSim::newCameraLocation, ui->threeDVis,
           &ThreeDimentionalVisualisation::newCameraPostion);
@@ -74,8 +65,6 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
           &SimulationThread::newPemState);
   connect(this, &MOKELaserSim::newPolariserState, &thread,
           &SimulationThread::newPolariserState);
-  connect(this, &MOKELaserSim::newPolarNoiseState, &thread,
-          &SimulationThread::newPolarNoiseState);
   connect(this, &MOKELaserSim::newPEMNoiseState, &thread,
           &SimulationThread::newPemNoiseState);
 
@@ -90,6 +79,10 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
 
   connect(this, &MOKELaserSim::newMyValue, &thread,
           &SimulationThread::newMyValue);
+
+
+  connect(this, &MOKELaserSim::newPolarisationTarget, &thread,
+          &SimulationThread::newPolarisationTarget);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -248,20 +241,24 @@ void MOKELaserSim::on_polar_enabled_chk_stateChanged(int state) {
   emit newPolariserState(state);
 }
 
-void MOKELaserSim::on_deviation_polar_valueChanged(int value) {
-  this->randomGenerator_polar->setDeviation(value / 100.0);
-}
-
-void MOKELaserSim::on_mean_polar_valueChanged(int value) {
-  this->randomGenerator_polar->setMean(value / 100.0);
-}
-
-void MOKELaserSim::on_polar_noise_chk_stateChanged(int state) {
-  emit newPolarNoiseState(state);
-}
-
 void MOKELaserSim::on_my_slider_valueChanged(int value) {
   emit newMyValue(value / 10.0);
 }
 
 void MOKELaserSim::on_graph_clear_clicked() { this->ui->kerrGraph->clear(); }
+
+
+void MOKELaserSim::on_polar_direction_valueChanged(int value)
+{
+    std::cout << value << std::endl;
+    auto angle = static_cast<double>(value * M_PI/180.0);
+
+    Eigen::Matrix<double, 2, 2> converter;
+    converter << std::cos(angle), std::sin(angle), -std::sin(angle), std::cos(angle);
+
+    auto downVector = Eigen::Vector2d(0, -1);
+
+    auto target = converter * downVector;
+
+    emit newPolarisationTarget(target);
+}
