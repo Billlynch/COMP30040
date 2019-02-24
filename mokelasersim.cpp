@@ -83,6 +83,8 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
 
   connect(this, &MOKELaserSim::newPolarisationTarget, &thread,
           &SimulationThread::newPolarisationTarget);
+
+  connect(this, &MOKELaserSim::newCoersivity, ui->loop_graph, &Loop_graph::updateCoersivity);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -261,4 +263,9 @@ void MOKELaserSim::on_polar_direction_valueChanged(int value)
     auto target = converter * downVector;
 
     emit newPolarisationTarget(target);
+}
+
+void MOKELaserSim::on_doubleSpinBox_valueChanged(double val)
+{
+    emit newCoersivity(val);
 }

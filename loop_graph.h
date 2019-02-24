@@ -11,23 +11,23 @@
 #include <map>
 #include <eigen3/Eigen/Dense>
 
-typedef std::pair<double, double> GraphItem; // increase then decrease
-typedef std::map<double, GraphItem> GraphMap;
+typedef std::pair<double, double> LoopGraphItem; // increase then decrease
+typedef std::map<double, LoopGraphItem> LoopGraphMap;
 
 using namespace QtCharts;
 
-class loop_graph : public QChartView {
+class Loop_graph : public QChartView {
   Q_OBJECT
 public:
-  explicit loop_graph(QWidget *parent = nullptr);
-  ~loop_graph();
+  explicit Loop_graph(QWidget *parent = nullptr);
+  ~Loop_graph();
 
   void clear();
 
 private:
   QLineSeries *m_series_p = new QLineSeries();
   QLineSeries *m_series_s = new QLineSeries();
-  GraphMap *m_graphMap = nullptr;
+  LoopGraphMap *m_graphMap = nullptr;
   QChart *m_chart = new QChart();
   double *m_coersivity = nullptr;
 

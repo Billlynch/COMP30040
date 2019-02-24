@@ -3,15 +3,16 @@
 #include "loop_graph.h"
 #include <iostream>
 #include <QValueAxis>
+#include <iostream>
 
-loop_graph::loop_graph(QWidget *parent) : QChartView(parent) {
+Loop_graph::Loop_graph(QWidget *parent) : QChartView(parent) {
   auto chartView = new QChartView(m_chart);
   chartView->setRenderHint(QPainter::Antialiasing);
   this->setChart(m_chart);
   this->showChart();
 }
 
-loop_graph::~loop_graph()
+Loop_graph::~Loop_graph()
 {
     delete m_coersivity;
     delete m_series_p;
@@ -19,7 +20,7 @@ loop_graph::~loop_graph()
     delete m_chart;
 }
 
-void loop_graph::clear() {
+void Loop_graph::clear() {
   if (this->m_graphMap != nullptr) {
       delete this->m_graphMap;
   }
@@ -29,7 +30,7 @@ void loop_graph::clear() {
   this->addMapToSeries();
 }
 
-void loop_graph::addMapToSeries() {
+void Loop_graph::addMapToSeries() {
   m_series_p = new QSplineSeries();
   m_series_s = new QSplineSeries();
 
@@ -51,7 +52,7 @@ void loop_graph::addMapToSeries() {
   this->showChart();
 }
 
-void loop_graph::showChart() {
+void Loop_graph::showChart() {
   m_chart->addSeries(m_series_p);
   m_chart->addSeries(m_series_s);
 
@@ -64,25 +65,25 @@ void loop_graph::showChart() {
   this->show();
 }
 
-void loop_graph::updateCoersivity(double coersivity)
+void Loop_graph::updateCoersivity(double coersivity)
 {
     this->m_coersivity = &coersivity;
 }
 
-void loop_graph::updateSeries(Eigen::Vector2cd Er)
+void Loop_graph::updateSeries(Eigen::Vector2cd Er)
 {
     if (this->m_coersivity != nullptr) {
 
         if (this->m_graphMap != nullptr) {
             delete this->m_graphMap;
         }
-        this->m_graphMap = new GraphMap(); // clear or initialise the graph map
+        this->m_graphMap = new LoopGraphMap(); // clear or initialise the graph map
 
         double step = *m_coersivity / 100.0;
         double hValue = std::pow(Er.norm(), 2.0);
 
         for (double i = -(*m_coersivity * 3); i <= (*m_coersivity * 3); i += step) {
-            auto yValues = GraphItem((std::tanh(hValue - *this->m_coersivity)), std::tanh(hValue + *this->m_coersivity));
+            auto yValues = LoopGraphItem((std::tanh(hValue - *this->m_coersivity)), std::tanh(hValue + *this->m_coersivity));
             this->m_graphMap->at(i) = yValues;
         }
 

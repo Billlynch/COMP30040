@@ -339,7 +339,7 @@
       <x>390</x>
       <y>10</y>
       <width>431</width>
-      <height>141</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -354,7 +354,7 @@
        <x>10</x>
        <y>30</y>
        <width>408</width>
-       <height>101</height>
+       <height>121</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
@@ -387,6 +387,33 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>H</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QSlider" name="my_slider">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Refractive Index</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -431,30 +458,20 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label">
+      <item row="4" column="1">
+       <widget class="QLabel" name="label_24">
         <property name="text">
-         <string>Refractive Index</string>
+         <string>Hardness</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>My</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QSlider" name="my_slider">
-        <property name="minimum">
-         <number>1</number>
-        </property>
+      <item row="4" column="0">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox">
         <property name="maximum">
-         <number>100</number>
+         <double>10000.000000000000000</double>
         </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+        <property name="value">
+         <double>50.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -718,6 +735,12 @@
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
        <widget class="QLabel" name="label_14">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
         <property name="text">
          <string>Polariser</string>
         </property>
@@ -733,6 +756,12 @@
         </property>
         <item row="2" column="0">
          <widget class="QDial" name="polar_direction">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>150</height>
+           </size>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -939,7 +968,7 @@
      <rect>
       <x>830</x>
       <y>560</y>
-      <width>881</width>
+      <width>891</width>
       <height>361</height>
      </rect>
     </property>
@@ -954,7 +983,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>871</width>
+       <width>491</width>
        <height>361</height>
       </rect>
      </property>
@@ -970,6 +999,16 @@
        <widget class="kerrRotationGraph" name="kerrGraph"/>
       </item>
      </layout>
+    </widget>
+    <widget class="loop_graph" name="loop_graph">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>50</y>
+       <width>331</width>
+       <height>281</height>
+      </rect>
+     </property>
     </widget>
    </widget>
   </widget>
@@ -1015,6 +1054,11 @@
    <class>ThreeDimentionalVisualisation</class>
    <extends>QOpenGLWidget</extends>
    <header>threedimentionalvisualisation.h</header>
+  </customwidget>
+  <customwidget>
+   <class>loop_graph</class>
+   <extends>QGraphicsView</extends>
+   <header>loop_graph.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
