@@ -9,10 +9,10 @@
 #include <QPixmap>
 #include <QString>
 #include <QThread>
+#include <cmath>
 #include <iostream>
 #include <qtconcurrentrun.h>
 #include <vector>
-#include <cmath>
 
 MOKELaserSim::MOKELaserSim(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MOKELaserSim) {
@@ -47,7 +47,6 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration,
           &thread, &SimulationThread::newLaserNoise);
   randomGenerator->generate();
-  ui->graphicsView->setTitle("Laser Noise");
 
   randomGenerator_pem = new RandomNoiseCalculator(0, 1);
   connect(randomGenerator_pem, &RandomNoiseCalculator::newRandomNoiseGeneration,
@@ -55,7 +54,6 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(randomGenerator_pem, &RandomNoiseCalculator::newRandomNoiseGeneration,
           &thread, &SimulationThread::newPemNoise);
   randomGenerator_pem->generate();
-  ui->noise_pem->setTitle("PEM Noise Visualisation");  
 
   connect(this, &MOKELaserSim::newCameraLocation, ui->threeDVis,
           &ThreeDimentionalVisualisation::newCameraPostion);
@@ -80,9 +78,11 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(this, &MOKELaserSim::newMyValue, &thread,
           &SimulationThread::newMyValue);
 
-
   connect(this, &MOKELaserSim::newPolarisationTarget, &thread,
           &SimulationThread::newPolarisationTarget);
+
+  connect(this, &MOKELaserSim::newCoersivity, ui->loop_graph,
+          &Loop_graph::updateCoersivity);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -93,7 +93,7 @@ MOKELaserSim::~MOKELaserSim() {
 void MOKELaserSim::on_RunSimButton_clicked() {
   thread.simulate(ui->Q_r_input->value(), ui->Q_i_input->value(),
                   ui->n0_r_input->value(), ui->n0_i_input->value(),
-                  *ui->kerrGraph, *ui->threeDVis);
+                  *ui->kerrGraph, *ui->threeDVis, *ui->loop_graph);
   pemTimer->start();
   eventLoopTimer->start();
 }
@@ -123,8 +123,6 @@ void MOKELaserSim::on_loadImage_btn_clicked() {
           QStandardPaths::standardLocations(QStandardPaths::DownloadLocation)
               .at(0))
           .at(0);
-
-  std::cout << file_path.toStdString() << std::endl;
 
   normalMapImg = new QImage(file_path, nullptr);
 
@@ -247,18 +245,20 @@ void MOKELaserSim::on_my_slider_valueChanged(int value) {
 
 void MOKELaserSim::on_graph_clear_clicked() { this->ui->kerrGraph->clear(); }
 
+void MOKELaserSim::on_polar_direction_valueChanged(int value) {
+  auto angle = static_cast<double>(value * M_PI / 180.0);
 
-void MOKELaserSim::on_polar_direction_valueChanged(int value)
-{
-    std::cout << value << std::endl;
-    auto angle = static_cast<double>(value * M_PI/180.0);
+  Eigen::Matrix<double, 2, 2> converter;
+  converter << std::cos(angle), std::sin(angle), -std::sin(angle),
+      std::cos(angle);
 
-    Eigen::Matrix<double, 2, 2> converter;
-    converter << std::cos(angle), std::sin(angle), -std::sin(angle), std::cos(angle);
+  auto downVector = Eigen::Vector2d(0, -1);
 
-    auto downVector = Eigen::Vector2d(0, -1);
+  auto target = converter * downVector;
 
-    auto target = converter * downVector;
+  emit newPolarisationTarget(target);
+}
 
-    emit newPolarisationTarget(target);
+void MOKELaserSim::on_doubleSpinBox_valueChanged(double val) {
+  emit newCoersivity(val);
 }

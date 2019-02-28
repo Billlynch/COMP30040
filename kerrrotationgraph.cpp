@@ -1,18 +1,19 @@
 #include <utility>
 
 #include "kerrrotationgraph.h"
-#include <iostream>
 #include <QValueAxis>
+#include <iostream>
 
 kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
   auto chartView = new QChartView(m_chart);
   chartView->setRenderHint(QPainter::Antialiasing);
   this->setChart(m_chart);
+  m_chart->setMargins(QMargins(0, 0, 0, 0));
+  m_chart->setBackgroundRoundness(0);
   this->showChart();
 }
 
 void kerrRotationGraph::clear() {
-  std::cout << "clear" << std::endl;
   this->m_graphMap = GraphMap();
   m_chart->removeSeries(m_series_p);
   m_chart->removeSeries(m_series_s);
@@ -50,8 +51,6 @@ void kerrRotationGraph::showChart() {
   m_chart->createDefaultAxes();
   m_chart->axisX()->setTitleText("Angle of Incidence (Deg.)");
   m_chart->axisY()->setTitleText("Kerr Rotation (Deg.)");
-
-  m_chart->setTitle("Kerr Rotation (Deg.) Longitudinal");
 
   this->show();
 }

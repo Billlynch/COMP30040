@@ -52,7 +52,11 @@ void SampleObject::calculatePolarisationUsingGriggsFormulae(
   ray.setPolarisation(newPolar);
 }
 
-void SampleObject::setM_Y(double m_y) { this->m_my = m_y; }
+void SampleObject::setM_Y(double m_y) {
+    this->m_my = m_y;
+
+    // TODO call the matrix calcs here to update the loop graph
+}
 
 void SampleObject::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   std::complex<double> theta0, theta1;

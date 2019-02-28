@@ -18,6 +18,7 @@
 #include <ray.h>
 #include <sampleobject.h>
 #include <threedimentionalvisualisation.h>
+#include <Loop_graph.h>
 
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
     ListMatrix4cd;
@@ -29,7 +30,7 @@ public:
   ~SimulationThread() override;
 
   void simulate(double Q_r, double Q_i, double n0_r, double n0_i,
-                kerrRotationGraph &graph, ThreeDimentionalVisualisation &rep);
+                kerrRotationGraph &graph, ThreeDimentionalVisualisation &rep, Loop_graph &loop_graph);
   void customAbort();
 
 protected:
@@ -72,7 +73,8 @@ private:
                             kerrRotationGraph &graph,
                             ThreeDimentionalVisualisation &rep);
   PolarisingFilter *setupPolariser(Eigen::Vector2d targetPolarisation,
-                                   ThreeDimentionalVisualisation &rep);
+                                   ThreeDimentionalVisualisation &rep,
+                                   Loop_graph &loop_graph);
   PEM *setupPEM(std::complex<double> amplitude, std::complex<double> phase,
                 ThreeDimentionalVisualisation &rep);
   Matrix4cd generateInitalPolarisation();
