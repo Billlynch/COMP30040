@@ -12,6 +12,7 @@ class PolarisingFilter : public CollideableObject {
   Q_OBJECT
   Matrix22d m_polarizationMatrix;
   Eigen::Vector2d m_targetPolarisation;
+  Eigen::Vector2cd Er;
   double m_radius;
   std::complex<double> m_n1;
   std::normal_distribution<> dist;
@@ -53,6 +54,8 @@ protected:
 
 signals:
   void outputPolarisationUpdated(Matrix4cd polarisation);
+  void outputEr(Eigen::Vector2cd Er);
+
 };
 
 #endif // POLARISINGFILTER_H

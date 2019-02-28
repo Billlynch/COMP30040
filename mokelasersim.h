@@ -12,7 +12,7 @@
 #include <QTimer>
 #include <eigen3/Eigen/Core>
 #include <vector>
-#include "loop_graph.h"
+#include "Loop_graph.h"
 
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 1>> ListVector2cd;

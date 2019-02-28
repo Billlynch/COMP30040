@@ -95,7 +95,7 @@ MOKELaserSim::~MOKELaserSim() {
 void MOKELaserSim::on_RunSimButton_clicked() {
   thread.simulate(ui->Q_r_input->value(), ui->Q_i_input->value(),
                   ui->n0_r_input->value(), ui->n0_i_input->value(),
-                  *ui->kerrGraph, *ui->threeDVis);
+                  *ui->kerrGraph, *ui->threeDVis, *ui->loop_graph);
   pemTimer->start();
   eventLoopTimer->start();
 }
@@ -125,8 +125,6 @@ void MOKELaserSim::on_loadImage_btn_clicked() {
           QStandardPaths::standardLocations(QStandardPaths::DownloadLocation)
               .at(0))
           .at(0);
-
-  std::cout << file_path.toStdString() << std::endl;
 
   normalMapImg = new QImage(file_path, nullptr);
 
@@ -252,7 +250,6 @@ void MOKELaserSim::on_graph_clear_clicked() { this->ui->kerrGraph->clear(); }
 
 void MOKELaserSim::on_polar_direction_valueChanged(int value)
 {
-    std::cout << value << std::endl;
     auto angle = static_cast<double>(value * M_PI/180.0);
 
     Eigen::Matrix<double, 2, 2> converter;

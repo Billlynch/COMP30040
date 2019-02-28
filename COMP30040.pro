@@ -48,7 +48,8 @@ SOURCES += \
     kerrrotationgraph.cpp \
     randomnoisecalculator.cpp \
     randomnoisechartview.cpp \
-    threedimentionalvisualisation.cpp
+    threedimentionalvisualisation.cpp \
+    Loop_graph.cpp
 
 HEADERS += \
         mokelasersim.h \
@@ -63,7 +64,8 @@ HEADERS += \
     randomnoisecalculator.h \
     randomnoisechartview.h \
     threedimentionalvisualisation.h \
-    viewtype.h
+    viewtype.h \
+    Loop_graph.h
 
 
 FORMS += \

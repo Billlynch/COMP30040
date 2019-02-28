@@ -32,7 +32,8 @@ void SimulationThread::customAbort() {
 
 void SimulationThread::simulate(double Q_r, double Q_i, double n0_r,
                                 double n0_i, kerrRotationGraph &graph,
-                                ThreeDimentionalVisualisation &rep) {
+                                ThreeDimentionalVisualisation &rep,
+                                Loop_graph &loop_graph) {
   QMutexLocker locker(&mutex);
 
   connect(this, &SimulationThread::newPositions, &rep,
@@ -44,7 +45,7 @@ void SimulationThread::simulate(double Q_r, double Q_i, double n0_r,
   // setup the sample
   sample = setupSample(m_n_1, m_q, graph, rep);
   // setup the Polariser
-  polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0), rep);
+  polarisingFilter = setupPolariser(Eigen::Vector2d(1.0, 1.0), rep, loop_graph);
   // setup the PEM
   pem = setupPEM(50200, 2.405, rep);
 
@@ -83,7 +84,7 @@ SimulationThread::setupSample(std::complex<double> n1, std::complex<double> q,
 
 PolarisingFilter *
 SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation,
-                                 ThreeDimentionalVisualisation &rep) {
+                                 ThreeDimentionalVisualisation &rep, Loop_graph &loop_graph) {
   PolarisingFilter *tempPolarisingFilter =
       new PolarisingFilter(Eigen::Vector3d(1.0, 1.0, 0.0),
                            1, // side
@@ -92,6 +93,9 @@ SimulationThread::setupPolariser(Eigen::Vector2d targetPolarisation,
                            std::move(targetPolarisation));
 
   rep.polariserObject = tempPolarisingFilter;
+
+  connect(tempPolarisingFilter, &PolarisingFilter::outputEr, &loop_graph,
+          &Loop_graph::updateSeries);
 
   return tempPolarisingFilter;
 }
@@ -109,8 +113,6 @@ PEM *SimulationThread::setupPEM(std::complex<double> amplitude,
 }
 
 Matrix4cd SimulationThread::generateInitalPolarisation() {
-  std::cout << this->emissionNoiseDist(this->emissionNoiseGen) << std::endl;
-
   std::complex<double> Epp =
       1.0 * (this->laserNoise ? this->emissionNoiseDist(this->emissionNoiseGen)
                               : 1.0);

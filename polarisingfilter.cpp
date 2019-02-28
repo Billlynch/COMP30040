@@ -15,6 +15,14 @@ PolarisingFilter::PolarisingFilter(Eigen::Vector3d location, int side,
 }
 
 void PolarisingFilter::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
+    // if the Er is different emit it from here.
+    auto tempEr = Eigen::Vector2cd(ray.getPolarisation()(0,0), ray.getPolarisation()(1,1));
+    if (tempEr != this->Er) {
+        this->Er = tempEr;
+        emit outputEr(Er);
+    }
+
+
   this->calculatePolarisationMatrix();
   ray.setPolarisation(m_polarizationMatrix * ray.getPolarisation());
   ray.calculationMatrixMultiplication(m_polarizationMatrix);

@@ -53,6 +53,7 @@ void PEM::newNoise(std::normal_distribution<> d, std::mt19937 gen) {
 }
 
 void PEM::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
+
   calculatePolarisationMatrix();
 
   ray.setPolarisation(m_polarizationMatrix * ray.getPolarisation());

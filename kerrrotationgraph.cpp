@@ -12,7 +12,6 @@ kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
 }
 
 void kerrRotationGraph::clear() {
-  std::cout << "clear" << std::endl;
   this->m_graphMap = GraphMap();
   m_chart->removeSeries(m_series_p);
   m_chart->removeSeries(m_series_s);

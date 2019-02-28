@@ -18,6 +18,7 @@ private:
   int noiseState = 0;
   std::normal_distribution<> dist;
   std::mt19937 noise_gen;
+  Eigen::Vector2cd Er;
 
   void calculatePolarisationMatrix();
 
@@ -39,6 +40,7 @@ public:
 
 signals:
   void outputPolarisationUpdated(Matrix4cd polarisation);
+
 };
 
 #endif // PEM_H
