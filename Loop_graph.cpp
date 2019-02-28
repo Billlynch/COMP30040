@@ -8,27 +8,18 @@
 Loop_graph::Loop_graph(QWidget *parent) : QChartView(parent) {
   auto chartView = new QChartView(m_chart);
   chartView->setRenderHint(QPainter::Antialiasing);
+  m_chart->setMargins(QMargins(0,0,0,0));
+  m_chart->setBackgroundRoundness(0);
   this->setChart(m_chart);
   this->showChart();
 }
 
 Loop_graph::~Loop_graph()
 {
-    if (this->m_chart != nullptr) {
         delete m_chart;
-    }
-
-    if (this->m_coersivity != nullptr) {
         delete m_coersivity;
-    }
-
-    if (this->m_series_p != nullptr) {
-        delete m_series_p;
-    }
-
-    if (this->m_series_s != nullptr) {
-        delete m_series_s;
-    }
+        delete m_series_increase;
+        delete m_series_decrease;
 }
 
 void Loop_graph::clear() {
@@ -36,8 +27,8 @@ void Loop_graph::clear() {
       delete this->m_graphMap;
   }
 
-  m_chart->removeSeries(m_series_p);
-  m_chart->removeSeries(m_series_s);
+  m_chart->removeSeries(m_series_increase);
+  m_chart->removeSeries(m_series_decrease);
   this->addMapToSeries();
 }
 
@@ -46,13 +37,13 @@ void Loop_graph::addMapToSeries() {
 //  this->m_chart->removeSeries(m_series_s);
 
     //this->m_chart->removeAllSeries();
-  delete m_series_p;
-  delete m_series_s;
+  delete m_series_increase;
+  delete m_series_decrease;
 
-  m_series_p = new QLineSeries();
-  m_series_p->setName("KerrSignal increase");
-  m_series_s = new QLineSeries();
-  m_series_s->setName("KerrSignal decrease");
+  m_series_increase = new QLineSeries();
+  m_series_increase->setName("KerrSignal increase");
+  m_series_decrease = new QLineSeries();
+  m_series_decrease->setName("KerrSignal decrease");
 
 
   for (auto const &val : *m_graphMap) {
@@ -60,21 +51,19 @@ void Loop_graph::addMapToSeries() {
     QPointF point_s = QPointF(indx, val.second.first);
     QPointF point_p = QPointF(indx, val.second.second);
 
-    m_series_p->append(point_p); // p
-    m_series_s->append(point_s); // s
+    m_series_increase->append(point_p); // p
+    m_series_decrease->append(point_s); // s
   }
 
   this->showChart();
 }
 
 void Loop_graph::showChart() {
-    m_chart->addSeries(this->m_series_p);
-    m_chart->addSeries(this->m_series_s);
+    m_chart->addSeries(this->m_series_increase);
+    m_chart->addSeries(this->m_series_decrease);
     this->m_chart->createDefaultAxes();
     m_chart->axisX()->setTitleText("H");
     m_chart->axisY()->setTitleText("Kerr Signal");
-
-    m_chart->setTitle("Kerr Signal Loop");
     this->show();
 }
 
@@ -83,7 +72,7 @@ void Loop_graph::updateCoersivity(double coersivity)
     this->m_coersivity = new double(coersivity);
 }
 
-void Loop_graph::updateSeries(Eigen::Vector2cd Er)
+void Loop_graph::updateSeries(const Eigen::Vector2cd Er)
 {
     if (this->m_coersivity != nullptr && *this->m_coersivity != 0.0) {
         this->m_graphMap->clear();

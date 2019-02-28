@@ -47,7 +47,6 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(randomGenerator, &RandomNoiseCalculator::newRandomNoiseGeneration,
           &thread, &SimulationThread::newLaserNoise);
   randomGenerator->generate();
-  ui->graphicsView->setTitle("Laser Noise");
 
   randomGenerator_pem = new RandomNoiseCalculator(0, 1);
   connect(randomGenerator_pem, &RandomNoiseCalculator::newRandomNoiseGeneration,
@@ -55,7 +54,6 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(randomGenerator_pem, &RandomNoiseCalculator::newRandomNoiseGeneration,
           &thread, &SimulationThread::newPemNoise);
   randomGenerator_pem->generate();
-  ui->noise_pem->setTitle("PEM Noise Visualisation");  
 
   connect(this, &MOKELaserSim::newCameraLocation, ui->threeDVis,
           &ThreeDimentionalVisualisation::newCameraPostion);

@@ -611,7 +611,7 @@
        <x>10</x>
        <y>10</y>
        <width>401</width>
-       <height>241</height>
+       <height>254</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -688,6 +688,24 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_28">
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Pem Angle Noise Distrobution</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="RandomNoiseChartView" name="noise_pem">
@@ -856,7 +874,7 @@
        <x>10</x>
        <y>10</y>
        <width>401</width>
-       <height>241</height>
+       <height>256</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -925,6 +943,24 @@
        </layout>
       </item>
       <item>
+       <widget class="QLabel" name="label_27">
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Laser Polarisation Noise Distrobution</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="RandomNoiseChartView" name="graphicsView">
         <property name="minimumSize">
          <size>
@@ -966,10 +1002,10 @@
    <widget class="QFrame" name="frame_5">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>560</y>
-      <width>891</width>
-      <height>361</height>
+      <x>820</x>
+      <y>550</y>
+      <width>911</width>
+      <height>371</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -978,37 +1014,56 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="verticalLayoutWidget_7">
+    <widget class="QWidget" name="gridLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>0</y>
-       <width>491</width>
+       <width>891</width>
        <height>361</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_7">
-      <item>
-       <widget class="QPushButton" name="graph_clear">
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_25">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>Clear</string>
+         <string>Kerr Rotation (Deg.) Longitudinal</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="1" column="0">
        <widget class="kerrRotationGraph" name="kerrGraph"/>
       </item>
+      <item row="1" column="1">
+       <widget class="Loop_graph" name="loop_graph"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_26">
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Kerr Signal Hysteresis Loop</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </widget>
-    <widget class="Loop_graph" name="loop_graph">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>20</y>
-       <width>351</width>
-       <height>311</height>
-      </rect>
-     </property>
     </widget>
    </widget>
   </widget>

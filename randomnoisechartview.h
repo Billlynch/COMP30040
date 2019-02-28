@@ -36,7 +36,6 @@ private:
 
 public:
   RandomNoiseChartView(QWidget *parent = nullptr, const std::string &name = "");
-  void setTitle(const std::string &title);
 
 public slots:
   void newRandomGenerator(std::normal_distribution<>, std::mt19937);

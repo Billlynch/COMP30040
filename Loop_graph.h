@@ -25,8 +25,8 @@ public:
   void clear();
 
 private:
-  QLineSeries *m_series_p = new QLineSeries();
-  QLineSeries *m_series_s = new QLineSeries();
+  QLineSeries *m_series_increase = new QLineSeries();
+  QLineSeries *m_series_decrease = new QLineSeries();
   LoopGraphMap *m_graphMap = new LoopGraphMap();
   QChart *m_chart = new QChart();
   double *m_coersivity = new double(50);

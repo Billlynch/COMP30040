@@ -42,15 +42,13 @@ RandomNoiseChartView::RandomNoiseChartView(QWidget *parent,
   m_points = new QList<QPointF>();
 
   this->setRenderHint(QPainter::Antialiasing);
+  m_chart->setMargins(QMargins(0,0,0,0));
+  m_chart->setBackgroundRoundness(0);
   QRect area = QRect(0, 0, 256, 128);
 
   this->setSceneRect(area);
 }
 
-void RandomNoiseChartView::setTitle(const std::string &title) {
-  this->m_chartTitle = QString::fromStdString(title);
-  m_chart->setTitle(this->m_chartTitle);
-}
 
 void RandomNoiseChartView::newRandomGenerator(std::normal_distribution<> d,
                                               std::mt19937 gen) {
