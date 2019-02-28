@@ -8,8 +8,8 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
 #include <complex>
-#include <map>
 #include <eigen3/Eigen/Dense>
+#include <map>
 
 typedef std::pair<double, double> LoopGraphItem; // increase then decrease
 typedef std::map<double, LoopGraphItem> LoopGraphMap;

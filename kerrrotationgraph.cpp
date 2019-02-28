@@ -1,14 +1,14 @@
 #include <utility>
 
 #include "kerrrotationgraph.h"
-#include <iostream>
 #include <QValueAxis>
+#include <iostream>
 
 kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
   auto chartView = new QChartView(m_chart);
   chartView->setRenderHint(QPainter::Antialiasing);
   this->setChart(m_chart);
-  m_chart->setMargins(QMargins(0,0,0,0));
+  m_chart->setMargins(QMargins(0, 0, 0, 0));
   m_chart->setBackgroundRoundness(0);
   this->showChart();
 }

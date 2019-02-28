@@ -9,10 +9,10 @@
 #include <QPixmap>
 #include <QString>
 #include <QThread>
+#include <cmath>
 #include <iostream>
 #include <qtconcurrentrun.h>
 #include <vector>
-#include <cmath>
 
 MOKELaserSim::MOKELaserSim(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MOKELaserSim) {
@@ -78,11 +78,11 @@ MOKELaserSim::MOKELaserSim(QWidget *parent)
   connect(this, &MOKELaserSim::newMyValue, &thread,
           &SimulationThread::newMyValue);
 
-
   connect(this, &MOKELaserSim::newPolarisationTarget, &thread,
           &SimulationThread::newPolarisationTarget);
 
-  connect(this, &MOKELaserSim::newCoersivity, ui->loop_graph, &Loop_graph::updateCoersivity);
+  connect(this, &MOKELaserSim::newCoersivity, ui->loop_graph,
+          &Loop_graph::updateCoersivity);
 }
 
 MOKELaserSim::~MOKELaserSim() {
@@ -245,22 +245,20 @@ void MOKELaserSim::on_my_slider_valueChanged(int value) {
 
 void MOKELaserSim::on_graph_clear_clicked() { this->ui->kerrGraph->clear(); }
 
+void MOKELaserSim::on_polar_direction_valueChanged(int value) {
+  auto angle = static_cast<double>(value * M_PI / 180.0);
 
-void MOKELaserSim::on_polar_direction_valueChanged(int value)
-{
-    auto angle = static_cast<double>(value * M_PI/180.0);
+  Eigen::Matrix<double, 2, 2> converter;
+  converter << std::cos(angle), std::sin(angle), -std::sin(angle),
+      std::cos(angle);
 
-    Eigen::Matrix<double, 2, 2> converter;
-    converter << std::cos(angle), std::sin(angle), -std::sin(angle), std::cos(angle);
+  auto downVector = Eigen::Vector2d(0, -1);
 
-    auto downVector = Eigen::Vector2d(0, -1);
+  auto target = converter * downVector;
 
-    auto target = converter * downVector;
-
-    emit newPolarisationTarget(target);
+  emit newPolarisationTarget(target);
 }
 
-void MOKELaserSim::on_doubleSpinBox_valueChanged(double val)
-{
-    emit newCoersivity(val);
+void MOKELaserSim::on_doubleSpinBox_valueChanged(double val) {
+  emit newCoersivity(val);
 }
