@@ -254,9 +254,18 @@ void MOKELaserSim::on_polar_direction_valueChanged(int value) {
 
   auto downVector = Eigen::Vector2d(0, -1);
 
-  auto target = converter * downVector;
+  Eigen::Vector2d target = converter * downVector;
 
   emit newPolarisationTarget(target);
+
+  target.normalize();
+  std::stringstream ssx, ssy;
+  ssx << target.x();
+  this->ui->polar_s_normalised->setText(QString::fromStdString(ssx.str()));
+
+  ssy << target.y();
+  this->ui->polar_p_normalised->setText(QString::fromStdString(ssy.str()));
+
 }
 
 void MOKELaserSim::on_doubleSpinBox_valueChanged(double val) {
