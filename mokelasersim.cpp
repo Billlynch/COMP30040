@@ -257,6 +257,7 @@ void MOKELaserSim::displayPolarVector(Eigen::Vector2d &target)
 }
 
 void MOKELaserSim::on_polar_direction_valueChanged(int value) {
+  this->ui->polar_angle->setText(QString::fromStdString(std::to_string((value + 180) % 360)));
   auto angle = static_cast<double>(value * M_PI / 180.0);
 
   Eigen::Matrix<double, 2, 2> converter;
