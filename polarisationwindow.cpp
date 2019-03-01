@@ -23,17 +23,20 @@ void PolarisationWindow::render(QImage &visualisation) {
 }
 
 void PolarisationWindow::renderNow() {
+  delete outputImage;
   outputImage = new QImage(width, height, QImage::Format_RGB16);
   outputImage->fill(Qt::white);
   auto *painter = new QPainter(outputImage);
   drawAxis(painter);
   drawPolarosations(painter);
   painter->end();
+  delete painter;
   render(*outputImage);
 }
 
 void PolarisationWindow::simResultsUpdated(ListMatrix4cd &polarisationsIn) {
   if (enabled) {
+    polarisations.clear();
     polarisations = polarisationsIn;
     renderNow();
   }
