@@ -33,7 +33,7 @@ public:
   ~MOKELaserSim();
 
   void stopSim();
-
+  
 private slots:
   void on_RunSimButton_clicked();
   void on_StopSimButton_clicked();
@@ -108,6 +108,7 @@ private:
   void renderNormalImage(QImage &visualisation);
   void setupNormalTargetImage();
   void setNormalFromImage();
+  void displayPolarVector(Eigen::Vector2d &target);
 
 signals:
   void newCameraLocation(ViewType view);
