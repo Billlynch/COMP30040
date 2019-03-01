@@ -24,6 +24,7 @@ private:
   Matrix4d m_R;
   GraphMap m_graphMap;
   Eigen::Vector3d *m_normal_map_normal = nullptr;
+  Eigen::Vector3d baseNormal;
 
 public:
   SampleObject(Eigen::Vector3d location, int side, Eigen::Vector3d normal,
@@ -39,6 +40,7 @@ public:
                                                 std::complex<double> &theta1);
   void setM_Y(double m_y);
   void updatedNormalMapNormal(Eigen::Vector3d normal);
+  Eigen::Vector3d getBaseNormal();
 
 private:
   void insertIntoGraphMap(std::complex<double> angle) {

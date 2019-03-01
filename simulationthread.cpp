@@ -148,7 +148,8 @@ void SimulationThread::castRay(Ray &ray,
 
 void SimulationThread::calculateNewPositions(Ray ray)
 {
-    auto dir = ray.getDirection().normalized();
+    Eigen::Vector3d dir = ray.getDirection().normalized();
+    dir[1] = -dir.y();
     this->pem->setLocation(this->sample->getLocation() - (dir * 10));
 
     // notifity the visualisation

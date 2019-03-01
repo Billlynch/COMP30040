@@ -9,6 +9,7 @@ SampleObject::SampleObject(Eigen::Vector3d location, int side,
                            Eigen::Vector3d normal, double radius,
                            std::complex<double> n1, std::complex<double> q)
     : CollideableObject(std::move(location), side, std::move(normal)) {
+    this->baseNormal = normal;
   m_radius = radius;
   m_n1 = n1;
   m_q = q;
@@ -25,12 +26,17 @@ void SampleObject::updatedNormalMapNormal(Eigen::Vector3d normal)
     this->m_normal_map_normal = new Eigen::Vector3d(normal);
     Eigen::Vector3d faux_normal = Eigen::Vector3d(0,0,0);
     if (this->m_normal_map_normal != nullptr) {
-        faux_normal = this->getNormal() - *this->m_normal_map_normal;
+        faux_normal = this->getBaseNormal() + *this->m_normal_map_normal;
         faux_normal.normalize();
         this->setNormal(faux_normal);
     } else {
-        faux_normal = normal;
+        this->setNormal(normal);
     }
+}
+
+Eigen::Vector3d SampleObject::getBaseNormal()
+{
+    return this->baseNormal;
 }
 
 void SampleObject::calculatePolarisationUsingGriggsFormulae(
@@ -79,9 +85,12 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   ray.calculationMatrixMultiplication(m_R);
 
   // assuming perfect refraction - should be theta1
-  ray.setDirection(ray.getDirection() -
-                   2 * (ray.getDirection().dot(this->getNormal())) *
-                       this->getNormal());
+//  ray.setDirection(ray.getDirection() -
+//                   2 * (ray.getDirection().dot(this->getNormal())) *
+//                       this->getNormal());
+
+  ray.setDirection(ray.getDirection() - 2 * ((ray.getDirection().dot(this->getNormal())) / pow(this->getNormal().norm(), 2.0))  * this->getNormal());
+
   ray.setOrigin(pointOfInterception +
                 ray.getDirection() * 0.01f); // move it along the normal so it
                                              // won't hit the same object again
