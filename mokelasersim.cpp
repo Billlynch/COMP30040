@@ -245,6 +245,17 @@ void MOKELaserSim::on_my_slider_valueChanged(int value) {
 
 void MOKELaserSim::on_graph_clear_clicked() { this->ui->kerrGraph->clear(); }
 
+void MOKELaserSim::displayPolarVector(Eigen::Vector2d &target)
+{
+    target.normalize();
+    std::stringstream ss;
+    ss << target.x();
+    this->ui->polar_s_normalised->setText(QString::fromStdString(ss.str()));
+    ss.str(std::string());
+    ss << target.y();
+    this->ui->polar_p_normalised->setText(QString::fromStdString(ss.str()));
+}
+
 void MOKELaserSim::on_polar_direction_valueChanged(int value) {
   auto angle = static_cast<double>(value * M_PI / 180.0);
 
@@ -258,14 +269,7 @@ void MOKELaserSim::on_polar_direction_valueChanged(int value) {
 
   emit newPolarisationTarget(target);
 
-  target.normalize();
-  std::stringstream ssx, ssy;
-  ssx << target.x();
-  this->ui->polar_s_normalised->setText(QString::fromStdString(ssx.str()));
-
-  ssy << target.y();
-  this->ui->polar_p_normalised->setText(QString::fromStdString(ssy.str()));
-
+  displayPolarVector(target);
 }
 
 void MOKELaserSim::on_doubleSpinBox_valueChanged(double val) {
