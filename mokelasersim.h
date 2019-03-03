@@ -45,12 +45,6 @@ private slots:
 
   void on_sample_deviation_valueChanged(int value);
 
-  void on_loadImage_btn_clicked();
-
-  void on_collisionPointY_valueChanged(int value);
-
-  void on_collisionPointX_valueChanged(int value);
-
   void on_centre_view_clicked();
 
   void on_laser_view_clicked();
@@ -91,23 +85,9 @@ private:
   SimulationThread thread;
   QTimer *eventLoopTimer;
   QTimer *pemTimer;
-  QImage *normalMapImg;
-  QImage *visualisationNormalMapImg =
-      new QImage(256, 256, QImage::Format_RGBA8888);
-  QImage pointImage = QImage(20, 20, QImage::Format_RGBA8888);
-  QGraphicsScene *scene;
-  QPixmap visableNormalMap;
-  QPoint *collisionPoint = new QPoint(0, 0);
-  Eigen::Vector3f *normalVector = nullptr;
   RandomNoiseCalculator *randomGenerator = nullptr;
   RandomNoiseCalculator *randomGenerator_pem = nullptr;
 
-
-  bool loadFile(const QString &fileName);
-  void updateCollisionVisualisation();
-  void renderNormalImage(QImage &visualisation);
-  void setupNormalTargetImage();
-  void setNormalFromImage();
   void displayPolarVector(Eigen::Vector2d &target);
 
 signals:
