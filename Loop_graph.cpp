@@ -39,9 +39,7 @@ void Loop_graph::addMapToSeries() {
   delete m_series_decrease;
 
   m_series_increase = new QLineSeries();
-  m_series_increase->setName("KerrSignal increase");
   m_series_decrease = new QLineSeries();
-  m_series_decrease->setName("KerrSignal decrease");
 
   for (auto const &val : *m_graphMap) {
     double indx = val.first;
@@ -58,6 +56,7 @@ void Loop_graph::addMapToSeries() {
 void Loop_graph::showChart() {
   m_chart->addSeries(this->m_series_increase);
   m_chart->addSeries(this->m_series_decrease);
+  m_chart->legend()->setVisible(false);
   this->m_chart->createDefaultAxes();
   m_chart->axisX()->setTitleText("H");
   m_chart->axisY()->setTitleText("Kerr Signal");

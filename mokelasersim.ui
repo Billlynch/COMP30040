@@ -575,7 +575,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Laser Polarisation Noise Distrobution</string>
+            <string>Laser Polarisation Noise Distribution</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -794,7 +794,7 @@
           <x>10</x>
           <y>0</y>
           <width>401</width>
-          <height>261</height>
+          <height>281</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -885,7 +885,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Pem Angle Noise Distrobution</string>
+            <string>Pem Angle Noise Distribution</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>

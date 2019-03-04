@@ -25,12 +25,12 @@ void RandomNoiseChartView::populateChart(std::normal_distribution<> d,
 void RandomNoiseChartView::render() {
   m_chart->addSeries(m_lineSeries);
   m_chart->createDefaultAxes();
-  // m_chart->axisY()->setMax(20);
   m_chart->axisX()->setRange(-5, 5);
+  m_chart->axisX()->setTitleText("Noise Multiplier");
+  m_chart->axisY()->setTitleText("Prob... ");
 
   m_chart->legend()->hide();
   this->setChart(m_chart);
-  //  this->chart()->setPlotArea(area);
   this->show();
 }
 
