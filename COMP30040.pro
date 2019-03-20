@@ -80,4 +80,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     obj.qrc
 
+DISTFILES += \
+    comp30040.qdocconf \
+    style.css
+
 

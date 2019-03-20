@@ -157,6 +157,7 @@ void SimulationThread::fireNextRay() {
   n << 1.0, 0.0, 0.0, 1.0;
   outputFromTrace = {n};
   Matrix4cd polar = generateInitalPolarisation();
+  outputFromTrace.push_back(polar);
   int depth = 0;
 
   Ray *ray = new Ray(this->emissionPosition, this->emissionDirection, polar,
@@ -170,6 +171,7 @@ void SimulationThread::fireNextRay() {
   delete ray;
 
   emit simComplete(outputFromTrace);
+  outputFromTrace.clear();
   mutex.unlock();
 }
 
@@ -233,7 +235,7 @@ void SimulationThread::newPemNoiseState(int state) {
 }
 
 
-void SimulationThread::newMyValue(double my)
+void SimulationThread::newHValue(double my)
 {
     if (this->sample != nullptr) {
         this->sample->setM_Y(my);

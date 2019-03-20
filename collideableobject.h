@@ -16,11 +16,12 @@ class CollideableObject : public QObject {
   int side;
   int collisionsEnabled = 1;
 
+
 protected:
   bool interceptPlane(Ray &ray, double &t);
 
 public:
-  double m_n0 = 1.0;
+  double m_n0 = 1.0; // refractive index of air
 
   CollideableObject(Eigen::Vector3d location, int side, Eigen::Vector3d normal);
 
@@ -34,7 +35,7 @@ public:
   virtual int
   getType() = 0; // 0 = light source, 1 = PEM, 2 = polarising filter, 3 = sample
 
-  Eigen::Vector3d *newPosition(Eigen::Vector3d samplePositition, double angle,
+  void newPosition(Eigen::Vector3d samplePositition, double angle,
                                Eigen::Vector3d emissionDirection);
 
   virtual void collide(Ray &ray, Eigen::Vector3d &pointOfInterception) = 0;

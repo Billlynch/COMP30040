@@ -465,7 +465,7 @@ void ThreeDimentionalVisualisation::renderRays() {
           this->PARays.at(i).getPolarisation()(0, 0).real() *
           degreeMulitplier3);
       QVector3D position = (this->PEMTransform->translation() - filterOffet) +
-                           (SPPADirection * (i * RaySpreadFactorLaserSide));
+                           (SPPADirection * ((i+1) * RaySpreadFactorLaserSide));
       this->PARaysTransforms->at(i)->setTranslation(position);
     }
   }
@@ -477,6 +477,7 @@ void ThreeDimentionalVisualisation::newPositions(
   if (enabled) {
 
     this->rayDirectionInit = std::move(rayDirection);
+    position = position - Eigen::Vector3d(1, 1, 1);
     this->analysierPosition = QVector3D(position(0), position(1),
                                         position(2)); // std::move(position);
     this->objectsInScene = std::move(objectsInScene);
@@ -557,7 +558,7 @@ void ThreeDimentionalVisualisation::newCameraPostion(ViewType view) {
       cameraEntity->setViewCenter(this->PEMTransform->translation());
       break;
 
-    case analyiser:
+    case analyser:
       cameraEntity->setPosition(QVector3D(0, -20, 25));
       cameraEntity->setViewCenter(this->analysierPosition);
       break;

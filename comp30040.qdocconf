@@ -1,0 +1,25 @@
+# where your source files are (here it's just the root directory)
+sourcedirs = .
+# where your header files are (probably in the same place as source)
+headerdirs = .
+# where you store images that are used in your qdoc comments
+imagedirs = .
+
+# what kind of sources should be processed
+sources.fileextensions = "*.cpp *.qdoc"
+# what kind of headers should be processed
+headers.fileextensions = "*.h"
+
+# where to put the result
+outputdir = ./documentation/
+# what format to use for generating documentation
+outputformats = HTML
+
+# path to the CSS files if you would like to use any (here it's the current directory)
+HTML.stylesheets = style.css
+# the string that actually includes the CSS into documentation file
+HTML.headerstyles = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\"/>\n"
+# what to append to every page after header
+HTML.postheader = "<p class=\"header\"><small>MOKE Simulation with Ray Tracing</small></p><hr/>"
+# what to append to every page after the content
+HTML.footer = "<hr/><p class=\"footer\"><small>William Lynch 3rd Year Project - Supervised by Thomas Tompson</small></p>"

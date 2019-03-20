@@ -10,6 +10,7 @@
 #include <complex>
 #include <eigen3/Eigen/Dense>
 #include <map>
+#include <QValueAxis>
 
 typedef std::pair<double, double> LoopGraphItem; // increase then decrease
 typedef std::map<double, LoopGraphItem> LoopGraphMap;
@@ -21,8 +22,6 @@ class Loop_graph : public QChartView {
 public:
   explicit Loop_graph(QWidget *parent = nullptr);
   ~Loop_graph();
-
-  void clear();
 
 private:
   QLineSeries *m_series_increase = new QLineSeries();

@@ -46,7 +46,7 @@ public slots:
   void newPolariserState(int state);
   void newPemNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newPemNoiseState(int state);
-  void newMyValue(double my);
+  void newHValue(double my);
   void newPolarisationTarget(Eigen::Vector2d target);
 
 

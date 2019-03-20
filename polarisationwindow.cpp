@@ -4,7 +4,10 @@
 #include <QPointF>
 #include <eigen3/Eigen/Core>
 #include <iostream>
-
+/*!
+ * \brief PolarisationWindow::PolarisationWindow
+ * \param view - the QT widget to show this inside of in the UI.
+ */
 PolarisationWindow::PolarisationWindow(QGraphicsView *view) {
   this->m_view = view;
   this->scene = new QGraphicsScene(this);
@@ -14,6 +17,14 @@ PolarisationWindow::PolarisationWindow(QGraphicsView *view) {
   polarisations = ListMatrix4cd();
 }
 
+/*!
+ * \brief PolarisationWindow::render
+ * \param visualisation - The image we are rendering the diagram into.
+ *
+ * This does a simple check to see if this diagram is enabled or not.
+ * If it is enabled we convert the input image into a more effcient for showing type
+ * then display it in the window.
+ */
 void PolarisationWindow::render(QImage &visualisation) {
   if (enabled) {
     scene->addPixmap(QPixmap::fromImage(visualisation));
@@ -22,6 +33,13 @@ void PolarisationWindow::render(QImage &visualisation) {
   }
 }
 
+/*!
+ * \brief PolarisationWindow::renderNow
+ *
+ * This is called to initialise the rendering process. It starts by clearing the image
+ * and setting it to white. Then we setup a brush to 'paint' with. Here we also draw
+ * the axis and call the method to draw the polarisaions from the simulation.
+ */
 void PolarisationWindow::renderNow() {
   delete outputImage;
   outputImage = new QImage(width, height, QImage::Format_RGB16);
@@ -34,6 +52,12 @@ void PolarisationWindow::renderNow() {
   render(*outputImage);
 }
 
+/*!
+ * \brief PolarisationWindow::simResultsUpdated
+ * \param polarisationsIn - a list of the init polarisation and the output polarisation.
+ * This clears the existing list of polarisations and calls render now if the diagram is
+ * enabled.
+ */
 void PolarisationWindow::simResultsUpdated(ListMatrix4cd &polarisationsIn) {
   if (enabled) {
     polarisations.clear();
@@ -42,8 +66,20 @@ void PolarisationWindow::simResultsUpdated(ListMatrix4cd &polarisationsIn) {
   }
 }
 
+/*!
+ * \brief PolarisationWindow::setEnabledState
+ * \param state
+ *
+ * This updates the enabled state of this diagram.
+ */
 void PolarisationWindow::setEnabledState(int state) { this->enabled = state; }
 
+/*!
+ * \brief PolarisationWindow::drawAxis
+ * \param painter
+ *
+ * Draws the axis on the diagram
+ */
 void PolarisationWindow::drawAxis(QPainter *painter) {
   if (enabled) {
     QPointF centreOfWindow(width / 2, height / 2);
@@ -61,6 +97,14 @@ void PolarisationWindow::drawAxis(QPainter *painter) {
   }
 }
 
+/*!
+ * \brief PolarisationWindow::drawPolarosations
+ * \param painter
+ *
+ * For each polarisation we draw a new line centred on the midle of the circle in the diagram
+ * with the length of the circle radius. For the correct angle we look at the anlge between the
+ * polarisation vector and the right direction, then draw the line in this angle.
+ */
 void PolarisationWindow::drawPolarosations(QPainter *painter) {
   QPen redPen(Qt::red, 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
   QPen blackDottedPen(Qt::black, 2, Qt::DotLine, Qt::FlatCap, Qt::RoundJoin);
@@ -70,8 +114,8 @@ void PolarisationWindow::drawPolarosations(QPainter *painter) {
 
   QLineF newLine = QLineF();
 
-  for (unsigned int j = 0; j < polarisations.size(); j++) {
-    if (j == 0) {
+  for (unsigned int j = 1; j < polarisations.size(); j++) {
+    if (j == 1) {
       painter->setPen(redPen);
     }
 
@@ -91,7 +135,7 @@ void PolarisationWindow::drawPolarosations(QPainter *painter) {
       painter->drawLine(newLine);
     }
 
-    if (j == 0) {
+    if (j == 1) {
       painter->setPen(blackDottedPen);
     }
   }

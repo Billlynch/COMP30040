@@ -9,6 +9,7 @@
 #include <QtCharts/QLineSeries>
 #include <complex>
 #include <map>
+#include <QValueAxis>
 
 typedef std::pair<std::complex<double>, std::complex<double>>
     GraphItem; // p then s
@@ -20,7 +21,6 @@ class kerrRotationGraph : public QChartView {
   Q_OBJECT
 public:
   explicit kerrRotationGraph(QWidget *parent = nullptr);
-  void clear();
 
 private:
   QLineSeries *m_series_p = new QLineSeries();
