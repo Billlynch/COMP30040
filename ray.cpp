@@ -1,19 +1,16 @@
-#include <utility>
-
-#include <utility>
-
-#include <utility>
-
-#include <utility>
-
-#include <utility>
-
-#include <utility>
-
-#include <utility>
-
 #include "ray.h"
 
+/*!
+ * \brief Ray::Ray
+ * \param origin
+ * \param direction
+ * \param polarisation
+ * \param targetPolarisation
+ * The constructor for the ray, we need a direction, origin and polarisation. Because
+ * the concept of the laser does not exist in this sim, the constructor of the ray is the
+ * laser, for that reason we need to have a target polarisation for it too. The is generates the
+ * martix for use in the Jones Calculus formula.
+ */
 Ray::Ray(Eigen::Vector3d origin, Eigen::Vector3d direction,
          Matrix4cd polarisation, Eigen::Vector2d targetPolarisation)
     : m_origin(std::move(origin)), m_direction(std::move(direction)),
@@ -35,28 +32,66 @@ Ray::Ray(Eigen::Vector3d origin, Eigen::Vector3d direction,
   m_calculationMatrix(1, 1) = pow(sin(angle), 2.0);
 }
 
+/*!
+  *\brief Ray:~Ray()
+  * The default destructor, no need to
+  */
 Ray::~Ray() = default;
 
+/*!
+ * \brief Ray::getOrigin
+ * \return the origin of the ray
+ */
 Eigen::Vector3d Ray::getOrigin() { return Ray::m_origin; }
 
+/*!
+ * \brief Ray::getDirection
+ * \return The direction of the ray
+ */
 Eigen::Vector3d Ray::getDirection() { return Ray::m_direction; }
 
+/*!
+ * \brief Ray::getPolarisation
+ * \return The polarisation of the ray
+ */
 Matrix4cd Ray::getPolarisation() { return Ray::m_polarisation; }
 
+/*!
+ * \brief Ray::getCalculationMatrix
+ * \return The current product of all the Jones Calculus applied to the ray.
+ */
 Matrix4cd Ray::getCalculationMatrix() { return m_calculationMatrix; }
 
+/*!
+ * \brief Ray::setOrigin
+ * \param origin
+ */
 void Ray::setOrigin(Eigen::Vector3d origin) {
   Ray::m_origin = std::move(origin);
 }
 
+/*!
+ * \brief Ray::setDirection
+ * \param direction
+ */
 void Ray::setDirection(Eigen::Vector3d direction) {
   Ray::m_direction = std::move(direction);
 }
 
+/*!
+ * \brief Ray::setPolarisation
+ * \param polarisation
+ */
 void Ray::setPolarisation(Matrix4cd polarisation) {
   Ray::m_polarisation = std::move(polarisation);
 }
 
+/*!
+ * \brief Ray::calculationMatrixMultiplication
+ * \param x - the next matrix to be applied to the ray
+ * This performs the calculation of the running product for
+ * Jones Calculus
+ */
 void Ray::calculationMatrixMultiplication(Matrix4cd &x) {
   m_calculationMatrix = m_calculationMatrix * x;
 }

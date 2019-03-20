@@ -78,9 +78,18 @@ bool PolarisingFilter::intersect(Ray &ray,
 
   return false;
 }
-
+/*!
+ * \brief PolarisingFilter::getType
+ * \return 2 - meaning polarising filter
+ */
 int PolarisingFilter::getType() { return 2; }
 
+/*!
+ * \brief PolarisingFilter::calculatePolarisationMatrix
+ * This generates the matrix for use in the Jones Calculus
+ * for this we need the angle at which the polariser is targeting.
+ * We use trigonometry to calcluate this. Then the matrix is populated.
+ */
 void PolarisingFilter::calculatePolarisationMatrix() {
   Eigen::Vector2d down = Eigen::Vector2d(0.0, -1.0);
   m_targetPolarisation.norm();
@@ -97,11 +106,21 @@ void PolarisingFilter::calculatePolarisationMatrix() {
   m_polarizationMatrix(1, 1) = pow(sin(angle), 2.0);
 }
 
+/*!
+ * \brief PolarisingFilter::getPolarisationMatrix
+ * \return The polarisation matrix at the time of calling.
+ */
 Matrix22d PolarisingFilter::getPolarisationMatrix() {
   this->calculatePolarisationMatrix();
   return m_polarizationMatrix;
 }
 
+/*!
+ * \brief PolarisingFilter::setTarget
+ * \param target
+ * Called when the dial on the UI is changed. Sets the target
+ * angle which will adjust the matrix for use in the Jones Calculus.
+ */
 void PolarisingFilter::setTarget(Eigen::Vector2d target) {
   this->m_targetPolarisation = target;
 }

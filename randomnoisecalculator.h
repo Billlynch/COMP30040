@@ -18,8 +18,6 @@ public:
 signals:
   void newRandomNoiseGeneration(std::normal_distribution<>, std::mt19937);
 
-public slots:
-
 private:
   double m_mean, m_dev;
   std::random_device rd{};

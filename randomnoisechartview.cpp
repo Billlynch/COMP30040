@@ -1,6 +1,10 @@
 #include "randomnoisechartview.h"
-#include <iostream>
 
+/*!
+ * \brief RandomNoiseChartView::populateChart
+ * This adds the default curve into the bar chart, the overloaded method will
+ * add useful points into it.
+ */
 void RandomNoiseChartView::populateChart() {
   m_points->append(QPointF(-5, 0));
   m_points->append(QPointF(0, 5));
@@ -8,9 +12,15 @@ void RandomNoiseChartView::populateChart() {
   m_lineSeries->append(*m_points);
 }
 
+/*!
+ * \brief RandomNoiseChartView::populateChart
+ * \param d
+ * \param gen
+ * This is the overloaded version. It chooes 10000 random values and plot them
+ * on the graph and put the distrobution of those into the points list.
+ */
 void RandomNoiseChartView::populateChart(std::normal_distribution<> d,
                                          std::mt19937 gen) {
-
   std::map<int, int> hist{};
   for (int n = 0; n < 10000; ++n) {
     ++hist[std::round(d(gen))];
@@ -22,6 +32,11 @@ void RandomNoiseChartView::populateChart(std::normal_distribution<> d,
   m_lineSeries->append(*m_points);
 }
 
+/*!
+ * \brief RandomNoiseChartView::render
+ * This adds the series to the chart and gets up the axis and lables.
+ * We then show the chart. This is called internally not from external places.
+ */
 void RandomNoiseChartView::render() {
   m_chart->addSeries(m_lineSeries);
   m_chart->createDefaultAxes();
@@ -34,6 +49,13 @@ void RandomNoiseChartView::render() {
   this->show();
 }
 
+/*!
+ * \brief RandomNoiseChartView::RandomNoiseChartView
+ * \param parent
+ * \param name
+ * This is the construtor, it builds a default distrobution to display and sets up the
+ * chart's display params.
+ */
 RandomNoiseChartView::RandomNoiseChartView(QWidget *parent,
                                            const std::string &name)
     : QChartView(parent) {
@@ -49,7 +71,15 @@ RandomNoiseChartView::RandomNoiseChartView(QWidget *parent,
   this->setSceneRect(area);
 }
 
-
+/*!
+ * \brief RandomNoiseChartView::newRandomGenerator
+ * \param d
+ * \param gen
+ *
+ * This is called whenever a slider is changed on the UI relating to this instance of the
+ * generator. We first clear the old point and then using the new generator and distrobution
+ * plot a new chart and show that.
+ */
 void RandomNoiseChartView::newRandomGenerator(std::normal_distribution<> d,
                                               std::mt19937 gen) {
   this->m_lineSeries->clear();

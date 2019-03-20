@@ -9,6 +9,7 @@
 #include <complex>
 #include <random>
 #include <vector>
+#include <utility>
 
 #include <QSlider>
 #include <collideableobject.h>
@@ -31,7 +32,7 @@ public:
 
   void simulate(double Q_r, double Q_i, double n0_r, double n0_i,
                 kerrRotationGraph &graph, ThreeDimentionalVisualisation &rep, Loop_graph &loop_graph);
-  void customAbort();
+  void safeAbort();
 
 protected:
   void run() override;

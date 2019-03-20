@@ -115,12 +115,12 @@ private:
   void setupPolariser();
   void setupPEM();
   void setupLaser();
-  void setupAnalyiser();
+  void setupAnalyser();
   void drawObject(CollideableObject &obj);
   void setupLineLaserToSample();
   void updateLineLaserToSample();
-  void setupLineSampleToAnalyiser();
-  void updateLineSampleToAnalyiser();
+  void setupLineSampleToAnalyser();
+  void updateLineSampleToAnalyser();
   void setupLPRays();
   void setupPSRays();
   void setupSPRays();

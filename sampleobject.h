@@ -3,6 +3,7 @@
 
 #include "collideableobject.h"
 #include <map>
+#include <utility>
 
 typedef std::pair<std::complex<double>, std::complex<double>>
     GraphItem; // p then s
@@ -33,7 +34,7 @@ public:
   void collide(Ray &ray, Eigen::Vector3d &pointOfInterception);
   bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
   int getType();
-  void calculatePolarisationUsingGriggsFormulae(Ray &ray,
+  void calculatePolarisationUsingJonesCalculus(Ray &ray,
                                                 std::complex<double> &theta0,
                                                 std::complex<double> &theta1);
   void setM_Y(double m_y);
