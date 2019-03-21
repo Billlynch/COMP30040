@@ -6,9 +6,15 @@
 #include <cmath>
 #include <complex>
 #include <eigen3/Eigen/Dense>
+#include "objecttype.h"
 
-typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4d;
+typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4d; // A 2 x 2 matrix of complex numbers
 
+/*!
+ * \brief The CollideableObject class
+ * This is the class which needs to be extended by any object which will be interacting with the
+ * ray in the ray tracing algorithm.
+ */
 class CollideableObject : public QObject {
   Q_OBJECT
   Eigen::Vector3d m_location;
@@ -32,8 +38,7 @@ public:
 
   void setLocation(const Eigen::Vector3d &location);
 
-  virtual int
-  getType() = 0; // 0 = light source, 1 = PEM, 2 = polarising filter, 3 = sample
+  virtual ObjectType getType() = 0;
 
   void newPosition(Eigen::Vector3d samplePositition, double angle,
                                Eigen::Vector3d emissionDirection);

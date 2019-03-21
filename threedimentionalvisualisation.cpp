@@ -602,13 +602,13 @@ void ThreeDimentionalVisualisation::newPositions(
       QVector3D position = QVector3D(
           obj->getLocation()(0), obj->getLocation()(1), obj->getLocation()(2));
 
-      if (obj->getType() == 1) { // PEM
+      if (obj->getType() == ObjectType::pem) { // PEM
         PEMTransform->setTranslation(position + filterOffet);
         PEMTransform->setRotationX(
             -(std::atan(obj->getNormal().x() / obj->getNormal().y()) *
               degreeMulitplier3) +
             90.0);
-      } else if (obj->getType() == 2) { // polarising filter
+      } else if (obj->getType() == ObjectType::polarFilter) { // polarising filter
         PolariserTransform->setTranslation(position + filterOffet);
         PolariserTransform->setRotationX(
             -(std::atan(obj->getNormal().x() / obj->getNormal().y()) *
@@ -625,7 +625,7 @@ void ThreeDimentionalVisualisation::newPositions(
  *
  * This sets the camera x, y and  based on the view type given
  */
-void ThreeDimentionalVisualisation::newCameraPostion(ViewType view) {
+void ThreeDimentionalVisualisation::newCameraPostion(ObjectType view) {
   if (enabled) {
     switch (view) {
     case centre:

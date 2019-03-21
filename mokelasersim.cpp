@@ -108,7 +108,7 @@ void MOKELaserSim::on_RunSimButton_clicked() {
 void MOKELaserSim::on_StopSimButton_clicked() {
   pemTimer->stop();
   eventLoopTimer->stop();
-  simThread.customAbort();
+  simThread.safeAbort();
 }
 
 /*!
@@ -167,7 +167,7 @@ void MOKELaserSim::on_noise_chk_stateChanged(int state) {
  * Tell the 3D view to reset the 3D view to the centre.
  */
 void MOKELaserSim::on_centre_view_clicked() {
-  emit newCameraLocation(ViewType::centre);
+  emit newCameraLocation(ObjectType::centre);
 }
 
 /*!
@@ -175,7 +175,7 @@ void MOKELaserSim::on_centre_view_clicked() {
  * Tell the 3D view to centre on the laser
  */
 void MOKELaserSim::on_laser_view_clicked() {
-  emit newCameraLocation(ViewType::laser);
+  emit newCameraLocation(ObjectType::laser);
 }
 
 /*!
@@ -183,7 +183,7 @@ void MOKELaserSim::on_laser_view_clicked() {
  * Tell the 3D view to centre on the polarising filter.
  */
 void MOKELaserSim::on_polariser_view_clicked() {
-  emit newCameraLocation(ViewType::polarFilter);
+  emit newCameraLocation(ObjectType::polarFilter);
 }
 
 /*!
@@ -191,7 +191,7 @@ void MOKELaserSim::on_polariser_view_clicked() {
  * Tell the 3D view to centre on the sample.
  */
 void MOKELaserSim::on_sample_view_clicked() {
-  emit newCameraLocation(ViewType::sample);
+  emit newCameraLocation(ObjectType::sample);
 }
 
 /*!
@@ -199,7 +199,7 @@ void MOKELaserSim::on_sample_view_clicked() {
  * Tell the 3D view to cnetre on the PEM
  */
 void MOKELaserSim::on_PEM_view_clicked() {
-  emit newCameraLocation(ViewType::pem);
+  emit newCameraLocation(ObjectType::pem);
 }
 
 /*!
@@ -207,7 +207,7 @@ void MOKELaserSim::on_PEM_view_clicked() {
  * Tell the 3D view to centre on the analyser
  */
 void MOKELaserSim::on_Analysier_view_clicked() {
-  emit newCameraLocation(ViewType::analyser);
+  emit newCameraLocation(ObjectType::analyser);
 }
 
 /*!

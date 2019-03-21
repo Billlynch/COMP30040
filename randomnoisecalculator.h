@@ -5,6 +5,10 @@
 #include <cmath>
 #include <random>
 
+/*!
+ * \brief The RandomNoiseCalculator class
+ * This defines all the method the noise calculator will implement
+ */
 class RandomNoiseCalculator : public QObject {
   Q_OBJECT
 public:

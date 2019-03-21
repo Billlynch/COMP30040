@@ -139,4 +139,4 @@ bool SampleObject::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception) {
  * \brief SampleObject::getType
  * \return 3 as this denotes the type of the Sample.
  */
-int SampleObject::getType() { return 3; }
+ObjectType SampleObject::getType() { return ObjectType::sample; }

@@ -1,5 +1,3 @@
-#include <utility>
-
 #include "polarisingfilter.h"
 
 /*!
@@ -82,7 +80,7 @@ bool PolarisingFilter::intersect(Ray &ray,
  * \brief PolarisingFilter::getType
  * \return 2 - meaning polarising filter
  */
-int PolarisingFilter::getType() { return 2; }
+ObjectType PolarisingFilter::getType() { return ObjectType::polarFilter; }
 
 /*!
  * \brief PolarisingFilter::calculatePolarisationMatrix

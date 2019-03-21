@@ -1,10 +1,5 @@
-#include <utility>
-
-#include <utility>
-
 #include "pem.h"
 
-#include <iostream>
 
 /*!
  * \brief PEM::calculatePolarisationMatrix
@@ -49,7 +44,7 @@ PEM::PEM(Eigen::Vector3d location, int side, Eigen::Vector3d normal,
  * \brief PEM::getType
  * \return 1 - which denotes a PEM.
  */
-int PEM::getType() { return 1; }
+ObjectType PEM::getType() { return ObjectType::pem; }
 
 /*!
  * \brief PEM::intersect

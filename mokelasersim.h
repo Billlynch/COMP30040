@@ -5,7 +5,7 @@
 #include "randomnoisecalculator.h"
 #include "randomnoisechartview.h"
 #include "simulationthread.h"
-#include "viewtype.h"
+#include "objecttype.h"
 #include <QDoubleSpinBox>
 #include <QMainWindow>
 #include <QPainter>
@@ -37,6 +37,12 @@ namespace Ui {
 class MOKELaserSim;
 }
 
+/*!
+ * \brief The MOKELaserSim class
+ * This is the main class which runs the app, this runs in the UI thread and
+ * handles all UI interactions. It then coridates the other running threads
+ * and sets up the connections between the simulation thread and the visualisations.
+ */
 class MOKELaserSim : public QMainWindow {
   Q_OBJECT
 
@@ -101,7 +107,7 @@ private:
   void displayPolarVector(Eigen::Vector2d &target);
 
 signals:
-  void newCameraLocation(ViewType view);
+  void newCameraLocation(ObjectType view);
   void laserNoiseStateChanged(int state);
   void newPemState(int state);
   void newPolariserState(int state);

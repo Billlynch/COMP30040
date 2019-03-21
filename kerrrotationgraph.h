@@ -12,11 +12,15 @@
 #include <QValueAxis>
 
 typedef std::pair<std::complex<double>, std::complex<double>>
-    GraphItem; // p then s
-typedef std::map<double, GraphItem> GraphMap;
+    GraphItem; // p then s pair of complex numbers
+typedef std::map<double, GraphItem> GraphMap; // a mapping of the angle to the s and p pair
 
 using namespace QtCharts;
 
+/*!
+ * \brief The kerrRotationGraph class
+ * This is the class which defines the functions the rotation graph needs
+ */
 class kerrRotationGraph : public QChartView {
   Q_OBJECT
 public:

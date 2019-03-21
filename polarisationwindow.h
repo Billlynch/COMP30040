@@ -4,6 +4,9 @@
 #include <QGraphicsView>
 #include <QtGui>
 #include <eigen3/Eigen/Core>
+#include <QImage>
+#include <QLineF>
+#include <QPointF>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
@@ -13,6 +16,11 @@ typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 1>> ListVector2cd;
 
 const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
 
+/*!
+ * \brief The PolarisationWindow class
+ * This is the polarisatoin diagram file which defines all the methods it will
+ * implement.
+ */
 class PolarisationWindow : public QObject {
   Q_OBJECT
 public:

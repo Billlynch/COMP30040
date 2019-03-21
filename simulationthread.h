@@ -24,6 +24,12 @@
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
     ListMatrix4cd;
 
+/*!
+ * \brief The SimulationThread class
+ *
+ * This defines the thread that the simulation will run in and the core simulatation's
+ * method, without implementation.
+ */
 class SimulationThread : public QThread {
   Q_OBJECT
 public:

@@ -1,5 +1,3 @@
-#include <utility>
-
 #include "Loop_graph.h"
 
 /*!

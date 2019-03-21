@@ -4,9 +4,15 @@
 #include "collideableobject.h"
 #include <QTimer>
 #include <random>
+#include <utility>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22cd;
 
+/*!
+ * \brief The PEM class
+ * This is the class which defines the methods that a PEM instance needs to
+ * implement.
+ */
 class PEM : public CollideableObject {
   Q_OBJECT
 private:
@@ -28,7 +34,7 @@ public:
       std::complex<double> angularFrequency);
 
   ~PEM() override = default;
-  int getType() override;
+  ObjectType getType() override;
 
   void collide(Ray &ray, Eigen::Vector3d &pointOfInterception) override;
   bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception) override;

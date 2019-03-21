@@ -1,9 +1,5 @@
 #include "polarisationwindow.h"
-#include <QImage>
-#include <QLineF>
-#include <QPointF>
-#include <eigen3/Eigen/Core>
-#include <iostream>
+
 /*!
  * \brief PolarisationWindow::PolarisationWindow
  * \param view - the QT widget to show this inside of in the UI.

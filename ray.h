@@ -9,6 +9,10 @@ typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
     ListMatrix4cd;
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
+/*!
+ * \brief The Ray class
+ * This defines all the methods the ray will implement.
+ */
 class Ray {
   Eigen::Vector3d m_origin;
   Eigen::Vector3d m_direction;

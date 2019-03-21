@@ -27,12 +27,16 @@
 #include "polarisingfilter.h"
 #include "ray.h"
 #include "sampleobject.h"
-#include "viewtype.h"
+#include "objecttype.h"
 
 #include <deque>
 
 const double degreeMulitplier3 = 180.0 / M_PI;
 
+/*!
+ * \brief The ThreeDimentionalVisualisation class
+ * This defines the methods needed for the 3D view to work.
+ */
 class ThreeDimentionalVisualisation : public QWidget {
   Q_OBJECT
   QWidget *container;
@@ -132,7 +136,7 @@ private:
 public slots:
   void newPositions(Eigen::Vector3d position, Eigen::Vector3d rayDirection,
                     std::vector<CollideableObject *> objectsInScene);
-  void newCameraPostion(ViewType view);
+  void newCameraPostion(ObjectType view);
   void newPemState(int state);
   void newPolariserState(int state);
   void newOutputFromLaser(Ray ray);
