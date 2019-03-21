@@ -5,6 +5,10 @@
 #include <cmath>
 #include <random>
 
+/*!
+ * \brief The RandomNoiseCalculator class
+ * This defines all the method the noise calculator will implement
+ */
 class RandomNoiseCalculator : public QObject {
   Q_OBJECT
 public:
@@ -17,8 +21,6 @@ public:
 
 signals:
   void newRandomNoiseGeneration(std::normal_distribution<>, std::mt19937);
-
-public slots:
 
 private:
   double m_mean, m_dev;

@@ -72,7 +72,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSlider" name="horizontalSlider">
+        <widget class="QSlider" name="speedSlider">
          <property name="minimum">
           <number>1</number>
          </property>

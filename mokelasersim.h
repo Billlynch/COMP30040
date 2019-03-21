@@ -5,7 +5,7 @@
 #include "randomnoisecalculator.h"
 #include "randomnoisechartview.h"
 #include "simulationthread.h"
-#include "viewtype.h"
+#include "objecttype.h"
 #include <QDoubleSpinBox>
 #include <QMainWindow>
 #include <QPainter>
@@ -13,6 +13,18 @@
 #include <eigen3/Eigen/Core>
 #include <vector>
 #include "Loop_graph.h"
+#include <QApplication>
+#include <QDebug>
+#include <QFileDialog>
+#include <QFuture>
+#include <QMessageBox>
+#include <QMetaType>
+#include <QPixmap>
+#include <QString>
+#include <QThread>
+#include <cmath>
+#include <qtconcurrentrun.h>
+#include <vector>
 
 typedef Eigen::Matrix<std::complex<double>, 2, 1> Vector2cd;
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 1>> ListVector2cd;
@@ -25,6 +37,12 @@ namespace Ui {
 class MOKELaserSim;
 }
 
+/*!
+ * \brief The MOKELaserSim class
+ * This is the main class which runs the app, this runs in the UI thread and
+ * handles all UI interactions. It then coridates the other running threads
+ * and sets up the connections between the simulation thread and the visualisations.
+ */
 class MOKELaserSim : public QMainWindow {
   Q_OBJECT
 
@@ -38,7 +56,7 @@ private slots:
   void on_RunSimButton_clicked();
   void on_StopSimButton_clicked();
 
-  void on_horizontalSlider_valueChanged(int value);
+  void on_speedSlider_valueChanged(int value);
   void on_angle_of_incidence_valueChanged(int value);
 
   void on_sample_mean_valueChanged(int value);
@@ -61,7 +79,7 @@ private slots:
 
   void on_threeDEnable_chk_stateChanged(int arg1);
 
-  void on_polariEnable_chk_stateChanged(int arg1);
+  void on_polariserDisplayEnable_chk_stateChanged(int arg1);
 
   void on_pem_enabled_chk_stateChanged(int arg1);
 
@@ -71,9 +89,7 @@ private slots:
 
   void on_polar_enabled_chk_stateChanged(int arg1);
 
-  void on_my_slider_valueChanged(int value);
-
-  void on_graph_clear_clicked();
+  void on_H_slider_valueChanged(int value);
 
   void on_polar_direction_valueChanged(int value);
 
@@ -82,21 +98,21 @@ private slots:
 private:
   Ui::MOKELaserSim *ui;
   PolarisationWindow *resultsWindow;
-  SimulationThread thread;
+  SimulationThread simThread;
   QTimer *eventLoopTimer;
   QTimer *pemTimer;
-  RandomNoiseCalculator *randomGenerator = nullptr;
+  RandomNoiseCalculator *randomGenerator_laser = nullptr;
   RandomNoiseCalculator *randomGenerator_pem = nullptr;
 
   void displayPolarVector(Eigen::Vector2d &target);
 
 signals:
-  void newCameraLocation(ViewType view);
-  void laserNoiseStateChanhe(int state);
+  void newCameraLocation(ObjectType view);
+  void laserNoiseStateChanged(int state);
   void newPemState(int state);
   void newPolariserState(int state);
   void newPEMNoiseState(int state);
-  void newMyValue(double value);
+  void newHValue(double value);
   void newPolarisationTarget(Eigen::Vector2d target);
   void newCoersivity(double coersivity);
 

@@ -1,8 +1,16 @@
-#include <utility>
-
 #include "polarisingfilter.h"
-#include <iostream>
 
+/*!
+ * \brief PolarisingFilter::PolarisingFilter
+ * \param location
+ * \param side
+ * \param normal
+ * \param radius
+ * \param n1
+ * \param targetPolarisation
+ *
+ * Constructor for the polarisingFilter, also creates the matrix for the Jones Calculus.
+ */
 PolarisingFilter::PolarisingFilter(Eigen::Vector3d location, int side,
                                    Eigen::Vector3d normal, double radius,
                                    std::complex<double> n1,
@@ -14,6 +22,17 @@ PolarisingFilter::PolarisingFilter(Eigen::Vector3d location, int side,
   calculatePolarisationMatrix();
 }
 
+/*!
+ * \brief PolarisingFilter::collide
+ * \param ray
+ * \param pointOfInterception
+ *
+ * This method is called on clission with a ray.
+ * If the polarisation has changed we tell the hysteresis loop graph.
+ * We calculate the Jones Calculus matrix again (incase noise is included), then
+ * reposition the ray infront of the filter. We Trigger the 3D view's idea of the
+ * rays to update based on the latest ray which has gone though the filter.
+ */
 void PolarisingFilter::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   auto tempEr = Eigen::Vector2cd(ray.getPolarisation()(0, 0),
                                  ray.getPolarisation()(1, 1));
@@ -33,6 +52,16 @@ void PolarisingFilter::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   emit outputPolarisationUpdated(ray.getPolarisation());
 }
 
+/*!
+ * \brief PolarisingFilter::intersect
+ * \param ray
+ * \param pointOfInterception
+ * \return if there was a collision with the filter and this ray.
+ *
+ * Check if we collide with the plane of infinate width and hight at the
+ * position of the filter. We then detect if the collision point was within the
+ * radiius of the filter. Very similar to the implementation in the PEM.
+ */
 bool PolarisingFilter::intersect(Ray &ray,
                                  Eigen::Vector3d &pointOfInterception) {
   double t;
@@ -47,9 +76,18 @@ bool PolarisingFilter::intersect(Ray &ray,
 
   return false;
 }
+/*!
+ * \brief PolarisingFilter::getType
+ * \return 2 - meaning polarising filter
+ */
+ObjectType PolarisingFilter::getType() { return ObjectType::polarFilter; }
 
-int PolarisingFilter::getType() { return 2; }
-
+/*!
+ * \brief PolarisingFilter::calculatePolarisationMatrix
+ * This generates the matrix for use in the Jones Calculus
+ * for this we need the angle at which the polariser is targeting.
+ * We use trigonometry to calcluate this. Then the matrix is populated.
+ */
 void PolarisingFilter::calculatePolarisationMatrix() {
   Eigen::Vector2d down = Eigen::Vector2d(0.0, -1.0);
   m_targetPolarisation.norm();
@@ -66,11 +104,21 @@ void PolarisingFilter::calculatePolarisationMatrix() {
   m_polarizationMatrix(1, 1) = pow(sin(angle), 2.0);
 }
 
+/*!
+ * \brief PolarisingFilter::getPolarisationMatrix
+ * \return The polarisation matrix at the time of calling.
+ */
 Matrix22d PolarisingFilter::getPolarisationMatrix() {
   this->calculatePolarisationMatrix();
   return m_polarizationMatrix;
 }
 
+/*!
+ * \brief PolarisingFilter::setTarget
+ * \param target
+ * Called when the dial on the UI is changed. Sets the target
+ * angle which will adjust the matrix for use in the Jones Calculus.
+ */
 void PolarisingFilter::setTarget(Eigen::Vector2d target) {
   this->m_targetPolarisation = target;
 }

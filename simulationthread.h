@@ -9,6 +9,7 @@
 #include <complex>
 #include <random>
 #include <vector>
+#include <utility>
 
 #include <QSlider>
 #include <collideableobject.h>
@@ -23,6 +24,12 @@
 typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
     ListMatrix4cd;
 
+/*!
+ * \brief The SimulationThread class
+ *
+ * This defines the thread that the simulation will run in and the core simulatation's
+ * method, without implementation.
+ */
 class SimulationThread : public QThread {
   Q_OBJECT
 public:
@@ -31,7 +38,7 @@ public:
 
   void simulate(double Q_r, double Q_i, double n0_r, double n0_i,
                 kerrRotationGraph &graph, ThreeDimentionalVisualisation &rep, Loop_graph &loop_graph);
-  void customAbort();
+  void safeAbort();
 
 protected:
   void run() override;
@@ -46,7 +53,7 @@ public slots:
   void newPolariserState(int state);
   void newPemNoise(std::normal_distribution<> d, std::mt19937 gen);
   void newPemNoiseState(int state);
-  void newMyValue(double my);
+  void newHValue(double my);
   void newPolarisationTarget(Eigen::Vector2d target);
 
 

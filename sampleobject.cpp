@@ -1,10 +1,15 @@
-#include <utility>
-
-#include <utility>
-
 #include "sampleobject.h"
-#include <iostream>
 
+/*!
+ * \brief SampleObject::SampleObject
+ * \param location
+ * \param side
+ * \param normal
+ * \param radius
+ * \param n1
+ * \param q
+ * The constructor for the sample object.
+ */
 SampleObject::SampleObject(Eigen::Vector3d location, int side,
                            Eigen::Vector3d normal, double radius,
                            std::complex<double> n1, std::complex<double> q)
@@ -18,9 +23,22 @@ SampleObject::SampleObject(Eigen::Vector3d location, int side,
   m_n0 = {1.0, 0};
 }
 
+/*!
+  *\brief SampleObject:~SampleObject()
+  * The default destructor.
+  */
 SampleObject::~SampleObject() = default;
 
-void SampleObject::calculatePolarisationUsingGriggsFormulae(
+/*!
+ * \brief SampleObject::calculatePolarisationUsingGriggsFormulae
+ * \param ray
+ * \param theta0
+ * \param theta1
+ * This generates the matrix for the Jones calculus model and updates the
+ * polarisation of the Ray. The maths for this can be found in my report.
+ *
+ */
+void SampleObject::calculatePolarisationUsingJonesCalculus(
     Ray &ray, std::complex<double> &theta0, std::complex<double> &theta1) {
   m_i = {0, 1};
   // Rpp
@@ -52,12 +70,27 @@ void SampleObject::calculatePolarisationUsingGriggsFormulae(
   ray.setPolarisation(newPolar);
 }
 
-void SampleObject::setM_Y(double m_y) {
-    this->m_my = m_y;
-
-    // TODO call the matrix calcs here to update the loop graph
+/*!
+ * \brief SampleObject::setM_Y
+ * \param m_y
+ *
+ * This changes the MY value for the Sample (MY is proprtional to the driven magnetic force)
+ * The input is the slider value from the UI.
+ */
+void SampleObject::setM_Y(double h) {
+    this->m_my = h;
 }
 
+/*!
+ * \brief SampleObject::collide
+ * \param ray
+ * \param pointOfInterception
+ *
+ * This is called when the ray collides with the sample. We need to calculate the angle of
+ * reflection and interception first, we then emit these new angles to update the 3D view.
+ * Then we then update the ray's origin, direction, polarisation and running matrix product.
+ * Then we emit the ray information to update the 3D view.
+ */
 void SampleObject::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   std::complex<double> theta0, theta1;
   calculateAngleOfInterception(ray, theta0);
@@ -65,11 +98,10 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   emit newThetas(theta0, theta1);
 
   // calculate S
-  calculatePolarisationUsingGriggsFormulae(ray, theta0, theta1);
+  calculatePolarisationUsingJonesCalculus(ray, theta0, theta1);
 
   ray.calculationMatrixMultiplication(m_R);
 
-  // assuming perfect refraction - should be theta1
   ray.setDirection(ray.getDirection() -
                    2 * (ray.getDirection().dot(this->getNormal())) *
                        this->getNormal());
@@ -80,6 +112,15 @@ void SampleObject::collide(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   emit outputDirectionUpdated(ray.getDirection());
 }
 
+/*!
+ * \brief SampleObject::intersect
+ * \param ray
+ * \param pointOfInterception
+ * \return true if a collision is detected.
+ *
+ * This first checks to see if the ray collides with the plane of the sample and then
+ * checks to see if it within the radius of the sample.
+ */
 bool SampleObject::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   double t;
 
@@ -94,4 +135,8 @@ bool SampleObject::intersect(Ray &ray, Eigen::Vector3d &pointOfInterception) {
   return false;
 }
 
-int SampleObject::getType() { return 3; }
+/*!
+ * \brief SampleObject::getType
+ * \return 3 as this denotes the type of the Sample.
+ */
+ObjectType SampleObject::getType() { return ObjectType::sample; }

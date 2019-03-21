@@ -64,8 +64,8 @@ HEADERS += \
     randomnoisecalculator.h \
     randomnoisechartview.h \
     threedimentionalvisualisation.h \
-    viewtype.h \
-    Loop_graph.h
+    Loop_graph.h \
+    objecttype.h
 
 
 FORMS += \
@@ -79,5 +79,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     obj.qrc
+
+DISTFILES += \
+    comp30040.qdocconf \
+    style.css
 
 

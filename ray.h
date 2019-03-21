@@ -1,5 +1,6 @@
 #include <eigen3/Eigen/Core>
 #include <vector>
+#include <utility>
 
 #ifndef RAY_H
 #define RAY_H
@@ -8,8 +9,10 @@ typedef std::vector<Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2>>
     ListMatrix4cd;
 typedef Eigen::Matrix<std::complex<double>, 2, 2, 0, 2, 2> Matrix4cd;
 
-// const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
-
+/*!
+ * \brief The Ray class
+ * This defines all the methods the ray will implement.
+ */
 class Ray {
   Eigen::Vector3d m_origin;
   Eigen::Vector3d m_direction;

@@ -6,8 +6,10 @@
 
 typedef Eigen::Matrix<std::complex<double>, 2, 2> Matrix22d;
 
-// const float degreeMulitplier = static_cast<float>(180.0 / M_PI);
-
+/*!
+ * \brief The PolarisingFilter class
+ * This defines the methods the polarising filter will implement.
+ */
 class PolarisingFilter : public CollideableObject {
   Q_OBJECT
   Matrix22d m_polarizationMatrix;
@@ -28,7 +30,7 @@ public:
 
   void collide(Ray &ray, Eigen::Vector3d &pointOfInterception);
   bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
-  int getType();
+  ObjectType getType();
 
   Matrix22d getPolarisationMatrix();
   void setTarget(Eigen::Vector2d target);

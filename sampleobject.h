@@ -3,11 +3,17 @@
 
 #include "collideableobject.h"
 #include <map>
+#include <utility>
 
 typedef std::pair<std::complex<double>, std::complex<double>>
     GraphItem; // p then s
 typedef std::map<double, GraphItem> GraphMap;
 
+/*!
+ * \brief The SampleObject class
+ * This defines all the methods the sample object will implement, it also has some
+ * implementations for things that will not change.
+ */
 class SampleObject : public CollideableObject {
   Q_OBJECT
 private:
@@ -32,13 +38,19 @@ public:
 
   void collide(Ray &ray, Eigen::Vector3d &pointOfInterception);
   bool intersect(Ray &ray, Eigen::Vector3d &pointOfInterception);
-  int getType();
-  void calculatePolarisationUsingGriggsFormulae(Ray &ray,
+  ObjectType getType();
+  void calculatePolarisationUsingJonesCalculus(Ray &ray,
                                                 std::complex<double> &theta0,
                                                 std::complex<double> &theta1);
   void setM_Y(double m_y);
 
 private:
+  /*!
+   * \brief insertIntoGraphMap
+   * \param angle
+   * This buts the angles and the current values from the Jones Matrix into
+   * a map ready to be shown in the hysteresis loop graph.
+   */
   void insertIntoGraphMap(std::complex<double> angle) {
     auto originalSize = m_graphMap.size();
     GraphItem newItem = GraphItem(m_rsp / m_rpp, m_rps / m_rss);
@@ -57,12 +69,26 @@ private:
   }
 
 protected:
+  /*!
+   * \brief calculateAngleOfRefraction
+   * \param theta0
+   * \param theta1
+   * This calculates the angle od refraction, given the angle of incidence, useing Snell's Law
+   */
   void calculateAngleOfRefraction(std::complex<double> theta0,
                                   std::complex<double> &theta1) {
     std::complex<double> numerator1 = m_n0 * sin(theta0);
     theta1 = asin(numerator1 / m_n1); // the angle of refraction
   }
 
+  /*!
+   * \brief calculateAngleOfInterception
+   * \param ray
+   * \param theta0
+   *
+   * This calculates the angle of incidence by using trig on the normal vector of the sample
+   * and the direction of the ray.
+   */
   void calculateAngleOfInterception(Ray &ray, std::complex<double> &theta0) {
     auto normal = this->getNormal();
     normal.normalize();

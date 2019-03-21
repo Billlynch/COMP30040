@@ -19,7 +19,11 @@
 #include <string>
 
 using namespace QtCharts;
-
+/*!
+ * \brief The RandomNoiseChartView class
+ * This defines all the method the chart view for the random noise
+ * will implement
+ */
 class RandomNoiseChartView : public QChartView {
   Q_OBJECT
 private:

@@ -1,9 +1,11 @@
-#include <utility>
-
 #include "kerrrotationgraph.h"
-#include <QValueAxis>
-#include <iostream>
 
+/*!
+ * \brief kerrRotationGraph::kerrRotationGraph
+ * \param parent (window to show in)
+ *
+ * This sets up the margins and chart type for the chart.
+ */
 kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
   auto chartView = new QChartView(m_chart);
   chartView->setRenderHint(QPainter::Antialiasing);
@@ -13,13 +15,11 @@ kerrRotationGraph::kerrRotationGraph(QWidget *parent) : QChartView(parent) {
   this->showChart();
 }
 
-void kerrRotationGraph::clear() {
-  this->m_graphMap = GraphMap();
-  m_chart->removeSeries(m_series_p);
-  m_chart->removeSeries(m_series_s);
-  this->addMapToSeries();
-}
-
+/*!
+ * \brief kerrRotationGraph::addMapToSeries
+ * This takes the graph map object and adds them to two QT series objects to be
+ * shown in the chart. It also sets the names for the series, then calls showChart()
+ */
 void kerrRotationGraph::addMapToSeries() {
   m_series_p = new QSplineSeries();
   m_series_s = new QSplineSeries();
@@ -44,6 +44,10 @@ void kerrRotationGraph::addMapToSeries() {
   this->showChart();
 }
 
+/*!
+ * \brief kerrRotationGraph::showChart
+ * This adds the series to the axis on the chart and shows it.
+ */
 void kerrRotationGraph::showChart() {
   m_chart->addSeries(m_series_p);
   m_chart->addSeries(m_series_s);
@@ -54,6 +58,13 @@ void kerrRotationGraph::showChart() {
 
   this->show();
 }
+
+/*!
+ * \brief kerrRotationGraph::updateSeries
+ * \param graphMap - the data to be shown on the chart.
+ *
+ * This is called whenever a new ray collides with the sample.
+ */
 
 void kerrRotationGraph::updateSeries(GraphMap graphMap) {
   m_chart->removeSeries(m_series_p);

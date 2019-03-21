@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- collideableobject.cpp -->
+  <title>CollideableObject Class | Qt </title>
+<link rel="stylesheet" type="text/css" href="style/style.css"/>
+</head>
+<body>
+<p class="header"><small>MOKE Simulation with Ray Tracing</small></p><hr/><li>CollideableObject</li>
+<div class="sidebar">
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#public-variables">Public Variables</a></li>
+<li class="level1"><a href="#protected-functions">Protected Functions</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title">CollideableObject Class</h1>
+<!-- $$$CollideableObject-brief -->
+<p>The <a href="collideableobject.html">CollideableObject</a> class is the base class which must be extended by all objects which we want to collide in the ray tracing simulation. It enforces methods which are required by the algorithm. <a href="#details">More...</a></p>
+<!-- @@@CollideableObject -->
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign">  Qt v1</td></tr></table></div><ul>
+<li><a href="collideableobject-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#CollideableObject">CollideableObject</a></b>(Eigen::Vector3d <i>location</i>, int <i>side</i>, Eigen::Vector3d <i>normal</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#dtor.CollideableObject">~CollideableObject</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#collide">collide</a></b>(Ray &amp;<i>ray</i>, Eigen::Vector3d &amp;<i>pointOfInterception</i>) = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> const Eigen::Vector3d &amp;</td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#getLocation">getLocation</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> const Eigen::Vector3d &amp;</td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#getNormal">getNormal</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual ObjectType </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#getType">getType</a></b>() = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual bool </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#intersect">intersect</a></b>(Ray &amp;<i>ray</i>, Eigen::Vector3d &amp;<i>pointOfInterception</i>) = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#newPosition">newPosition</a></b>(Eigen::Vector3d <i>samplePositition</i>, double <i>angle</i>, Eigen::Vector3d <i>emissionDirection</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#setEnabled">setEnabled</a></b>(int <i>state</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#setLocation">setLocation</a></b>(const Eigen::Vector3d &amp;<i>location</i>)</td></tr>
+</table></div>
+<a name="public-variables"></a>
+<h2 id="public-variables">Public Variables</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> double </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#m_n0-var">m_n0</a></b></td></tr>
+</table></div>
+<a name="protected-functions"></a>
+<h2 id="protected-functions">Protected Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="collideableobject.html#interceptPlane">interceptPlane</a></b>(Ray &amp;<i>ray</i>, double &amp;<i>t</i>)</td></tr>
+</table></div>
+<a name="details"></a>
+<!-- $$$CollideableObject-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p>The <a href="collideableobject.html">CollideableObject</a> class is the base class which must be extended by all objects which we want to collide in the ray tracing simulation. It enforces methods which are required by the algorithm.</p>
+</div>
+<!-- @@@CollideableObject -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$CollideableObject[overload1]$$$CollideableObjectEigen::Vector3dintEigen::Vector3d -->
+<h3 class="fn" id="CollideableObject"><a name="CollideableObject"></a>CollideableObject::<span class="name">CollideableObject</span>(<span class="type">Eigen::Vector3d</span> <i>location</i>, <span class="type">int</span> <i>side</i>, <span class="type">Eigen::Vector3d</span> <i>normal</i>)</h3>
+<p>Default constructs an instance of CollideableObject.</p><!-- @@@CollideableObject -->
+<!-- $$$~CollideableObject[overload1]$$$~CollideableObject -->
+<h3 class="fn" id="dtor.CollideableObject"><a name="dtor.CollideableObject"></a><code>[virtual] </code>CollideableObject::<span class="name">~CollideableObject</span>()</h3>
+<p>Destroys the instance of CollideableObject. The destructor is virtual.</p><!-- @@@~CollideableObject -->
+<!-- $$$collide[overload1]$$$collideRay&Eigen::Vector3d& -->
+<h3 class="fn" id="collide"><a name="collide"></a><code>[pure virtual] </code><span class="type">void</span> CollideableObject::<span class="name">collide</span>(<span class="type">Ray</span> &amp;<i>ray</i>, <span class="type">Eigen::Vector3d</span> &amp;<i>pointOfInterception</i>)</h3>
+<!-- @@@collide -->
+<!-- $$$getLocation[overload1]$$$getLocation -->
+<h3 class="fn" id="getLocation"><a name="getLocation"></a>const <span class="type">Eigen::Vector3d</span> &amp;CollideableObject::<span class="name">getLocation</span>() const</h3>
+<!-- @@@getLocation -->
+<!-- $$$getNormal[overload1]$$$getNormal -->
+<h3 class="fn" id="getNormal"><a name="getNormal"></a>const <span class="type">Eigen::Vector3d</span> &amp;CollideableObject::<span class="name">getNormal</span>() const</h3>
+<!-- @@@getNormal -->
+<!-- $$$getType[overload1]$$$getType -->
+<h3 class="fn" id="getType"><a name="getType"></a><code>[pure virtual] </code><span class="type">ObjectType</span> CollideableObject::<span class="name">getType</span>()</h3>
+<!-- @@@getType -->
+<!-- $$$interceptPlane[overload1]$$$interceptPlaneRay&double& -->
+<h3 class="fn" id="interceptPlane"><a name="interceptPlane"></a><code>[protected] </code><span class="type">bool</span> CollideableObject::<span class="name">interceptPlane</span>(<span class="type">Ray</span> &amp;<i>ray</i>, <span class="type">double</span> &amp;<i>t</i>)</h3>
+<!-- @@@interceptPlane -->
+<!-- $$$intersect[overload1]$$$intersectRay&Eigen::Vector3d& -->
+<h3 class="fn" id="intersect"><a name="intersect"></a><code>[pure virtual] </code><span class="type">bool</span> CollideableObject::<span class="name">intersect</span>(<span class="type">Ray</span> &amp;<i>ray</i>, <span class="type">Eigen::Vector3d</span> &amp;<i>pointOfInterception</i>)</h3>
+<!-- @@@intersect -->
+<!-- $$$newPosition[overload1]$$$newPositionEigen::Vector3ddoubleEigen::Vector3d -->
+<h3 class="fn" id="newPosition"><a name="newPosition"></a><span class="type">void</span> CollideableObject::<span class="name">newPosition</span>(<span class="type">Eigen::Vector3d</span> <i>samplePositition</i>, <span class="type">double</span> <i>angle</i>, <span class="type">Eigen::Vector3d</span> <i>emissionDirection</i>)</h3>
+<p>CollideableObject::newPosition <b class="redFont"><code>\param</code></b> samplePositition - The position for the sample object (works like a pivot point) <b class="redFont"><code>\param</code></b> angle - The desired angle of incidence against the plane of the object <b class="redFont"><code>\param</code></b> emissionDirection - The vector direction from the laser to the sample</p>
+<p>This uses trigonometry to calculate the desired position for the object. This will be flipped for the other side of the sample (post interception with sample), as for now we are just dealing with perfect reflection.</p>
+<!-- @@@newPosition -->
+<!-- $$$setEnabled[overload1]$$$setEnabledint -->
+<h3 class="fn" id="setEnabled"><a name="setEnabled"></a><span class="type">void</span> CollideableObject::<span class="name">setEnabled</span>(<span class="type">int</span> <i>state</i>)</h3>
+<p>CollideableObject::setEnabled <b class="redFont"><code>\param</code></b> state</p>
+<p>enabled or disables the object in the 3D visualisation and in the ray tracing algorithm it will turn off the collision detection.</p>
+<!-- @@@setEnabled -->
+<!-- $$$setLocation[overload1]$$$setLocationconstEigen::Vector3d& -->
+<h3 class="fn" id="setLocation"><a name="setLocation"></a><span class="type">void</span> CollideableObject::<span class="name">setLocation</span>(const <span class="type">Eigen::Vector3d</span> &amp;<i>location</i>)</h3>
+<!-- @@@setLocation -->
+</div>
+<hr/><p class="footer"><small>William Lynch 3rd Year Project - Supervised by Thomas Tompson</small></p></body>
+</html>
